@@ -29,7 +29,7 @@ int FLAGS_max_write_buffer_number = 8;
 int FLAGS_min_write_buffer_number_to_merge = 7;
 bool FLAGS_verbose = false;
 
-// Path to the database on file system
+// Path to the database on file syCC
 const std::string kDbName = rocksdb::test::TmpDir() + "/perf_context_test";
 
 namespace rocksdb {

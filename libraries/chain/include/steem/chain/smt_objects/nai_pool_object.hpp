@@ -1,11 +1,11 @@
 #pragma once
 
-#include <steem/chain/steem_object_types.hpp>
-#include <steem/protocol/asset_symbol.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
+#include <CreateCoin/protocol/asset_symbol.hpp>
 
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
    class nai_pool_object : public object< nai_pool_object_type, nai_pool_object >
    {
@@ -43,10 +43,10 @@ namespace steem { namespace chain {
       allocator< nai_pool_object >
    > nai_pool_index;
 
-} } // namespace steem::chain
+} } // namespace CreateCoin::chain
 
-FC_REFLECT( steem::chain::nai_pool_object, (id)(num_available_nais)(nais) )
+FC_REFLECT( CreateCoin::chain::nai_pool_object, (id)(num_available_nais)(nais) )
 
-CHAINBASE_SET_INDEX_TYPE( steem::chain::nai_pool_object, steem::chain::nai_pool_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::nai_pool_object, CreateCoin::chain::nai_pool_index )
 
 #endif

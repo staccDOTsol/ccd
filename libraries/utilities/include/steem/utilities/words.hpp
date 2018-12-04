@@ -23,7 +23,7 @@
  */
 #pragma once
 
-namespace steem { namespace words {
+namespace CreateCoin { namespace words {
 
 typedef const char* const_char_ptr;
 extern const const_char_ptr word_list[];

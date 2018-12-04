@@ -1,14 +1,14 @@
 #pragma once
 
-#include <steem/chain/util/rd_dynamics.hpp>
+#include <CreateCoin/chain/util/rd_dynamics.hpp>
 
 #include <fc/reflect/reflect.hpp>
 
-namespace steem { namespace plugins { namespace rc {
+namespace CreateCoin { namespace plugins { namespace rc {
 
-using steem::chain::util::rd_decay_params;
-using steem::chain::util::rd_dynamics_params;
-using steem::chain::util::rd_compute_pool_decay;
+using CreateCoin::chain::util::rd_decay_params;
+using CreateCoin::chain::util::rd_dynamics_params;
+using CreateCoin::chain::util::rd_compute_pool_decay;
 
 struct rc_price_curve_params
 {
@@ -29,7 +29,7 @@ int64_t compute_rc_cost_of_resource(
    int64_t resource_count,
    int64_t rc_regen );
 
-} } } // steem::plugins::rc
+} } } // CreateCoin::plugins::rc
 
-FC_REFLECT( steem::plugins::rc::rc_price_curve_params, (coeff_a)(coeff_b)(shift) )
-FC_REFLECT( steem::plugins::rc::rc_resource_params, (resource_dynamics_params)(price_curve_params) )
+FC_REFLECT( CreateCoin::plugins::rc::rc_price_curve_params, (coeff_a)(coeff_b)(shift) )
+FC_REFLECT( CreateCoin::plugins::rc::rc_resource_params, (resource_dynamics_params)(price_curve_params) )

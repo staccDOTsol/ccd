@@ -16,7 +16,7 @@
 #include <fstream>
 #include <sstream>
 
-#include <boost/filesystem/fstream.hpp>
+#include <boost/filesyCC/fstream.hpp>
 
 namespace fc { namespace json_relaxed
 {

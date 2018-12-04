@@ -1,18 +1,18 @@
 #pragma once
-#include <steem/chain/account_object.hpp>
-#include <steem/chain/block_summary_object.hpp>
-#include <steem/chain/comment_object.hpp>
-#include <steem/chain/global_property_object.hpp>
-#include <steem/chain/history_object.hpp>
-#include <steem/chain/steem_objects.hpp>
-#include <steem/chain/smt_objects.hpp>
-#include <steem/chain/transaction_object.hpp>
-#include <steem/chain/witness_objects.hpp>
-#include <steem/chain/database.hpp>
+#include <CreateCoin/chain/account_object.hpp>
+#include <CreateCoin/chain/block_summary_object.hpp>
+#include <CreateCoin/chain/comment_object.hpp>
+#include <CreateCoin/chain/global_property_object.hpp>
+#include <CreateCoin/chain/history_object.hpp>
+#include <CreateCoin/chain/CreateCoin_objects.hpp>
+#include <CreateCoin/chain/smt_objects.hpp>
+#include <CreateCoin/chain/transaction_object.hpp>
+#include <CreateCoin/chain/witness_objects.hpp>
+#include <CreateCoin/chain/database.hpp>
 
-namespace steem { namespace plugins { namespace database_api {
+namespace CreateCoin { namespace plugins { namespace database_api {
 
-using namespace steem::chain;
+using namespace CreateCoin::chain;
 
 typedef change_recovery_account_request_object api_change_recovery_account_request_object;
 typedef block_summary_object                   api_block_summary_object;
@@ -56,7 +56,7 @@ struct api_comment_object
       author_rewards( o.author_rewards ),
       net_votes( o.net_votes ),
       max_accepted_payout( o.max_accepted_payout ),
-      percent_steem_dollars( o.percent_steem_dollars ),
+      percent_CreateCoin_dollars( o.percent_CreateCoin_dollars ),
       allow_replies( o.allow_replies ),
       allow_votes( o.allow_votes ),
       allow_curation_rewards( o.allow_curation_rewards )
@@ -123,7 +123,7 @@ struct api_comment_object
    string            root_permlink;
 
    asset             max_accepted_payout;
-   uint16_t          percent_steem_dollars = 0;
+   uint16_t          percent_CreateCoin_dollars = 0;
    bool              allow_replies = false;
    bool              allow_votes = false;
    bool              allow_curation_rewards = false;
@@ -189,9 +189,9 @@ struct api_account_object
       savings_sbd_last_interest_payment( a.savings_sbd_last_interest_payment ),
       savings_withdraw_requests( a.savings_withdraw_requests ),
       reward_sbd_balance( a.reward_sbd_balance ),
-      reward_steem_balance( a.reward_steem_balance ),
+      reward_CreateCoin_balance( a.reward_CreateCoin_balance ),
       reward_vesting_balance( a.reward_vesting_balance ),
-      reward_vesting_steem( a.reward_vesting_steem ),
+      reward_vesting_CreateCoin( a.reward_vesting_CreateCoin ),
       curation_rewards( a.curation_rewards ),
       posting_rewards( a.posting_rewards ),
       vesting_shares( a.vesting_shares ),
@@ -219,7 +219,7 @@ struct api_account_object
       active = authority( auth.active );
       posting = authority( auth.posting );
       last_owner_update = auth.last_owner_update;
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
       const auto& by_control_account_index = db.get_index<smt_token_index>().indices().get<by_control_account>();
       auto smt_obj_itr = by_control_account_index.find( name );
       is_smt = smt_obj_itr != by_control_account_index.end();
@@ -270,9 +270,9 @@ struct api_account_object
    uint8_t           savings_withdraw_requests = 0;
 
    asset             reward_sbd_balance;
-   asset             reward_steem_balance;
+   asset             reward_CreateCoin_balance;
    asset             reward_vesting_balance;
-   asset             reward_vesting_steem;
+   asset             reward_vesting_CreateCoin;
 
    share_type        curation_rewards;
    share_type        posting_rewards;
@@ -531,8 +531,8 @@ struct api_hardfork_property_object
 struct order
 {
    price                order_price;
-   double               real_price; // dollars per steem
-   share_type           steem;
+   double               real_price; // dollars per CreateCoin
+   share_type           CreateCoin;
    share_type           sbd;
    fc::time_point_sec   created;
 };
@@ -543,9 +543,9 @@ struct order_book
    vector< order >      bids;
 };
 
-} } } // steem::plugins::database_api
+} } } // CreateCoin::plugins::database_api
 
-FC_REFLECT( steem::plugins::database_api::api_comment_object,
+FC_REFLECT( CreateCoin::plugins::database_api::api_comment_object,
              (id)(author)(permlink)
              (category)(parent_author)(parent_permlink)
              (title)(body)(json_metadata)(last_update)(created)(active)(last_payout)
@@ -554,15 +554,15 @@ FC_REFLECT( steem::plugins::database_api::api_comment_object,
              (children_abs_rshares)(cashout_time)(max_cashout_time)
              (total_vote_weight)(reward_weight)(total_payout_value)(curator_payout_value)(author_rewards)(net_votes)
              (root_author)(root_permlink)
-             (max_accepted_payout)(percent_steem_dollars)(allow_replies)(allow_votes)(allow_curation_rewards)
+             (max_accepted_payout)(percent_CreateCoin_dollars)(allow_replies)(allow_votes)(allow_curation_rewards)
              (beneficiaries)
           )
 
-FC_REFLECT( steem::plugins::database_api::api_comment_vote_object,
+FC_REFLECT( CreateCoin::plugins::database_api::api_comment_vote_object,
              (id)(voter)(author)(permlink)(weight)(rshares)(vote_percent)(last_update)(num_changes)
           )
 
-FC_REFLECT( steem::plugins::database_api::api_account_object,
+FC_REFLECT( CreateCoin::plugins::database_api::api_account_object,
              (id)(name)(owner)(active)(posting)(memo_key)(json_metadata)(proxy)(last_owner_update)(last_account_update)
              (created)(mined)
              (recovery_account)(last_account_recovery)(reset_account)
@@ -571,7 +571,7 @@ FC_REFLECT( steem::plugins::database_api::api_account_object,
              (savings_balance)
              (sbd_balance)(sbd_seconds)(sbd_seconds_last_update)(sbd_last_interest_payment)
              (savings_sbd_balance)(savings_sbd_seconds)(savings_sbd_seconds_last_update)(savings_sbd_last_interest_payment)(savings_withdraw_requests)
-             (reward_sbd_balance)(reward_steem_balance)(reward_vesting_balance)(reward_vesting_steem)
+             (reward_sbd_balance)(reward_CreateCoin_balance)(reward_vesting_balance)(reward_vesting_CreateCoin)
              (vesting_shares)(delegated_vesting_shares)(received_vesting_shares)(vesting_withdraw_rate)(next_vesting_withdrawal)(withdrawn)(to_withdraw)(withdraw_routes)
              (curation_rewards)
              (posting_rewards)
@@ -581,21 +581,21 @@ FC_REFLECT( steem::plugins::database_api::api_account_object,
              (is_smt)
           )
 
-FC_REFLECT( steem::plugins::database_api::api_owner_authority_history_object,
+FC_REFLECT( CreateCoin::plugins::database_api::api_owner_authority_history_object,
              (id)
              (account)
              (previous_owner_authority)
              (last_valid_time)
           )
 
-FC_REFLECT( steem::plugins::database_api::api_account_recovery_request_object,
+FC_REFLECT( CreateCoin::plugins::database_api::api_account_recovery_request_object,
              (id)
              (account_to_recover)
              (new_owner_authority)
              (expires)
           )
 
-FC_REFLECT( steem::plugins::database_api::api_savings_withdraw_object,
+FC_REFLECT( CreateCoin::plugins::database_api::api_savings_withdraw_object,
              (id)
              (from)
              (to)
@@ -605,13 +605,13 @@ FC_REFLECT( steem::plugins::database_api::api_savings_withdraw_object,
              (complete)
           )
 
-FC_REFLECT( steem::plugins::database_api::api_feed_history_object,
+FC_REFLECT( CreateCoin::plugins::database_api::api_feed_history_object,
              (id)
              (current_median_history)
              (price_history)
           )
 
-FC_REFLECT( steem::plugins::database_api::api_witness_object,
+FC_REFLECT( CreateCoin::plugins::database_api::api_witness_object,
              (id)
              (owner)
              (created)
@@ -625,7 +625,7 @@ FC_REFLECT( steem::plugins::database_api::api_witness_object,
              (available_witness_account_subsidies)
           )
 
-FC_REFLECT( steem::plugins::database_api::api_witness_schedule_object,
+FC_REFLECT( CreateCoin::plugins::database_api::api_witness_schedule_object,
              (id)
              (current_virtual_time)
              (next_shuffle_block_num)
@@ -646,13 +646,13 @@ FC_REFLECT( steem::plugins::database_api::api_witness_schedule_object,
              (min_witness_account_subsidy_decay)
           )
 
-FC_REFLECT_DERIVED( steem::plugins::database_api::api_signed_block_object, (steem::protocol::signed_block),
+FC_REFLECT_DERIVED( CreateCoin::plugins::database_api::api_signed_block_object, (CreateCoin::protocol::signed_block),
                      (block_id)
                      (signing_key)
                      (transaction_ids)
                   )
 
-FC_REFLECT( steem::plugins::database_api::api_hardfork_property_object,
+FC_REFLECT( CreateCoin::plugins::database_api::api_hardfork_property_object,
             (id)
             (processed_hardforks)
             (last_hardfork)
@@ -661,6 +661,6 @@ FC_REFLECT( steem::plugins::database_api::api_hardfork_property_object,
             (next_hardfork_time)
           )
 
-FC_REFLECT( steem::plugins::database_api::order, (order_price)(real_price)(steem)(sbd)(created) );
+FC_REFLECT( CreateCoin::plugins::database_api::order, (order_price)(real_price)(CreateCoin)(sbd)(created) );
 
-FC_REFLECT( steem::plugins::database_api::order_book, (asks)(bids) );
+FC_REFLECT( CreateCoin::plugins::database_api::order_book, (asks)(bids) );

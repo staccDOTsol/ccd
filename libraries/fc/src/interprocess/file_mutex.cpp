@@ -1,7 +1,7 @@
 #include <fc/interprocess/file_mutex.hpp>
 //#include <fc/thread/mutex.hpp>
 #include <fc/thread/mutex.hpp>
-#include <fc/filesystem.hpp>
+#include <fc/filesyCC.hpp>
 #include <boost/interprocess/sync/file_lock.hpp>
 #include <boost/interprocess/sync/scoped_lock.hpp>
 #include <boost/atomic.hpp>

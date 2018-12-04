@@ -1,6 +1,6 @@
 #pragma once
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
    /**
     * @brief Contains per-node database configuration.
@@ -20,4 +20,4 @@ namespace steem { namespace chain {
 
          uint32_t skip_flags = 0;
    };
-} } // steem::chain
+} } // CreateCoin::chain

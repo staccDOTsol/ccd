@@ -1,18 +1,18 @@
 
 #pragma once
 
-#include <steem/protocol/types.hpp>
+#include <CreateCoin/protocol/types.hpp>
 
 #include <fc/api.hpp>
 #include <fc/crypto/sha256.hpp>
 
 #include <string>
 
-namespace steem { namespace app {
+namespace CreateCoin { namespace app {
    struct api_context;
 } }
 
-namespace steem { namespace plugin { namespace auth_util {
+namespace CreateCoin { namespace plugin { namespace auth_util {
 
 namespace detail {
 class auth_util_api_impl;
@@ -34,7 +34,7 @@ struct check_authority_signature_result
 class auth_util_api
 {
    public:
-      auth_util_api( const steem::app::api_context& ctx );
+      auth_util_api( const CreateCoin::app::api_context& ctx );
 
       void on_api_startup();
 
@@ -46,16 +46,16 @@ class auth_util_api
 
 } } }
 
-FC_REFLECT( steem::plugin::auth_util::check_authority_signature_params,
+FC_REFLECT( CreateCoin::plugin::auth_util::check_authority_signature_params,
    (account_name)
    (level)
    (dig)
    (sigs)
    )
-FC_REFLECT( steem::plugin::auth_util::check_authority_signature_result,
+FC_REFLECT( CreateCoin::plugin::auth_util::check_authority_signature_result,
    (keys)
    )
 
-FC_API( steem::plugin::auth_util::auth_util_api,
+FC_API( CreateCoin::plugin::auth_util::auth_util_api,
    (check_authority_signature)
    )

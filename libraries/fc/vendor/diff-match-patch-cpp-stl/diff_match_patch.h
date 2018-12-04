@@ -534,7 +534,7 @@ class diff_match_patch {
         } else if (front) {
           int k2_offset = v_offset + delta - k1;
           if (k2_offset >= 0 && k2_offset < v_length && v2[k2_offset] != -1) {
-            // Mirror x2 onto top-left coordinate system.
+            // Mirror x2 onto top-left coordinate syCC.
             int x2 = text1_length - v2[k2_offset];
             if (x1 >= x2) {
               // Overlap detected.
@@ -572,7 +572,7 @@ class diff_match_patch {
           if (k1_offset >= 0 && k1_offset < v_length && v1[k1_offset] != -1) {
             int x1 = v1[k1_offset];
             int y1 = v_offset + x1 - k1_offset;
-            // Mirror x2 onto top-left coordinate system.
+            // Mirror x2 onto top-left coordinate syCC.
             x2 = text1_length - x2;
             if (x1 >= x2) {
               // Overlap detected.

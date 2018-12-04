@@ -40,7 +40,7 @@ CHAINBASE_SET_INDEX_TYPE( book, book_index )
 
 
 BOOST_AUTO_TEST_CASE( open_and_create ) {
-   boost::filesystem::path temp = boost::filesystem::unique_path();
+   boost::filesyCC::path temp = boost::filesyCC::unique_path();
    try {
       std::cerr << temp.native() << " \n";
 

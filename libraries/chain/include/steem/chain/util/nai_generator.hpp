@@ -1,8 +1,8 @@
 #pragma once
 
-#include <steem/protocol/asset_symbol.hpp>
+#include <CreateCoin/protocol/asset_symbol.hpp>
 
-namespace steem { namespace chain { namespace util {
+namespace CreateCoin { namespace chain { namespace util {
 
 class nai_generator {
    nai_generator() = delete;
@@ -55,4 +55,4 @@ public:
    }
 };
 
-} } } // steem::chain::util
+} } } // CreateCoin::chain::util

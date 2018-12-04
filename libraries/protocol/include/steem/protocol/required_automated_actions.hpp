@@ -1,10 +1,10 @@
 #pragma once
 
-#include <steem/protocol/steem_required_actions.hpp>
+#include <CreateCoin/protocol/CreateCoin_required_actions.hpp>
 
-#include <steem/protocol/operation_util.hpp>
+#include <CreateCoin/protocol/operation_util.hpp>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
    /** NOTE: do not change the order of any actions or it will trigger a hardfork.
     */
@@ -14,11 +14,11 @@ namespace steem { namespace protocol {
 #endif
          > required_automated_action;
 
-} } // steem::protocol
+} } // CreateCoin::protocol
 
-STEEM_DECLARE_OPERATION_TYPE( steem::protocol::required_automated_action );
+CreateCoin_DECLARE_OPERATION_TYPE( CreateCoin::protocol::required_automated_action );
 
 FC_TODO( "Remove ifdef when first required automated action is added" )
 #ifdef IS_TEST_NET
-FC_REFLECT_TYPENAME( steem::protocol::required_automated_action );
+FC_REFLECT_TYPENAME( CreateCoin::protocol::required_automated_action );
 #endif

@@ -1,23 +1,23 @@
 #pragma once
-#include <steem/chain/steem_object_types.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
 
 #include <boost/multi_index/composite_key.hpp>
 
 #include <fc/crypto/restartable_sha256.hpp>
 
-namespace steem { namespace plugins { namespace block_log_info {
+namespace CreateCoin { namespace plugins { namespace block_log_info {
 
 using namespace std;
-using namespace steem::chain;
+using namespace CreateCoin::chain;
 
-#ifndef STEEM_BLOCK_LOG_INFO_SPACE_ID
-#define STEEM_BLOCK_LOG_INFO_SPACE_ID 14
+#ifndef CreateCoin_BLOCK_LOG_INFO_SPACE_ID
+#define CreateCoin_BLOCK_LOG_INFO_SPACE_ID 14
 #endif
 
 enum block_log_info_object_types
 {
-   block_log_hash_state_object_type      = ( STEEM_BLOCK_LOG_INFO_SPACE_ID << 8 )    ,
-   block_log_pending_message_object_type = ( STEEM_BLOCK_LOG_INFO_SPACE_ID << 8 ) + 1,
+   block_log_hash_state_object_type      = ( CreateCoin_BLOCK_LOG_INFO_SPACE_ID << 8 )    ,
+   block_log_pending_message_object_type = ( CreateCoin_BLOCK_LOG_INFO_SPACE_ID << 8 ) + 1,
 };
 
 class block_log_hash_state_object : public object< block_log_hash_state_object_type, block_log_hash_state_object >
@@ -79,13 +79,13 @@ typedef multi_index_container<
    allocator< block_log_pending_message_object >
 > block_log_pending_message_index;
 
-} } } // steem::plugins::block_log_info
+} } } // CreateCoin::plugins::block_log_info
 
 
-FC_REFLECT( steem::plugins::block_log_info::block_log_hash_state_object, (id)(total_size)(rsha256)(last_interval) )
-CHAINBASE_SET_INDEX_TYPE( steem::plugins::block_log_info::block_log_hash_state_object, steem::plugins::block_log_info::block_log_hash_state_index )
+FC_REFLECT( CreateCoin::plugins::block_log_info::block_log_hash_state_object, (id)(total_size)(rsha256)(last_interval) )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::plugins::block_log_info::block_log_hash_state_object, CreateCoin::plugins::block_log_info::block_log_hash_state_index )
 
-FC_REFLECT( steem::plugins::block_log_info::block_log_message_data, (block_num)(total_size)(current_interval)(rsha256) )
+FC_REFLECT( CreateCoin::plugins::block_log_info::block_log_message_data, (block_num)(total_size)(current_interval)(rsha256) )
 
-FC_REFLECT( steem::plugins::block_log_info::block_log_pending_message_object, (id)(data) )
-CHAINBASE_SET_INDEX_TYPE( steem::plugins::block_log_info::block_log_pending_message_object, steem::plugins::block_log_info::block_log_pending_message_index )
+FC_REFLECT( CreateCoin::plugins::block_log_info::block_log_pending_message_object, (id)(data) )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::plugins::block_log_info::block_log_pending_message_object, CreateCoin::plugins::block_log_info::block_log_pending_message_index )

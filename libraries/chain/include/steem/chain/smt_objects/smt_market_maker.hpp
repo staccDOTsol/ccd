@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
 
 #include <cstdint>
 #include <utility>
@@ -8,7 +8,7 @@
 
 #include <fc/reflect/reflect.hpp>
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
 struct rational_u64
 {
@@ -24,7 +24,7 @@ const std::vector< rational_u64 >& get_mm_ticks();
 
 } }
 
-FC_REFLECT( steem::chain::rational_u64,
+FC_REFLECT( CreateCoin::chain::rational_u64,
    (numerator)
    (denominator)
    )

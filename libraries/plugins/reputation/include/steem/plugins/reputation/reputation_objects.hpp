@@ -1,26 +1,26 @@
 #pragma once
-#include <steem/chain/steem_object_types.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
 
 #include <boost/multi_index/composite_key.hpp>
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 struct by_account;
 } }
 
-namespace steem { namespace plugins { namespace reputation {
+namespace CreateCoin { namespace plugins { namespace reputation {
 
 using namespace std;
-using namespace steem::chain;
+using namespace CreateCoin::chain;
 
 using chainbase::t_vector;
 
-#ifndef STEEM_REPUTATION_SPACE_ID
-#define STEEM_REPUTATION_SPACE_ID 17
+#ifndef CreateCoin_REPUTATION_SPACE_ID
+#define CreateCoin_REPUTATION_SPACE_ID 17
 #endif
 
 enum reputation_plugin_object_type
 {
-   reputation_object_type        = ( STEEM_REPUTATION_SPACE_ID << 8 )
+   reputation_object_type        = ( CreateCoin_REPUTATION_SPACE_ID << 8 )
 };
 
 
@@ -52,8 +52,8 @@ typedef multi_index_container<
    allocator< reputation_object >
 > reputation_index;
 
-} } } // steem::plugins::reputation
+} } } // CreateCoin::plugins::reputation
 
 
-FC_REFLECT( steem::plugins::reputation::reputation_object, (id)(account)(reputation) )
-CHAINBASE_SET_INDEX_TYPE( steem::plugins::reputation::reputation_object, steem::plugins::reputation::reputation_index )
+FC_REFLECT( CreateCoin::plugins::reputation::reputation_object, (id)(account)(reputation) )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::plugins::reputation::reputation_object, CreateCoin::plugins::reputation::reputation_index )

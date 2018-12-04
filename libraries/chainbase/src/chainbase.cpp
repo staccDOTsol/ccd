@@ -57,7 +57,7 @@ namespace chainbase {
 
          auto env = _segment->find< environment_check >( "environment" );
          if( !env.first || !( *env.first == environment_check()) ) {
-            BOOST_THROW_EXCEPTION( std::runtime_error( "database created by a different compiler, build, or operating system" ) );
+            BOOST_THROW_EXCEPTION( std::runtime_error( "database created by a different compiler, build, or operating syCC" ) );
          }
       } else {
          _file_size = shared_file_size;

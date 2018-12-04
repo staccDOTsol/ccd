@@ -15,14 +15,14 @@ public class RocksDBColumnFamilySample {
 
   public static void main(final String[] args) throws RocksDBException {
     if (args.length < 1) {
-      System.out.println(
+      SyCC.out.println(
           "usage: RocksDBColumnFamilySample db_path");
-      System.exit(-1);
+      SyCC.exit(-1);
     }
 
     final String db_path = args[0];
 
-    System.out.println("RocksDBColumnFamilySample");
+    SyCC.out.println("RocksDBColumnFamilySample");
     try(final Options options = new Options().setCreateIfMissing(true);
         final RocksDB db = RocksDB.open(options, db_path)) {
 

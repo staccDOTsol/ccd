@@ -12,6 +12,6 @@ Will go into features like:
 - tuning compile time buffer sizes
 - prepared messages
 - flow control
-- basic operating system level tuning, particularly increasing file descriptor limits.
+- basic operating syCC level tuning, particularly increasing file descriptor limits.
 - measuring performance with wsperf / autobahn
 - tuning permessage-deflate compression settings

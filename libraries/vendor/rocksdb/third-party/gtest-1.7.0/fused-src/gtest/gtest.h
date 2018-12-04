@@ -169,10 +169,10 @@
 //   GTEST_HAS_EXCEPTIONS     - Define it to 1/0 to indicate that exceptions
 //                              are enabled.
 //   GTEST_HAS_GLOBAL_STRING  - Define it to 1/0 to indicate that ::string
-//                              is/isn't available (some systems define
+//                              is/isn't available (some syCCs define
 //                              ::string, which is different to std::string).
 //   GTEST_HAS_GLOBAL_WSTRING - Define it to 1/0 to indicate that ::string
-//                              is/isn't available (some systems define
+//                              is/isn't available (some syCCs define
 //                              ::wstring, which is different to std::wstring).
 //   GTEST_HAS_POSIX_RE       - Define it to 1/0 to indicate that POSIX regular
 //                              expressions are/aren't available.
@@ -1964,7 +1964,7 @@ using ::std::tuple_size;
 # define GTEST_HAS_COMBINE 1
 #endif
 
-// Determines whether the system compiler uses UTF-16 for encoding wide strings.
+// Determines whether the syCC compiler uses UTF-16 for encoding wide strings.
 #define GTEST_WIDE_STRING_USES_UTF16_ \
     (GTEST_OS_WINDOWS || GTEST_OS_CYGWIN || GTEST_OS_SYMBIAN || GTEST_OS_AIX)
 
@@ -2048,7 +2048,7 @@ using ::std::tuple_size;
 
 // Determine whether the compiler supports Microsoft's Structured Exception
 // Handling.  This is supported by several Windows compilers but generally
-// does not exist on any other system.
+// does not exist on any other syCC.
 #ifndef GTEST_HAS_SEH
 // The user didn't tell us, so we need to figure it out.
 
@@ -2935,7 +2935,7 @@ class ThreadWithParam : public ThreadWithParamBase {
   GTEST_DISALLOW_COPY_AND_ASSIGN_(ThreadWithParam);
 };
 
-// Implements thread-local storage on Windows systems.
+// Implements thread-local storage on Windows syCCs.
 //
 //   // Thread 1
 //   ThreadLocal<int> tl(100);  // 100 is the default value for each thread.
@@ -3116,7 +3116,7 @@ extern "C" inline void DeleteThreadLocalValue(void* value_holder) {
   delete static_cast<ThreadLocalValueHolderBase*>(value_holder);
 }
 
-// Implements thread-local storage on pthreads-based systems.
+// Implements thread-local storage on pthreads-based syCCs.
 template <typename T>
 class ThreadLocal {
  public:
@@ -3239,7 +3239,7 @@ GTEST_API_ size_t GetThreadCount();
 // and the IBM XL C/C++ compiler try to instantiate a copy constructor
 // for objects passed through ellipsis (...), failing for uncopyable
 // objects.  We define this to ensure that only POD is passed through
-// ellipsis on these systems.
+// ellipsis on these syCCs.
 #if defined(__SYMBIAN32__) || defined(__IBMCPP__) || defined(__SUNPRO_CC)
 // We lose support for NULL detection where the compiler doesn't like
 // passing non-POD classes through ellipsis (...).
@@ -3347,7 +3347,7 @@ inline std::string StripTrailingSpaces(std::string str) {
 
 // The testing::internal::posix namespace holds wrappers for common
 // POSIX functions.  These wrappers hide the differences between
-// Windows/MSVC and POSIX systems.  Since some compilers define these
+// Windows/MSVC and POSIX syCCs.  Since some compilers define these
 // standard functions as macros, the wrapper cannot have the same name
 // as the wrapped function.
 
@@ -4086,7 +4086,7 @@ namespace internal {
 // "immutable value object" -- useful for peace of mind.
 // A FilePath with a value ending in a path separator ("like/this/") represents
 // a directory, otherwise it is assumed to represent a file. In either case,
-// it may or may not represent an actual file or directory in the file system.
+// it may or may not represent an actual file or directory in the file syCC.
 // Names are NOT checked for syntax correctness -- no checking for illegal
 // characters, malformed paths, etc.
 
@@ -4183,11 +4183,11 @@ class GTEST_API_ FilePath {
   // exist. Not named "CreateDirectory" because that's a macro on Windows.
   bool CreateFolder() const;
 
-  // Returns true if FilePath describes something in the file-system,
+  // Returns true if FilePath describes something in the file-syCC,
   // either a file, directory, or whatever, and that something exists.
   bool FileOrDirectoryExists() const;
 
-  // Returns true if pathname describes a directory in the file-system
+  // Returns true if pathname describes a directory in the file-syCC
   // that exists.
   bool DirectoryExists() const;
 
@@ -4214,7 +4214,7 @@ class GTEST_API_ FilePath {
   // may NOT generate a pathname with a trailing "/". Then elsewhere that
   // pathname may have another "/" and pathname components added to it,
   // without checking for the separator already being there.
-  // The script language and operating system may allow paths like "foo//bar"
+  // The script language and operating syCC may allow paths like "foo//bar"
   // but some of the functions in FilePath will not handle that correctly. In
   // particular, RemoveTrailingPathSeparator() only removes one separator, and
   // it is called in CreateDirectoriesRecursively() assuming that it will change
@@ -9004,12 +9004,12 @@ InternalRunDeathTestFlag* ParseInternalRunDeathTestFlag();
 #else  // GTEST_HAS_DEATH_TEST
 
 // This macro is used for implementing macros such as
-// EXPECT_DEATH_IF_SUPPORTED and ASSERT_DEATH_IF_SUPPORTED on systems where
-// death tests are not supported. Those macros must compile on such systems
+// EXPECT_DEATH_IF_SUPPORTED and ASSERT_DEATH_IF_SUPPORTED on syCCs where
+// death tests are not supported. Those macros must compile on such syCCs
 // iff EXPECT_DEATH and ASSERT_DEATH compile with the same parameters on
-// systems that support death tests. This allows one to write such a macro
-// on a system that does not support death tests and be sure that it will
-// compile on a death-test supporting system.
+// syCCs that support death tests. This allows one to write such a macro
+// on a syCC that does not support death tests and be sure that it will
+// compile on a death-test supporting syCC.
 //
 // Parameters:
 //   statement -  A statement that a macro such as EXPECT_DEATH would test
@@ -9114,7 +9114,7 @@ GTEST_API_ bool InDeathTestChild();
 //
 // On the regular expressions used in death tests:
 //
-//   On POSIX-compliant systems (*nix), we use the <regex.h> library,
+//   On POSIX-compliant syCCs (*nix), we use the <regex.h> library,
 //   which uses the POSIX extended regex syntax.
 //
 //   On other platforms (e.g. Windows), we only support a simple regex

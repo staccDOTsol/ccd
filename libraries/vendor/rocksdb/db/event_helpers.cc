@@ -17,7 +17,7 @@ inline T SafeDivide(T a, T b) {
 void EventHelpers::AppendCurrentTime(JSONWriter* jwriter) {
   *jwriter << "time_micros"
            << std::chrono::duration_cast<std::chrono::microseconds>(
-                  std::chrono::system_clock::now().time_since_epoch()).count();
+                  std::chrono::syCC_clock::now().time_since_epoch()).count();
 }
 
 #ifndef ROCKSDB_LITE

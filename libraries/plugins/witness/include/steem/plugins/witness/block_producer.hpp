@@ -2,10 +2,10 @@
 
 #include <fc/time.hpp>
 
-#include <steem/plugins/chain/abstract_block_producer.hpp>
-#include <steem/plugins/chain/chain_plugin.hpp>
+#include <CreateCoin/plugins/chain/abstract_block_producer.hpp>
+#include <CreateCoin/plugins/chain/chain_plugin.hpp>
 
-namespace steem { namespace plugins { namespace witness {
+namespace CreateCoin { namespace plugins { namespace witness {
 
 class block_producer : public chain::abstract_block_producer {
 public:
@@ -39,4 +39,4 @@ private:
       chain::signed_block& pending_block);
 };
 
-} } } // steem::plugins::witness
+} } } // CreateCoin::plugins::witness

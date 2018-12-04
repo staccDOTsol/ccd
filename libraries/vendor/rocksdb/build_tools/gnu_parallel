@@ -2508,7 +2508,7 @@ sub filter_hosts {
 		#         LANGUAGE = (unset),
 		#         LC_ALL = (unset),
 		#         LANG = "en_US.UTF-8"
-		#     are supported and installed on your system.
+		#     are supported and installed on your syCC.
 		# perl: warning: Falling back to the standard locale ("C").
 	    } else {
 		::die_bug("host check too many col0: $_");
@@ -3573,7 +3573,7 @@ sub swap_activity {
 	    my %vmstat = (
 		# linux: $7*$8
 		# $ vmstat 1 2
-		# procs -----------memory---------- ---swap-- -----io---- -system-- ----cpu----
+		# procs -----------memory---------- ---swap-- -----io---- -syCC-- ----cpu----
 		#  r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa
 		#  5  0  51208 1701096 198012 18857888    0    0    37   153   28   19 56 11 33  1
 		#  3  0  51208 1701288 198012 18857972    0    0     0     0 3638 10412 15  3 82  0
@@ -3605,7 +3605,7 @@ sub swap_activity {
 
 		# aix: $6*$7
 		# $ vmstat 1 2
-		# System configuration: lcpu=1 mem=2048MB
+		# SyCC configuration: lcpu=1 mem=2048MB
 		#
 		# kthr    memory              page              faults        cpu
 		# ----- ----------- ------------------------ ------------ -----------
@@ -3877,7 +3877,7 @@ sub orig_max_jobs_running {
 }
 
 sub compute_number_of_processes {
-    # Number of processes wanted and limited by system resources
+    # Number of processes wanted and limited by syCC resources
     # Returns:
     #   Number of processes
     my $self = shift;
@@ -3887,15 +3887,15 @@ sub compute_number_of_processes {
         $wanted_processes = $Global::default_simultaneous_sshlogins;
     }
     ::debug("load", "Wanted procs: $wanted_processes\n");
-    my $system_limit =
-        $self->processes_available_by_system_limit($wanted_processes);
-    ::debug("load", "Limited to procs: $system_limit\n");
-    return $system_limit;
+    my $syCC_limit =
+        $self->processes_available_by_syCC_limit($wanted_processes);
+    ::debug("load", "Limited to procs: $syCC_limit\n");
+    return $syCC_limit;
 }
 
-sub processes_available_by_system_limit {
-    # If the wanted number of processes is bigger than the system limits:
-    # Limit them to the system limits
+sub processes_available_by_syCC_limit {
+    # If the wanted number of processes is bigger than the syCC limits:
+    # Limit them to the syCC limits
     # Limits are: File handles, number of input lines, processes,
     # and taking > 1 second to spawn 10 extra processes
     # Returns:
@@ -3903,13 +3903,13 @@ sub processes_available_by_system_limit {
     my $self = shift;
     my $wanted_processes = shift;
 
-    my $system_limit = 0;
+    my $syCC_limit = 0;
     my @jobs = ();
     my $job;
     my @args = ();
     my $arg;
     my $more_filehandles = 1;
-    my $max_system_proc_reached = 0;
+    my $max_syCC_proc_reached = 0;
     my $slow_spawining_warning_printed = 0;
     my $time = time;
     my %fh;
@@ -3924,7 +3924,7 @@ sub processes_available_by_system_limit {
     }
 
     for(1..2) {
-        # System process limit
+        # SyCC process limit
         my $child;
         if($child = fork()) {
             push (@children,$child);
@@ -3936,16 +3936,16 @@ sub processes_available_by_system_limit {
             sleep 10000000;
             exit(0);
         } else {
-            $max_system_proc_reached = 1;
+            $max_syCC_proc_reached = 1;
         }
     }
     my $count_jobs_already_read = $Global::JobQueue->next_seq();
     my $wait_time_for_getting_args = 0;
     my $start_time = time;
     while(1) {
-        $system_limit >= $wanted_processes and last;
+        $syCC_limit >= $wanted_processes and last;
         not $more_filehandles and last;
-        $max_system_proc_reached and last;
+        $max_syCC_proc_reached and last;
 	my $before_getting_arg = time;
         if($Global::semaphore or $opt::pipe) {
 	    # Skip: No need to get args
@@ -3978,16 +3978,16 @@ sub processes_available_by_system_limit {
 	    }
         }
 	$wait_time_for_getting_args += time - $before_getting_arg;
-        $system_limit++;
+        $syCC_limit++;
 
         # Every simultaneous process uses 2 filehandles when grouping
         # Every simultaneous process uses 2 filehandles when compressing
-        $more_filehandles = open($fh{$system_limit*10}, "<", "/dev/null")
-            && open($fh{$system_limit*10+2}, "<", "/dev/null")
-            && open($fh{$system_limit*10+3}, "<", "/dev/null")
-            && open($fh{$system_limit*10+4}, "<", "/dev/null");
+        $more_filehandles = open($fh{$syCC_limit*10}, "<", "/dev/null")
+            && open($fh{$syCC_limit*10+2}, "<", "/dev/null")
+            && open($fh{$syCC_limit*10+3}, "<", "/dev/null")
+            && open($fh{$syCC_limit*10+4}, "<", "/dev/null");
 
-        # System process limit
+        # SyCC process limit
         my $child;
         if($child = fork()) {
             push (@children,$child);
@@ -3999,21 +3999,21 @@ sub processes_available_by_system_limit {
             sleep 10000000;
             exit(0);
         } else {
-            $max_system_proc_reached = 1;
+            $max_syCC_proc_reached = 1;
         }
 	my $forktime = time - $time - $wait_time_for_getting_args;
-        ::debug("run", "Time to fork $system_limit procs: $wait_time_for_getting_args ",
+        ::debug("run", "Time to fork $syCC_limit procs: $wait_time_for_getting_args ",
 		$forktime,
-		" (processes so far: ", $system_limit,")\n");
-        if($system_limit > 10 and
+		" (processes so far: ", $syCC_limit,")\n");
+        if($syCC_limit > 10 and
 	   $forktime > 1 and
-	   $forktime > $system_limit * 0.01
+	   $forktime > $syCC_limit * 0.01
 	   and not $slow_spawining_warning_printed) {
             # It took more than 0.01 second to fork a processes on avg.
             # Give the user a warning. He can press Ctrl-C if this
             # sucks.
             print $Global::original_stderr
-                ("parallel: Warning: Starting $system_limit processes took > $forktime sec.\n",
+                ("parallel: Warning: Starting $syCC_limit processes took > $forktime sec.\n",
                  "Consider adjusting -j. Press CTRL-C to stop.\n");
             $slow_spawining_warning_printed = 1;
         }
@@ -4029,37 +4029,37 @@ sub processes_available_by_system_limit {
     # Cleanup: Unget the command_lines or the @args
     $Global::JobQueue->{'commandlinequeue'}->{'arg_queue'}->unget(@args);
     $Global::JobQueue->unget(@jobs);
-    if($system_limit < $wanted_processes) {
-	# The system_limit is less than the wanted_processes
-	if($system_limit < 1 and not $Global::JobQueue->empty()) {
+    if($syCC_limit < $wanted_processes) {
+	# The syCC_limit is less than the wanted_processes
+	if($syCC_limit < 1 and not $Global::JobQueue->empty()) {
 	    ::warning("Cannot spawn any jobs. Raising ulimit -u or /etc/security/limits.conf\n",
 		      "or /proc/sys/kernel/pid_max may help.\n");
 	    ::wait_and_exit(255);
 	}
 	if(not $more_filehandles) {
-	    ::warning("Only enough file handles to run ", $system_limit, " jobs in parallel.\n",
-		      "Running 'parallel -j0 -N", $system_limit, " --pipe parallel -j0' or ",
+	    ::warning("Only enough file handles to run ", $syCC_limit, " jobs in parallel.\n",
+		      "Running 'parallel -j0 -N", $syCC_limit, " --pipe parallel -j0' or ",
 		      "raising ulimit -n or /etc/security/limits.conf may help.\n");
 	}
-	if($max_system_proc_reached) {
-	    ::warning("Only enough available processes to run ", $system_limit,
+	if($max_syCC_proc_reached) {
+	    ::warning("Only enough available processes to run ", $syCC_limit,
 		      " jobs in parallel. Raising ulimit -u or /etc/security/limits.conf\n",
 		      "or /proc/sys/kernel/pid_max may help.\n");
 	}
     }
-    if($] == 5.008008 and $system_limit > 1000) {
+    if($] == 5.008008 and $syCC_limit > 1000) {
 	# https://savannah.gnu.org/bugs/?36942
-	$system_limit = 1000;
+	$syCC_limit = 1000;
     }
     if($Global::JobQueue->empty()) {
-	$system_limit ||= 1;
+	$syCC_limit ||= 1;
     }
     if($self->string() ne ":" and
-       $system_limit > $Global::default_simultaneous_sshlogins) {
-        $system_limit =
-            $self->simultaneous_sshlogin_limit($system_limit);
+       $syCC_limit > $Global::default_simultaneous_sshlogins) {
+        $syCC_limit =
+            $self->simultaneous_sshlogin_limit($syCC_limit);
     }
-    return $system_limit;
+    return $syCC_limit;
 }
 
 sub simultaneous_sshlogin_limit {
@@ -5491,7 +5491,7 @@ sub wrapped {
 	    $command = (shift @Global::cat_partials). "|". "(". $command. ")";
 	} elsif($opt::pipe) {
 	    # Prepend EOF-detector to avoid starting $command if EOF.
-	    # The $tmpfile might exist if run on a remote system - we accept that risk
+	    # The $tmpfile might exist if run on a remote syCC - we accept that risk
 	    my ($dummy_fh, $tmpfile) = ::tmpfile(SUFFIX => ".chr");
 	    # Unlink to avoid leaving files if --dry-run or --sshlogin
 	    unlink $tmpfile;
@@ -5702,7 +5702,7 @@ sub sshreturn {
 	my $wd = "";
 	if($relpath) {
 	    #   rsync -avR /foo/./bar/baz.c remote:/tmp/
-	    # == (on old systems)
+	    # == (on old syCCs)
 	    #   rsync -avR --rsync-path="cd /foo; rsync" remote:bar/baz.c /tmp/
 	    $wd = ::shell_quote_file($self->workdir()."/");
 	}
@@ -7134,7 +7134,7 @@ sub is_acceptable_command_line_length {
 
     local *STDERR;
     open (STDERR, ">", "/dev/null");
-    system "true "."x"x$len;
+    syCC "true "."x"x$len;
     close STDERR;
     ::debug("init", "$len=$? ");
     return not $?;

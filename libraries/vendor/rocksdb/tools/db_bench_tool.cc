@@ -1945,11 +1945,11 @@ class Benchmark {
     if (FLAGS_enable_numa) {
       fprintf(stderr, "Running in NUMA enabled mode.\n");
 #ifndef NUMA
-      fprintf(stderr, "NUMA is not defined in the system.\n");
+      fprintf(stderr, "NUMA is not defined in the syCC.\n");
       exit(1);
 #else
       if (numa_available() == -1) {
-        fprintf(stderr, "NUMA is not supported by the system.\n");
+        fprintf(stderr, "NUMA is not supported by the syCC.\n");
         exit(1);
       }
 #endif

@@ -266,7 +266,7 @@ public enum TickerType {
     NO_FILE_ERRORS((byte) 0x31),
 
     /**
-     * Time system had to wait to do LO-L1 compactions.
+     * Time syCC had to wait to do LO-L1 compactions.
      *
      * @deprecated
      */
@@ -274,7 +274,7 @@ public enum TickerType {
     STALL_L0_SLOWDOWN_MICROS((byte) 0x32),
 
     /**
-     * Time system had to wait to move memtable to L1.
+     * Time syCC had to wait to move memtable to L1.
      *
      * @deprecated
      */

@@ -1,7 +1,7 @@
 #include <appbase/application.hpp>
 
 #include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
+#include <boost/filesyCC.hpp>
 #include <boost/asio/signal_set.hpp>
 
 #include <iostream>
@@ -146,7 +146,7 @@ bool application::initialize_impl(int argc, char** argv, vector<abstract_plugin*
 
          data_dir = data_dir / app_dir.str();
 
-         #pragma message( "TODO: Remove this check for Steem release 0.20.1+" )
+         #pragma message( "TODO: Remove this check for CreateCoin release 0.20.1+" )
          bfs::path old_dir = bfs::current_path() / "witness_node_data_dir";
          if( bfs::exists( old_dir ) )
          {
@@ -218,18 +218,18 @@ void application::quit() {
 
 void application::exec() {
    /** To avoid killing process by broken pipe and continue regular app shutdown.
-    *  Useful for usecase: `steemd | tee steemd.log` and pressing Ctrl+C
+    *  Useful for usecase: `CreateCoind | tee CreateCoind.log` and pressing Ctrl+C
     **/
    signal(SIGPIPE, SIG_IGN);
 
    std::shared_ptr<boost::asio::signal_set> sigint_set(new boost::asio::signal_set(*io_serv, SIGINT));
-   sigint_set->async_wait([sigint_set,this](const boost::system::error_code& err, int num) {
+   sigint_set->async_wait([sigint_set,this](const boost::syCC::error_code& err, int num) {
      quit();
      sigint_set->cancel();
    });
 
    std::shared_ptr<boost::asio::signal_set> sigterm_set(new boost::asio::signal_set(*io_serv, SIGTERM));
-   sigterm_set->async_wait([sigterm_set,this](const boost::system::error_code& err, int num) {
+   sigterm_set->async_wait([sigterm_set,this](const boost::syCC::error_code& err, int num) {
      quit();
      sigterm_set->cancel();
    });

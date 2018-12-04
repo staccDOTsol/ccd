@@ -14,7 +14,7 @@ public abstract class Env extends RocksObject {
 
   /**
    * <p>Returns the default environment suitable for the current operating
-   * system.</p>
+   * syCC.</p>
    *
    * <p>The result of {@code getDefault()} is a singleton whose ownership
    * belongs to rocksdb c++.  As a result, the returned RocksEnv will not

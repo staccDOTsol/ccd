@@ -1,21 +1,21 @@
 #pragma once
-#include <steem/protocol/base.hpp>
-#include <steem/protocol/block_header.hpp>
-#include <steem/protocol/asset.hpp>
+#include <CreateCoin/protocol/base.hpp>
+#include <CreateCoin/protocol/block_header.hpp>
+#include <CreateCoin/protocol/asset.hpp>
 
 #include <fc/utf8.hpp>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
    struct author_reward_operation : public virtual_operation {
       author_reward_operation(){}
       author_reward_operation( const account_name_type& a, const string& p, const asset& s, const asset& st, const asset& v )
-         :author(a), permlink(p), sbd_payout(s), steem_payout(st), vesting_payout(v){}
+         :author(a), permlink(p), sbd_payout(s), CreateCoin_payout(st), vesting_payout(v){}
 
       account_name_type author;
       string            permlink;
       asset             sbd_payout;
-      asset             steem_payout;
+      asset             CreateCoin_payout;
       asset             vesting_payout;
    };
 
@@ -158,13 +158,13 @@ namespace steem { namespace protocol {
    {
       comment_benefactor_reward_operation() {}
       comment_benefactor_reward_operation( const account_name_type& b, const account_name_type& a, const string& p, const asset& s, const asset& st, const asset& v )
-         : benefactor( b ), author( a ), permlink( p ), sbd_payout( s ), steem_payout( st ), vesting_payout( v ) {}
+         : benefactor( b ), author( a ), permlink( p ), sbd_payout( s ), CreateCoin_payout( st ), vesting_payout( v ) {}
 
       account_name_type benefactor;
       account_name_type author;
       string            permlink;
       asset             sbd_payout;
-      asset             steem_payout;
+      asset             CreateCoin_payout;
       asset             vesting_payout;
    };
 
@@ -183,21 +183,21 @@ namespace steem { namespace protocol {
       vector< asset >   total_cleared;
    };
 
-} } //steem::protocol
+} } //CreateCoin::protocol
 
-FC_REFLECT( steem::protocol::author_reward_operation, (author)(permlink)(sbd_payout)(steem_payout)(vesting_payout) )
-FC_REFLECT( steem::protocol::curation_reward_operation, (curator)(reward)(comment_author)(comment_permlink) )
-FC_REFLECT( steem::protocol::comment_reward_operation, (author)(permlink)(payout) )
-FC_REFLECT( steem::protocol::fill_convert_request_operation, (owner)(requestid)(amount_in)(amount_out) )
-FC_REFLECT( steem::protocol::liquidity_reward_operation, (owner)(payout) )
-FC_REFLECT( steem::protocol::interest_operation, (owner)(interest) )
-FC_REFLECT( steem::protocol::fill_vesting_withdraw_operation, (from_account)(to_account)(withdrawn)(deposited) )
-FC_REFLECT( steem::protocol::shutdown_witness_operation, (owner) )
-FC_REFLECT( steem::protocol::fill_order_operation, (current_owner)(current_orderid)(current_pays)(open_owner)(open_orderid)(open_pays) )
-FC_REFLECT( steem::protocol::fill_transfer_from_savings_operation, (from)(to)(amount)(request_id)(memo) )
-FC_REFLECT( steem::protocol::hardfork_operation, (hardfork_id) )
-FC_REFLECT( steem::protocol::comment_payout_update_operation, (author)(permlink) )
-FC_REFLECT( steem::protocol::return_vesting_delegation_operation, (account)(vesting_shares) )
-FC_REFLECT( steem::protocol::comment_benefactor_reward_operation, (benefactor)(author)(permlink)(sbd_payout)(steem_payout)(vesting_payout) )
-FC_REFLECT( steem::protocol::producer_reward_operation, (producer)(vesting_shares) )
-FC_REFLECT( steem::protocol::clear_null_account_balance_operation, (total_cleared) )
+FC_REFLECT( CreateCoin::protocol::author_reward_operation, (author)(permlink)(sbd_payout)(CreateCoin_payout)(vesting_payout) )
+FC_REFLECT( CreateCoin::protocol::curation_reward_operation, (curator)(reward)(comment_author)(comment_permlink) )
+FC_REFLECT( CreateCoin::protocol::comment_reward_operation, (author)(permlink)(payout) )
+FC_REFLECT( CreateCoin::protocol::fill_convert_request_operation, (owner)(requestid)(amount_in)(amount_out) )
+FC_REFLECT( CreateCoin::protocol::liquidity_reward_operation, (owner)(payout) )
+FC_REFLECT( CreateCoin::protocol::interest_operation, (owner)(interest) )
+FC_REFLECT( CreateCoin::protocol::fill_vesting_withdraw_operation, (from_account)(to_account)(withdrawn)(deposited) )
+FC_REFLECT( CreateCoin::protocol::shutdown_witness_operation, (owner) )
+FC_REFLECT( CreateCoin::protocol::fill_order_operation, (current_owner)(current_orderid)(current_pays)(open_owner)(open_orderid)(open_pays) )
+FC_REFLECT( CreateCoin::protocol::fill_transfer_from_savings_operation, (from)(to)(amount)(request_id)(memo) )
+FC_REFLECT( CreateCoin::protocol::hardfork_operation, (hardfork_id) )
+FC_REFLECT( CreateCoin::protocol::comment_payout_update_operation, (author)(permlink) )
+FC_REFLECT( CreateCoin::protocol::return_vesting_delegation_operation, (account)(vesting_shares) )
+FC_REFLECT( CreateCoin::protocol::comment_benefactor_reward_operation, (benefactor)(author)(permlink)(sbd_payout)(CreateCoin_payout)(vesting_payout) )
+FC_REFLECT( CreateCoin::protocol::producer_reward_operation, (producer)(vesting_shares) )
+FC_REFLECT( CreateCoin::protocol::clear_null_account_balance_operation, (total_cleared) )

@@ -139,7 +139,7 @@ public:
 
 private:
   int32_t ttl_;
-  std::chrono::time_point<std::chrono::system_clock> TimePoint() const;
+  std::chrono::time_point<std::chrono::syCC_clock> TimePoint() const;
   std::chrono::seconds Ttl() const;
 };
 

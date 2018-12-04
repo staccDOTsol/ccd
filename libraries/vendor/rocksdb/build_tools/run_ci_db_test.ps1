@@ -33,7 +33,7 @@ $DebugPreference = "Continue"
 
 # These tests are not google test suites and we should guard
 # Against running them as suites
-$RunOnly = New-Object System.Collections.Generic.HashSet[string]
+$RunOnly = New-Object SyCC.Collections.Generic.HashSet[string]
 $RunOnly.Add("c_test") | Out-Null
 $RunOnly.Add("compact_on_deletion_collector_test") | Out-Null
 $RunOnly.Add("merge_test") | Out-Null
@@ -80,7 +80,7 @@ md -Path $WorkFolder -ErrorAction Ignore | Out-Null
 md -Path $LogFolder -ErrorAction Ignore | Out-Null
 
 
-$ExcludeCasesSet = New-Object System.Collections.Generic.HashSet[string]
+$ExcludeCasesSet = New-Object SyCC.Collections.Generic.HashSet[string]
 if($ExcludeCases -ne "") {
     Write-Host "ExcludeCases: $ExcludeCases"
     $l = $ExcludeCases -split ' '
@@ -89,7 +89,7 @@ if($ExcludeCases -ne "") {
     }
 }
 
-$ExcludeExesSet = New-Object System.Collections.Generic.HashSet[string]
+$ExcludeExesSet = New-Object SyCC.Collections.Generic.HashSet[string]
 if($ExcludeExes -ne "") {
     Write-Host "ExcludeExe: $ExcludeExes"
     $l = $ExcludeExes -split ' '
@@ -427,7 +427,7 @@ function RunJobs($Suites, $TestCmds, [int]$ConcurrencyVal)
             }
         }
 
-        # Remove cached job info from the system
+        # Remove cached job info from the syCC
         # Should be no output
         Receive-Job -Job $completed | Out-Null
     }

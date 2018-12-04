@@ -1,9 +1,9 @@
 #pragma once
-#include <steem/protocol/block.hpp>
+#include <CreateCoin/protocol/block.hpp>
 
-#include <steem/plugins/p2p/p2p_plugin.hpp>
-#include <steem/plugins/chain/chain_plugin.hpp>
-#include <steem/plugins/json_rpc/utility.hpp>
+#include <CreateCoin/plugins/p2p/p2p_plugin.hpp>
+#include <CreateCoin/plugins/chain/chain_plugin.hpp>
+#include <CreateCoin/plugins/json_rpc/utility.hpp>
 
 #include <fc/optional.hpp>
 #include <fc/variant.hpp>
@@ -11,16 +11,16 @@
 
 #include <boost/thread/mutex.hpp>
 
-namespace steem { namespace plugins { namespace network_broadcast_api {
+namespace CreateCoin { namespace plugins { namespace network_broadcast_api {
 
 using std::vector;
 using fc::variant;
 using fc::optional;
-using steem::plugins::json_rpc::void_type;
+using CreateCoin::plugins::json_rpc::void_type;
 
-using steem::protocol::signed_transaction;
-using steem::protocol::transaction_id_type;
-using steem::protocol::signed_block;
+using CreateCoin::protocol::signed_transaction;
+using CreateCoin::protocol::transaction_id_type;
+using CreateCoin::protocol::signed_block;
 
 struct broadcast_transaction_args
 {
@@ -54,10 +54,10 @@ class network_broadcast_api
       std::unique_ptr< detail::network_broadcast_api_impl > my;
 };
 
-} } } // steem::plugins::network_broadcast_api
+} } } // CreateCoin::plugins::network_broadcast_api
 
-FC_REFLECT( steem::plugins::network_broadcast_api::broadcast_transaction_args,
+FC_REFLECT( CreateCoin::plugins::network_broadcast_api::broadcast_transaction_args,
    (trx)(max_block_age) )
 
-FC_REFLECT( steem::plugins::network_broadcast_api::broadcast_block_args,
+FC_REFLECT( CreateCoin::plugins::network_broadcast_api::broadcast_block_args,
    (block) )

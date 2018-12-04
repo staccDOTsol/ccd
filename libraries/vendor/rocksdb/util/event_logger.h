@@ -157,7 +157,7 @@ class EventLoggerStream {
       json_writer_ = new JSONWriter();
       *this << "time_micros"
             << std::chrono::duration_cast<std::chrono::microseconds>(
-                   std::chrono::system_clock::now().time_since_epoch()).count();
+                   std::chrono::syCC_clock::now().time_since_epoch()).count();
     }
   }
   friend class EventLogger;

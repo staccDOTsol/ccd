@@ -22,18 +22,18 @@
  * THE SOFTWARE.
  */
 
-#include <steem/utilities/tempdir.hpp>
+#include <CreateCoin/utilities/tempdir.hpp>
 
 #include <cstdlib>
 
-namespace steem { namespace utilities {
+namespace CreateCoin { namespace utilities {
 
 fc::path temp_directory_path()
 {
-   const char* steemit_tempdir = getenv("STEEM_TEMPDIR");
-   if( steemit_tempdir != nullptr )
-      return fc::path( steemit_tempdir );
-   return fc::temp_directory_path() / "steem-tmp";
+   const char* CreateCoinit_tempdir = getenv("CreateCoin_TEMPDIR");
+   if( CreateCoinit_tempdir != nullptr )
+      return fc::path( CreateCoinit_tempdir );
+   return fc::temp_directory_path() / "CreateCoin-tmp";
 }
 
-} } // steem::utilities
+} } // CreateCoin::utilities

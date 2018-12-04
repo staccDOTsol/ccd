@@ -1,21 +1,21 @@
 #pragma once
 #include <fc/fixed_string.hpp>
 
-#include <steem/protocol/authority.hpp>
-#include <steem/protocol/steem_operations.hpp>
+#include <CreateCoin/protocol/authority.hpp>
+#include <CreateCoin/protocol/CreateCoin_operations.hpp>
 
-#include <steem/chain/steem_object_types.hpp>
-#include <steem/chain/witness_objects.hpp>
-#include <steem/chain/shared_authority.hpp>
-#include <steem/chain/util/manabar.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
+#include <CreateCoin/chain/witness_objects.hpp>
+#include <CreateCoin/chain/shared_authority.hpp>
+#include <CreateCoin/chain/util/manabar.hpp>
 
 #include <boost/multi_index/composite_key.hpp>
 
 #include <numeric>
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
-   using steem::protocol::authority;
+   using CreateCoin::protocol::authority;
 
    class account_object : public object< account_object_type, account_object >
    {
@@ -41,7 +41,7 @@ namespace steem { namespace chain {
          time_point_sec    created;
          bool              mined = true;
          account_name_type recovery_account;
-         account_name_type reset_account = STEEM_NULL_ACCOUNT;
+         account_name_type reset_account = CreateCoin_NULL_ACCOUNT;
          time_point_sec    last_account_recovery;
          uint32_t          comment_count = 0;
          uint32_t          lifetime_vote_count = 0;
@@ -50,8 +50,8 @@ namespace steem { namespace chain {
          bool              can_vote = true;
          util::manabar     voting_manabar;
 
-         asset             balance = asset( 0, STEEM_SYMBOL );  ///< total liquid shares held by this account
-         asset             savings_balance = asset( 0, STEEM_SYMBOL );  ///< total liquid shares held by this account
+         asset             balance = asset( 0, CreateCoin_SYMBOL );  ///< total liquid shares held by this account
+         asset             savings_balance = asset( 0, CreateCoin_SYMBOL );  ///< total liquid shares held by this account
 
          /**
           *  SBD Deposits pay interest based upon the interest rate set by witnesses. The purpose of these
@@ -61,7 +61,7 @@ namespace steem { namespace chain {
           *  interest = interest_rate * sbd_seconds / seconds_per_year
           *
           *  Every time the sbd_balance is updated the sbd_seconds is also updated. If at least
-          *  STEEM_MIN_COMPOUNDING_INTERVAL_SECONDS has past since sbd_last_interest_payment then
+          *  CreateCoin_MIN_COMPOUNDING_INTERVAL_SECONDS has past since sbd_last_interest_payment then
           *  interest is added to sbd_balance.
           *
           *  @defgroup sbd_data sbd Balance Data
@@ -82,9 +82,9 @@ namespace steem { namespace chain {
          ///@}
 
          asset             reward_sbd_balance = asset( 0, SBD_SYMBOL );
-         asset             reward_steem_balance = asset( 0, STEEM_SYMBOL );
+         asset             reward_CreateCoin_balance = asset( 0, CreateCoin_SYMBOL );
          asset             reward_vesting_balance = asset( 0, VESTS_SYMBOL );
-         asset             reward_vesting_steem = asset( 0, STEEM_SYMBOL );
+         asset             reward_vesting_CreateCoin = asset( 0, CreateCoin_SYMBOL );
 
          share_type        curation_rewards = 0;
          share_type        posting_rewards = 0;
@@ -99,7 +99,7 @@ namespace steem { namespace chain {
          share_type        to_withdraw = 0; /// Might be able to look this up with operation history.
          uint16_t          withdraw_routes = 0;
 
-         fc::array<share_type, STEEM_MAX_PROXY_RECURSION_DEPTH> proxied_vsf_votes;// = std::vector<share_type>( STEEM_MAX_PROXY_RECURSION_DEPTH, 0 ); ///< the total VFS votes proxied to this account
+         fc::array<share_type, CreateCoin_MAX_PROXY_RECURSION_DEPTH> proxied_vsf_votes;// = std::vector<share_type>( CreateCoin_MAX_PROXY_RECURSION_DEPTH, 0 ); ///< the total VFS votes proxied to this account
 
          uint16_t          witnesses_voted_for = 0;
 
@@ -402,7 +402,7 @@ namespace steem { namespace chain {
    > change_recovery_account_request_index;
 } }
 
-FC_REFLECT( steem::chain::account_object,
+FC_REFLECT( CreateCoin::chain::account_object,
              (id)(name)(memo_key)(json_metadata)(proxy)(last_account_update)
              (created)(mined)
              (recovery_account)(last_account_recovery)(reset_account)
@@ -411,7 +411,7 @@ FC_REFLECT( steem::chain::account_object,
              (savings_balance)
              (sbd_balance)(sbd_seconds)(sbd_seconds_last_update)(sbd_last_interest_payment)
              (savings_sbd_balance)(savings_sbd_seconds)(savings_sbd_seconds_last_update)(savings_sbd_last_interest_payment)(savings_withdraw_requests)
-             (reward_steem_balance)(reward_sbd_balance)(reward_vesting_balance)(reward_vesting_steem)
+             (reward_CreateCoin_balance)(reward_sbd_balance)(reward_vesting_balance)(reward_vesting_CreateCoin)
              (vesting_shares)(delegated_vesting_shares)(received_vesting_shares)
              (vesting_withdraw_rate)(next_vesting_withdrawal)(withdrawn)(to_withdraw)(withdraw_routes)
              (curation_rewards)
@@ -421,32 +421,32 @@ FC_REFLECT( steem::chain::account_object,
              (pending_claimed_accounts)
           )
 
-CHAINBASE_SET_INDEX_TYPE( steem::chain::account_object, steem::chain::account_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::account_object, CreateCoin::chain::account_index )
 
-FC_REFLECT( steem::chain::account_authority_object,
+FC_REFLECT( CreateCoin::chain::account_authority_object,
              (id)(account)(owner)(active)(posting)(last_owner_update)
 )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::account_authority_object, steem::chain::account_authority_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::account_authority_object, CreateCoin::chain::account_authority_index )
 
-FC_REFLECT( steem::chain::vesting_delegation_object,
+FC_REFLECT( CreateCoin::chain::vesting_delegation_object,
             (id)(delegator)(delegatee)(vesting_shares)(min_delegation_time) )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::vesting_delegation_object, steem::chain::vesting_delegation_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::vesting_delegation_object, CreateCoin::chain::vesting_delegation_index )
 
-FC_REFLECT( steem::chain::vesting_delegation_expiration_object,
+FC_REFLECT( CreateCoin::chain::vesting_delegation_expiration_object,
             (id)(delegator)(vesting_shares)(expiration) )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::vesting_delegation_expiration_object, steem::chain::vesting_delegation_expiration_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::vesting_delegation_expiration_object, CreateCoin::chain::vesting_delegation_expiration_index )
 
-FC_REFLECT( steem::chain::owner_authority_history_object,
+FC_REFLECT( CreateCoin::chain::owner_authority_history_object,
              (id)(account)(previous_owner_authority)(last_valid_time)
           )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::owner_authority_history_object, steem::chain::owner_authority_history_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::owner_authority_history_object, CreateCoin::chain::owner_authority_history_index )
 
-FC_REFLECT( steem::chain::account_recovery_request_object,
+FC_REFLECT( CreateCoin::chain::account_recovery_request_object,
              (id)(account_to_recover)(new_owner_authority)(expires)
           )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::account_recovery_request_object, steem::chain::account_recovery_request_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::account_recovery_request_object, CreateCoin::chain::account_recovery_request_index )
 
-FC_REFLECT( steem::chain::change_recovery_account_request_object,
+FC_REFLECT( CreateCoin::chain::change_recovery_account_request_object,
              (id)(account_to_recover)(recovery_account)(effective_on)
           )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::change_recovery_account_request_object, steem::chain::change_recovery_account_request_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::change_recovery_account_request_object, CreateCoin::chain::change_recovery_account_request_index )

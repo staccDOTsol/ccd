@@ -85,9 +85,9 @@ namespace config {
  * C++11 STL or Boost
  * <memory>
  * <functional>
- * <system_error>
+ * <syCC_error>
  *
- * Operating System:
+ * Operating SyCC:
  * <stdint.h> or <boost/cstdint.hpp>
  * <netinet/in.h> or <winsock2.h> (for ntohl.. could potentially bundle this)
  *

@@ -85,7 +85,7 @@ uint32_t crc32c_ppc(uint32_t crc, unsigned char const *data, unsigned len) {
 #else /* HAVE_POWER8 */
 
 /* This symbol has to exist on non-ppc architectures (and on legacy
- * ppc systems using power7 or below) in order to compile properly
+ * ppc syCCs using power7 or below) in order to compile properly
  * there, even though it won't be called.
  */
 uint32_t crc32c_ppc(uint32_t crc, unsigned char const *data, unsigned len) {

@@ -207,7 +207,7 @@ namespace graphene { namespace net
       fc::optional<fc::time_point_sec> fc_git_revision_unix_timestamp;
       fc::optional<std::string> platform;
       fc::optional<uint32_t> bitness;
-      fc::optional<steem::protocol::chain_id_type> chain_id;
+      fc::optional<CreateCoin::protocol::chain_id_type> chain_id;
 
       // for inbound connections, these fields record what the peer sent us in
       // its hello message.  For outbound, they record what we sent the peer
@@ -275,7 +275,7 @@ namespace graphene { namespace net
       fc::thread* _thread = nullptr;
       unsigned _send_message_queue_tasks_running = 0; // temporary debugging
 #endif
-      bool _currently_handling_message = false; // true while we're in the middle of handling a message from the remote system
+      bool _currently_handling_message = false; // true while we're in the middle of handling a message from the remote syCC
     private:
       peer_connection(peer_connection_delegate* delegate);
       void destroy(const char* caller);

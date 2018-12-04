@@ -12,7 +12,7 @@ package org.rocksdb;
  *
  * <p>Using this class RocksDB can log with common
  * Java logging APIs like Log4j or Slf4j without keeping
- * database logs in the filesystem.</p>
+ * database logs in the filesyCC.</p>
  *
  * <strong>Performance</strong>
  * <p>There are certain performance penalties using a Java

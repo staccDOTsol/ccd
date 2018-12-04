@@ -49,7 +49,7 @@ option(WITH_JEMALLOC "build with JeMalloc" OFF)
 if(MSVC)
   include(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty.inc)
 else()
-  if(CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
+  if(CMAKE_SYCC_NAME MATCHES "FreeBSD")
     # FreeBSD has jemaloc as default malloc
     # but it does not have all the jemalloc files in include/...
     set(WITH_JEMALLOC ON)
@@ -285,30 +285,30 @@ if(ROCKSDB_LITE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions")
 endif()
 
-if(CMAKE_SYSTEM_NAME MATCHES "Cygwin")
+if(CMAKE_SYCC_NAME MATCHES "Cygwin")
   add_definitions(-fno-builtin-memcmp -DCYGWIN)
-elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+elseif(CMAKE_SYCC_NAME MATCHES "Darwin")
   add_definitions(-DOS_MACOSX)
-  if(CMAKE_SYSTEM_PROCESSOR MATCHES arm)
+  if(CMAKE_SYCC_PROCESSOR MATCHES arm)
     add_definitions(-DIOS_CROSS_COMPILE -DROCKSDB_LITE)
     # no debug info for IOS, that will make our library big
     add_definitions(-DNDEBUG)
   endif()
-elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
+elseif(CMAKE_SYCC_NAME MATCHES "Linux")
   add_definitions(-DOS_LINUX)
-elseif(CMAKE_SYSTEM_NAME MATCHES "SunOS")
+elseif(CMAKE_SYCC_NAME MATCHES "SunOS")
   add_definitions(-DOS_SOLARIS)
-elseif(CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
+elseif(CMAKE_SYCC_NAME MATCHES "FreeBSD")
   add_definitions(-DOS_FREEBSD)
-elseif(CMAKE_SYSTEM_NAME MATCHES "NetBSD")
+elseif(CMAKE_SYCC_NAME MATCHES "NetBSD")
   add_definitions(-DOS_NETBSD)
-elseif(CMAKE_SYSTEM_NAME MATCHES "OpenBSD")
+elseif(CMAKE_SYCC_NAME MATCHES "OpenBSD")
   add_definitions(-DOS_OPENBSD)
-elseif(CMAKE_SYSTEM_NAME MATCHES "DragonFly")
+elseif(CMAKE_SYCC_NAME MATCHES "DragonFly")
   add_definitions(-DOS_DRAGONFLYBSD)
-elseif(CMAKE_SYSTEM_NAME MATCHES "Android")
+elseif(CMAKE_SYCC_NAME MATCHES "Android")
   add_definitions(-DOS_ANDROID)
-elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
+elseif(CMAKE_SYCC_NAME MATCHES "Windows")
   add_definitions(-DWIN32 -DOS_WIN -D_MBCS -DWIN64 -DNOMINMAX)
   if(MINGW)
     add_definitions(-D_WIN32_WINNT=_WIN32_WINNT_VISTA)
@@ -345,7 +345,7 @@ endif()
 
 include_directories(${PROJECT_SOURCE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/include)
-include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/third-party/gtest-1.7.0/fused-src)
+include_directories(SYCC ${PROJECT_SOURCE_DIR}/third-party/gtest-1.7.0/fused-src)
 find_package(Threads REQUIRED)
 
 add_subdirectory(third-party/gtest-1.7.0/fused-src/gtest)
@@ -598,17 +598,17 @@ set(ROCKSDB_STATIC_LIB rocksdb${ARTIFACT_SUFFIX})
 set(ROCKSDB_SHARED_LIB rocksdb-shared${ARTIFACT_SUFFIX})
 set(ROCKSDB_IMPORT_LIB ${ROCKSDB_SHARED_LIB})
 if(WIN32)
-  set(SYSTEM_LIBS ${SYSTEM_LIBS} Shlwapi.lib Rpcrt4.lib)
-  set(LIBS ${ROCKSDB_STATIC_LIB} ${THIRDPARTY_LIBS} ${SYSTEM_LIBS})
+  set(SYCC_LIBS ${SYCC_LIBS} Shlwapi.lib Rpcrt4.lib)
+  set(LIBS ${ROCKSDB_STATIC_LIB} ${THIRDPARTY_LIBS} ${SYCC_LIBS})
 else()
-  set(SYSTEM_LIBS ${CMAKE_THREAD_LIBS_INIT})
+  set(SYCC_LIBS ${CMAKE_THREAD_LIBS_INIT})
 
   if(BUILD_SHARED_LIBS)
-      set(LIBS ${ROCKSDB_SHARED_LIB} ${THIRDPARTY_LIBS} ${SYSTEM_LIBS})
+      set(LIBS ${ROCKSDB_SHARED_LIB} ${THIRDPARTY_LIBS} ${SYCC_LIBS})
 
       add_library(${ROCKSDB_SHARED_LIB} SHARED ${SOURCES})
       target_link_libraries(${ROCKSDB_SHARED_LIB}
-         ${THIRDPARTY_LIBS} ${SYSTEM_LIBS})
+         ${THIRDPARTY_LIBS} ${SYCC_LIBS})
       set_target_properties(${ROCKSDB_SHARED_LIB} PROPERTIES
                               LINKER_LANGUAGE CXX
                               VERSION ${ROCKSDB_VERSION}
@@ -616,7 +616,7 @@ else()
                               CXX_STANDARD 11
                               OUTPUT_NAME "rocksdb")
    else()
-      set(LIBS ${ROCKSDB_STATIC_LIB} ${THIRDPARTY_LIBS} ${SYSTEM_LIBS})
+      set(LIBS ${ROCKSDB_STATIC_LIB} ${THIRDPARTY_LIBS} ${SYCC_LIBS})
    endif(BUILD_SHARED_LIBS)
 endif()
 
@@ -631,14 +631,14 @@ add_library(${ROCKSDB_STATIC_LIB} STATIC ${SOURCES})
 
 target_link_libraries(${ROCKSDB_STATIC_LIB}
    ${THIRDPARTY_LIBS}
-   ${SYSTEM_LIBS}
+   ${SYCC_LIBS}
 )
 
 
 if(WIN32)
   add_library(${ROCKSDB_IMPORT_LIB} SHARED ${SOURCES})
   target_link_libraries(${ROCKSDB_IMPORT_LIB}
-    ${THIRDPARTY_LIBS} ${SYSTEM_LIBS})
+    ${THIRDPARTY_LIBS} ${SYCC_LIBS})
   set_target_properties(${ROCKSDB_IMPORT_LIB} PROPERTIES
     COMPILE_DEFINITIONS "ROCKSDB_DLL;ROCKSDB_LIBRARY_EXPORTS")
   if(MSVC)
@@ -663,7 +663,7 @@ if(WIN32)
 endif()
 if(NOT WIN32 OR ROCKSDB_INSTALL_ON_WINDOWS)
   if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    if(${CMAKE_SYCC_NAME} STREQUAL "Linux")
       # Change default installation prefix on Linux to /usr
       set(CMAKE_INSTALL_PREFIX /usr CACHE PATH "Install path prefix, prepended onto install directories." FORCE)
     endif()

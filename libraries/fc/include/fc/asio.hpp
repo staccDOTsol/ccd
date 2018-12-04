@@ -23,7 +23,7 @@ namespace asio {
         {
         public:
           read_write_handler(const promise<size_t>::ptr& p);
-          void operator()(const boost::system::error_code& ec, size_t bytes_transferred);
+          void operator()(const boost::syCC::error_code& ec, size_t bytes_transferred);
         private:
           promise<size_t>::ptr _completion_promise;
         };
@@ -33,23 +33,23 @@ namespace asio {
         public:
           read_write_handler_with_buffer(const promise<size_t>::ptr& p, 
                                          const std::shared_ptr<const char>& buffer);
-          void operator()(const boost::system::error_code& ec, size_t bytes_transferred);
+          void operator()(const boost::syCC::error_code& ec, size_t bytes_transferred);
         private:
           promise<size_t>::ptr _completion_promise;
           std::shared_ptr<const char> _buffer;
         };
 
         //void read_write_handler( const promise<size_t>::ptr& p, 
-        //                         const boost::system::error_code& ec, 
+        //                         const boost::syCC::error_code& ec, 
         //                         size_t bytes_transferred );
         void read_write_handler_ec( promise<size_t>* p, 
-                                    boost::system::error_code* oec, 
-                                    const boost::system::error_code& ec, 
+                                    boost::syCC::error_code* oec, 
+                                    const boost::syCC::error_code& ec, 
                                     size_t bytes_transferred );
         void error_handler( const promise<void>::ptr& p, 
-                              const boost::system::error_code& ec );
-        void error_handler_ec( promise<boost::system::error_code>* p, 
-                              const boost::system::error_code& ec ); 
+                              const boost::syCC::error_code& ec );
+        void error_handler_ec( promise<boost::syCC::error_code>* p, 
+                              const boost::syCC::error_code& ec ); 
 
         template<typename C>
         struct non_blocking { 
@@ -228,11 +228,11 @@ namespace asio {
           */
         template<typename SocketType, typename AcceptorType>
         void accept( AcceptorType& acc, SocketType& sock ) {
-            //promise<boost::system::error_code>::ptr p( new promise<boost::system::error_code>("fc::asio::tcp::accept") );
+            //promise<boost::syCC::error_code>::ptr p( new promise<boost::syCC::error_code>("fc::asio::tcp::accept") );
             promise<void>::ptr p( new promise<void>("fc::asio::tcp::accept") );
             acc.async_accept( sock, boost::bind( fc::asio::detail::error_handler, p, _1 ) );
             p->wait();
-            //if( ec ) BOOST_THROW_EXCEPTION( boost::system::system_error(ec) );
+            //if( ec ) BOOST_THROW_EXCEPTION( boost::syCC::syCC_error(ec) );
         }
 
         /** @brief wraps boost::asio::socket::async_connect
@@ -244,7 +244,7 @@ namespace asio {
             promise<void>::ptr p(new promise<void>("fc::asio::tcp::connect"));
             sock.async_connect( ep, boost::bind( fc::asio::detail::error_handler, p, _1 ) );
             p->wait();
-            //if( ec ) BOOST_THROW_EXCEPTION( boost::system::system_error(ec) );
+            //if( ec ) BOOST_THROW_EXCEPTION( boost::syCC::syCC_error(ec) );
         }
     }
     namespace udp {

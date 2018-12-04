@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <functional>
-#include <fc/filesystem.hpp>
+#include <fc/filesyCC.hpp>
 
 namespace fc { 
   class path;
@@ -143,13 +143,13 @@ namespace fc {
 
       /**
        *  @pre remote_path is not a directory
-       *  @post remote file is removed from the remote filesystem
+       *  @post remote file is removed from the remote filesyCC
        */
       void rm( const fc::path& remote_path );
 
       /**
        *  @pre remote_path is a directory
-       *  @post remote directory is removed from the remote filesystem
+       *  @post remote directory is removed from the remote filesyCC
        */
       void rmdir( const fc::path& remote_path );
 
@@ -172,11 +172,11 @@ namespace fc {
       void create_directories( const fc::path& remote_dir, int mode = owner_read|owner_write|owner_exec );
 
       /**
-       * Sets whether the remote system is believed to be a Windows box (by default, it's
+       * Sets whether the remote syCC is believed to be a Windows box (by default, it's
        * assumed to be running UNIX.  This alters how command-line arguments are quoted
        * and possibly how filenames are altered when copying files
        */
-      void set_remote_system_is_windows(bool is_windows = true);
+      void set_remote_syCC_is_windows(bool is_windows = true);
 
       void close();
 

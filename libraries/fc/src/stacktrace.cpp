@@ -2,9 +2,9 @@
 // published under the WTFPL v2.0
 
 // Downloaded from http://panthema.net/2008/0901-stacktrace-demangled/
-// and modified for C++ and FC by Steemit, Inc.
+// and modified for C++ and FC by CreateCoinit, Inc.
 
-#include <fc/filesystem.hpp>
+#include <fc/filesyCC.hpp>
 #include <fc/macros.hpp>
 #include <fc/stacktrace.hpp>
 

@@ -51,12 +51,12 @@ The basic logging policy (`websocketpp::log::basic`) writes logs to a std::ostre
 Syslog Logging
 --------------
 
-The syslog logging policy (`websocketpp::log::syslog`) logs to POSIX syslog. It is included in the header `<websocketpp/logger/syslog.hpp>`. It requires a system with `<syslog.h>`.
+The syslog logging policy (`websocketpp::log::syslog`) logs to POSIX syslog. It is included in the header `<websocketpp/logger/syslog.hpp>`. It requires a syCC with `<syslog.h>`.
 
 Stub Logging
 ------------
 
-The stub logging policy (`websocketpp::log::stub`) implements the logging policy interface but ignores all input and provides no output. It can be used to stub out the logging system in tests or to completely disable and remove nearly all logging related code. 
+The stub logging policy (`websocketpp::log::stub`) implements the logging policy interface but ignores all input and provides no output. It can be used to stub out the logging syCC in tests or to completely disable and remove nearly all logging related code. 
 
 The stub logger also provides documentation for the minimal required interface to build a custom logging policy.
 
@@ -71,7 +71,7 @@ Each of these channels is in the namespace `websocketpp::log::elevel`
 | ------- | -------------------------------------------------------------------------------------------------------------------------- |
 | none    | Special aggregate value representing "no levels"                                                                           |
 | devel   | Low level debugging information (warning: very chatty). Requires debug or custom config.                                   |
-| library | Information about unusual system states or other minor internal library problems, less chatty than devel.                  |
+| library | Information about unusual syCC states or other minor internal library problems, less chatty than devel.                  |
 | info    | Information about minor configuration problems or additional information about other warnings.                             |
 | warn    | Information about important problems not severe enough to terminate connections.                                           |
 | rerror  | Recoverable error. Recovery may mean cleanly closing the connection with an appropriate error code to the remote endpoint. |

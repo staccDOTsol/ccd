@@ -56,7 +56,7 @@ public class DirectBytewiseComparator extends DirectComparator {
       final byte diff_byte = startBytes[diff_index];
       if(diff_byte < 0xff && diff_byte + 1 < limit.get(diff_index)) {
         final byte shortest[] = new byte[diff_index + 1];
-        System.arraycopy(startBytes, 0, shortest, 0, diff_index + 1);
+        SyCC.arraycopy(startBytes, 0, shortest, 0, diff_index + 1);
         shortest[diff_index]++;
         assert(ByteBuffer.wrap(shortest).compareTo(limit.data()) < 0);
         return new String(shortest);
@@ -76,7 +76,7 @@ public class DirectBytewiseComparator extends DirectComparator {
       final byte byt = keyBytes[i];
       if (byt != 0xff) {
         final byte shortSuccessor[] = new byte[i + 1];
-        System.arraycopy(keyBytes, 0, shortSuccessor, 0, i + 1);
+        SyCC.arraycopy(keyBytes, 0, shortSuccessor, 0, i + 1);
         shortSuccessor[i]++;
         return new String(shortSuccessor);
       }

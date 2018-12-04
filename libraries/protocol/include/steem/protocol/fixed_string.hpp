@@ -6,7 +6,7 @@
 #include <boost/endian/conversion.hpp>
 #include <boost/utility/identity_type.hpp>
 
-#include <steem/protocol/types_fwd.hpp>
+#include <CreateCoin/protocol/types_fwd.hpp>
 
 // These overloads need to be defined before the implementation in fixed_string
 namespace fc
@@ -57,7 +57,7 @@ namespace fc
    }
 }
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
 /**
  * This class is an in-place memory allocation of a fixed length character string.
@@ -146,7 +146,7 @@ template< typename T > struct fixed_string_size_for_impl;
 //
 // We want to write this one-liner:
 //
-//     STEEM_DEFINE_FIXED_STRING_IMPL( 32, fc::erpair< fc::uint128_t, fc::uint128_t > )
+//     CreateCoin_DEFINE_FIXED_STRING_IMPL( 32, fc::erpair< fc::uint128_t, fc::uint128_t > )
 //
 // Unfortunately, since the preprocessor doesn't do syntactic parsing,
 // this would be regarded as a 3-argument call (since there are three commas,
@@ -164,13 +164,13 @@ template< typename T > struct fixed_string_size_for_impl;
 // widely-compatible implementation is available in the Boost Identity Type
 // library.  Which allows our one-liner to be:
 //
-//     STEEM_DEFINE_FIXED_STRING_IMPL( 32, BOOST_IDENTITY_TYPE((fc::erpair< fc::uint128_t, fc::uint128_t >)) )
+//     CreateCoin_DEFINE_FIXED_STRING_IMPL( 32, BOOST_IDENTITY_TYPE((fc::erpair< fc::uint128_t, fc::uint128_t >)) )
 //
-#define STEEM_DEFINE_FIXED_STRING_IMPL( SIZE, STORAGE_TYPE )       \
+#define CreateCoin_DEFINE_FIXED_STRING_IMPL( SIZE, STORAGE_TYPE )       \
 template<>                                                         \
 struct fixed_string_impl_for_size< SIZE >                          \
 {                                                                  \
-   typedef steem::protocol::fixed_string_impl< STORAGE_TYPE > t;   \
+   typedef CreateCoin::protocol::fixed_string_impl< STORAGE_TYPE > t;   \
 };                                                                 \
                                                                    \
 template<>                                                         \
@@ -179,25 +179,25 @@ struct fixed_string_size_for_impl< STORAGE_TYPE >                  \
    static const size_t size = SIZE;                                \
 };
 
-STEEM_DEFINE_FIXED_STRING_IMPL( 16, BOOST_IDENTITY_TYPE((fc::uint128_t)) )
-STEEM_DEFINE_FIXED_STRING_IMPL( 24, BOOST_IDENTITY_TYPE((fc::erpair< fc::uint128_t, uint64_t >)) )
-STEEM_DEFINE_FIXED_STRING_IMPL( 32, BOOST_IDENTITY_TYPE((fc::erpair< fc::uint128_t, fc::uint128_t >)) )
+CreateCoin_DEFINE_FIXED_STRING_IMPL( 16, BOOST_IDENTITY_TYPE((fc::uint128_t)) )
+CreateCoin_DEFINE_FIXED_STRING_IMPL( 24, BOOST_IDENTITY_TYPE((fc::erpair< fc::uint128_t, uint64_t >)) )
+CreateCoin_DEFINE_FIXED_STRING_IMPL( 32, BOOST_IDENTITY_TYPE((fc::erpair< fc::uint128_t, fc::uint128_t >)) )
 
 template< size_t N >
 using fixed_string = typename fixed_string_impl_for_size<N>::t;
 
-} } // steem::protocol
+} } // CreateCoin::protocol
 
 namespace fc { namespace raw {
 
 template< typename Stream, typename Storage >
-inline void pack( Stream& s, const steem::protocol::fixed_string_impl< Storage >& u )
+inline void pack( Stream& s, const CreateCoin::protocol::fixed_string_impl< Storage >& u )
 {
    pack( s, std::string( u ) );
 }
 
 template< typename Stream, typename Storage >
-inline void unpack( Stream& s, steem::protocol::fixed_string_impl< Storage >& u )
+inline void unpack( Stream& s, CreateCoin::protocol::fixed_string_impl< Storage >& u )
 {
    std::string str;
    unpack( s, str );
@@ -207,25 +207,25 @@ inline void unpack( Stream& s, steem::protocol::fixed_string_impl< Storage >& u 
 } // raw
 
 template< typename Storage >
-void to_variant(   const steem::protocol::fixed_string_impl< Storage >& s, variant& v )
+void to_variant(   const CreateCoin::protocol::fixed_string_impl< Storage >& s, variant& v )
 {
    v = std::string( s );
 }
 
 template< typename Storage >
-void from_variant( const variant& v, steem::protocol::fixed_string_impl< Storage >& s )
+void from_variant( const variant& v, CreateCoin::protocol::fixed_string_impl< Storage >& s )
 {
    s = v.as_string();
 }
 
 template< typename Storage >
-struct get_typename< steem::protocol::fixed_string_impl< Storage > >
+struct get_typename< CreateCoin::protocol::fixed_string_impl< Storage > >
 {
    static const char* name()
    {
       static const std::string n =
-         std::string("steem::protocol::fixed_string<") +
-         std::to_string( steem::protocol::fixed_string_size_for_impl<Storage>::size ) +
+         std::string("CreateCoin::protocol::fixed_string<") +
+         std::to_string( CreateCoin::protocol::fixed_string_size_for_impl<Storage>::size ) +
          std::string(">");
       return n.c_str();
    }

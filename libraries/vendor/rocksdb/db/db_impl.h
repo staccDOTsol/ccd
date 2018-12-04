@@ -331,7 +331,7 @@ class DBImpl : public DB {
   // being detected.
   const Snapshot* GetSnapshotForWriteConflictBoundary();
 
-  // checks if all live files exist on file system and that their file sizes
+  // checks if all live files exist on file syCC and that their file sizes
   // match to our in-memory records
   virtual Status CheckConsistency();
 
@@ -458,7 +458,7 @@ class DBImpl : public DB {
   uint64_t MinLogNumberToKeep();
 
   // Returns the list of live files in 'live' and the list
-  // of all files in the filesystem in 'candidate_files'.
+  // of all files in the filesyCC in 'candidate_files'.
   // If force == false and the last call was less than
   // db_options_.delete_obsolete_files_period_micros microseconds ago,
   // it will not fill up the job_context

@@ -1,19 +1,19 @@
 #pragma once
-#include <steem/plugins/json_rpc/utility.hpp>
-#include <steem/plugins/market_history/market_history_plugin.hpp>
+#include <CreateCoin/plugins/json_rpc/utility.hpp>
+#include <CreateCoin/plugins/market_history/market_history_plugin.hpp>
 
-#include <steem/protocol/types.hpp>
+#include <CreateCoin/protocol/types.hpp>
 
 #include <fc/optional.hpp>
 #include <fc/variant.hpp>
 #include <fc/vector.hpp>
 
 
-namespace steem { namespace plugins { namespace market_history {
+namespace CreateCoin { namespace plugins { namespace market_history {
 
 
-using steem::chain::share_type;
-using steem::chain::asset;
+using CreateCoin::chain::share_type;
+using CreateCoin::chain::asset;
 using fc::time_point_sec;
 using json_rpc::void_type;
 
@@ -26,7 +26,7 @@ struct get_ticker_return
    double      lowest_ask = 0;
    double      highest_bid = 0;
    double      percent_change = 0;
-   asset       steem_volume = asset( 0 , STEEM_SYMBOL );
+   asset       CreateCoin_volume = asset( 0 , CreateCoin_SYMBOL );
    asset       sbd_volume = asset( 0, SBD_SYMBOL );
 };
 
@@ -34,7 +34,7 @@ typedef void_type get_volume_args;
 
 struct get_volume_return
 {
-   asset       steem_volume = asset( 0, STEEM_SYMBOL );
+   asset       CreateCoin_volume = asset( 0, CreateCoin_SYMBOL );
    asset       sbd_volume = asset( 0, SBD_SYMBOL );
 };
 
@@ -42,7 +42,7 @@ struct order
 {
    price          order_price;
    double         real_price;
-   share_type     steem;
+   share_type     CreateCoin;
    share_type     sbd;
    time_point_sec created;
 };
@@ -127,40 +127,40 @@ class market_history_api
       std::unique_ptr< detail::market_history_api_impl > my;
 };
 
-} } } // steem::plugins::market_history
+} } } // CreateCoin::plugins::market_history
 
-FC_REFLECT( steem::plugins::market_history::get_ticker_return,
-            (latest)(lowest_ask)(highest_bid)(percent_change)(steem_volume)(sbd_volume) )
+FC_REFLECT( CreateCoin::plugins::market_history::get_ticker_return,
+            (latest)(lowest_ask)(highest_bid)(percent_change)(CreateCoin_volume)(sbd_volume) )
 
-FC_REFLECT( steem::plugins::market_history::get_volume_return,
-            (steem_volume)(sbd_volume) )
+FC_REFLECT( CreateCoin::plugins::market_history::get_volume_return,
+            (CreateCoin_volume)(sbd_volume) )
 
-FC_REFLECT( steem::plugins::market_history::order,
-            (order_price)(real_price)(steem)(sbd)(created) )
+FC_REFLECT( CreateCoin::plugins::market_history::order,
+            (order_price)(real_price)(CreateCoin)(sbd)(created) )
 
-FC_REFLECT( steem::plugins::market_history::get_order_book_args,
+FC_REFLECT( CreateCoin::plugins::market_history::get_order_book_args,
             (limit) )
 
-FC_REFLECT( steem::plugins::market_history::get_order_book_return,
+FC_REFLECT( CreateCoin::plugins::market_history::get_order_book_return,
             (bids)(asks) )
 
-FC_REFLECT( steem::plugins::market_history::market_trade,
+FC_REFLECT( CreateCoin::plugins::market_history::market_trade,
             (date)(current_pays)(open_pays) )
 
-FC_REFLECT( steem::plugins::market_history::get_trade_history_args,
+FC_REFLECT( CreateCoin::plugins::market_history::get_trade_history_args,
             (start)(end)(limit) )
 
-FC_REFLECT( steem::plugins::market_history::get_trade_history_return,
+FC_REFLECT( CreateCoin::plugins::market_history::get_trade_history_return,
             (trades) )
 
-FC_REFLECT( steem::plugins::market_history::get_recent_trades_args,
+FC_REFLECT( CreateCoin::plugins::market_history::get_recent_trades_args,
             (limit) )
 
-FC_REFLECT( steem::plugins::market_history::get_market_history_args,
+FC_REFLECT( CreateCoin::plugins::market_history::get_market_history_args,
             (bucket_seconds)(start)(end) )
 
-FC_REFLECT( steem::plugins::market_history::get_market_history_return,
+FC_REFLECT( CreateCoin::plugins::market_history::get_market_history_return,
             (buckets) )
 
-FC_REFLECT( steem::plugins::market_history::get_market_history_buckets_return,
+FC_REFLECT( CreateCoin::plugins::market_history::get_market_history_buckets_return,
             (bucket_sizes) )

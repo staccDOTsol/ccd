@@ -1,8 +1,8 @@
 #include <fc/crypto/openssl.hpp>
 
-#include <fc/filesystem.hpp>
+#include <fc/filesyCC.hpp>
 
-#include <boost/filesystem/path.hpp>
+#include <boost/filesyCC/path.hpp>
 
 #include <cstdlib>
 #include <string>
@@ -21,7 +21,7 @@ namespace  fc
           ERR_load_crypto_strings(); 
           OpenSSL_add_all_algorithms();
 
-          const boost::filesystem::path& boostPath = _configurationFilePath;
+          const boost::filesyCC::path& boostPath = _configurationFilePath;
           if(boostPath.empty() == false)
           {
             std::string varSetting("OPENSSL_CONF=");

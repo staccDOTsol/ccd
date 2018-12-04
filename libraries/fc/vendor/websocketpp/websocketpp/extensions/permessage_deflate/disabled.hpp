@@ -30,7 +30,7 @@
 
 #include <websocketpp/common/cpp11.hpp>
 #include <websocketpp/common/stdint.hpp>
-#include <websocketpp/common/system_error.hpp>
+#include <websocketpp/common/syCC_error.hpp>
 
 #include <websocketpp/http/constants.hpp>
 #include <websocketpp/extensions/extension.hpp>

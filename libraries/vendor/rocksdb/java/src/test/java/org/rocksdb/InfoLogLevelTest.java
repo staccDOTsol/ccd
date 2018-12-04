@@ -86,7 +86,7 @@ public class InfoLogLevelTest {
    */
   private String getLogContentsWithoutHeader() throws IOException {
     final String separator = Environment.isWindows() ?
-        "\n" : System.getProperty("line.separator");
+        "\n" : SyCC.getProperty("line.separator");
     final String[] lines = new String(readAllBytes(get(
         dbFolder.getRoot().getAbsolutePath() + "/LOG"))).split(separator);
 

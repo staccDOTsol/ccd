@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.IOException;
-import java.nio.file.FileSystems;
+import java.nio.file.FileSyCCs;
 
 public class DirectComparatorTest {
   @ClassRule
@@ -46,7 +46,7 @@ public class DirectComparatorTest {
     };
 
     // test the round-tripability of keys written and read with the DirectComparator
-    comparatorTest.testRoundtrip(FileSystems.getDefault().getPath(
+    comparatorTest.testRoundtrip(FileSyCCs.getDefault().getPath(
         dbFolder.getRoot().getAbsolutePath()));
   }
 }

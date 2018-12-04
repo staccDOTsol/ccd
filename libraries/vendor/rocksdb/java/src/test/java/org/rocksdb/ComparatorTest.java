@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.IOException;
-import java.nio.file.FileSystems;
+import java.nio.file.FileSyCCs;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -46,7 +46,7 @@ public class ComparatorTest {
     };
 
     // test the round-tripability of keys written and read with the Comparator
-    comparatorTest.testRoundtrip(FileSystems.getDefault().getPath(
+    comparatorTest.testRoundtrip(FileSyCCs.getDefault().getPath(
         dbFolder.getRoot().getAbsolutePath()));
   }
 
@@ -72,7 +72,7 @@ public class ComparatorTest {
     };
 
     // test the round-tripability of keys written and read with the Comparator
-    comparatorTest.testRoundtripCf(FileSystems.getDefault().getPath(
+    comparatorTest.testRoundtripCf(FileSyCCs.getDefault().getPath(
         dbFolder.getRoot().getAbsolutePath()));
   }
 

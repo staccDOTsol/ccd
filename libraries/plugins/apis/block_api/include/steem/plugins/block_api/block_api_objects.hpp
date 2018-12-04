@@ -1,17 +1,17 @@
 #pragma once
-#include <steem/chain/account_object.hpp>
-#include <steem/chain/block_summary_object.hpp>
-#include <steem/chain/comment_object.hpp>
-#include <steem/chain/global_property_object.hpp>
-#include <steem/chain/history_object.hpp>
-#include <steem/chain/steem_objects.hpp>
-#include <steem/chain/transaction_object.hpp>
-#include <steem/chain/witness_objects.hpp>
-#include <steem/chain/database.hpp>
+#include <CreateCoin/chain/account_object.hpp>
+#include <CreateCoin/chain/block_summary_object.hpp>
+#include <CreateCoin/chain/comment_object.hpp>
+#include <CreateCoin/chain/global_property_object.hpp>
+#include <CreateCoin/chain/history_object.hpp>
+#include <CreateCoin/chain/CreateCoin_objects.hpp>
+#include <CreateCoin/chain/transaction_object.hpp>
+#include <CreateCoin/chain/witness_objects.hpp>
+#include <CreateCoin/chain/database.hpp>
 
-namespace steem { namespace plugins { namespace block_api {
+namespace CreateCoin { namespace plugins { namespace block_api {
 
-using namespace steem::chain;
+using namespace CreateCoin::chain;
 
 struct api_signed_block_object : public signed_block
 {
@@ -30,9 +30,9 @@ struct api_signed_block_object : public signed_block
    vector< transaction_id_type > transaction_ids;
 };
 
-} } } // steem::plugins::database_api
+} } } // CreateCoin::plugins::database_api
 
-FC_REFLECT_DERIVED( steem::plugins::block_api::api_signed_block_object, (steem::protocol::signed_block),
+FC_REFLECT_DERIVED( CreateCoin::plugins::block_api::api_signed_block_object, (CreateCoin::protocol::signed_block),
                      (block_id)
                      (signing_key)
                      (transaction_ids)

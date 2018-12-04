@@ -1,27 +1,27 @@
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 struct votable_asset_info_v1;
 } }
 
-#include <steem/protocol/types_fwd.hpp>
+#include <CreateCoin/protocol/types_fwd.hpp>
 
-#include <steem/schema/schema.hpp>
-#include <steem/schema/schema_impl.hpp>
-#include <steem/schema/schema_types.hpp>
+#include <CreateCoin/schema/schema.hpp>
+#include <CreateCoin/schema/schema_impl.hpp>
+#include <CreateCoin/schema/schema_types.hpp>
 
-#include <steem/chain/schema_types/oid.hpp>
-#include <steem/protocol/schema_types/account_name_type.hpp>
-#include <steem/protocol/schema_types/asset_symbol_type.hpp>
+#include <CreateCoin/chain/schema_types/oid.hpp>
+#include <CreateCoin/protocol/schema_types/account_name_type.hpp>
+#include <CreateCoin/protocol/schema_types/asset_symbol_type.hpp>
 
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
 
-#include <steem/chain/account_object.hpp>
-#include <steem/chain/steem_objects.hpp>
+#include <CreateCoin/chain/account_object.hpp>
+#include <CreateCoin/chain/CreateCoin_objects.hpp>
 
-using namespace steem::schema;
+using namespace CreateCoin::schema;
 
 struct mystruct
 {
@@ -60,8 +60,8 @@ int main( int argc, char** argv, char** envp )
    std::vector< std::shared_ptr< abstract_schema > > schemas;
 
    schemas.push_back( get_schema_for_type< mystruct >() );
-   schemas.push_back( get_schema_for_type< steem::chain::account_object >() );
-   schemas.push_back( get_schema_for_type< steem::chain::comment_object >() );
+   schemas.push_back( get_schema_for_type< CreateCoin::chain::account_object >() );
+   schemas.push_back( get_schema_for_type< CreateCoin::chain::comment_object >() );
    add_dependent_schemas( schemas );
 
    for( const std::shared_ptr< abstract_schema >& s : schemas )

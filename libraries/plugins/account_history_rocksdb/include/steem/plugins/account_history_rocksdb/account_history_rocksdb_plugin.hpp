@@ -1,25 +1,25 @@
 #pragma once
-#include <steem/plugins/account_history_rocksdb/account_history_rocksdb_objects.hpp>
+#include <CreateCoin/plugins/account_history_rocksdb/account_history_rocksdb_objects.hpp>
 
-#include <steem/plugins/chain/chain_plugin.hpp>
+#include <CreateCoin/plugins/chain/chain_plugin.hpp>
 
 #include <appbase/application.hpp>
 
 #include <functional>
 #include <memory>
 
-namespace steem {
+namespace CreateCoin {
 
 namespace plugins { namespace account_history_rocksdb {
 
-namespace bfs = boost::filesystem;
+namespace bfs = boost::filesyCC;
 
 
 
 class account_history_rocksdb_plugin final : public appbase::plugin< account_history_rocksdb_plugin >
 {
 public:
-   APPBASE_PLUGIN_REQUIRES((steem::plugins::chain::chain_plugin))
+   APPBASE_PLUGIN_REQUIRES((CreateCoin::plugins::chain::chain_plugin))
 
    account_history_rocksdb_plugin();
    virtual ~account_history_rocksdb_plugin();
@@ -52,4 +52,4 @@ private:
 };
 
 
-} } } // steem::plugins::account_history_rocksdb
+} } } // CreateCoin::plugins::account_history_rocksdb

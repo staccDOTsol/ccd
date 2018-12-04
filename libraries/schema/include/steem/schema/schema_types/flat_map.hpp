@@ -1,12 +1,12 @@
 
 #pragma once
 
-#include <steem/schema/abstract_schema.hpp>
-#include <steem/schema/schema_impl.hpp>
+#include <CreateCoin/schema/abstract_schema.hpp>
+#include <CreateCoin/schema/schema_impl.hpp>
 
 #include <boost/container/flat_map.hpp>
 
-namespace steem { namespace schema { namespace detail {
+namespace CreateCoin { namespace schema { namespace detail {
 
 //////////////////////////////////////////////
 // flat_map                                 //
@@ -16,7 +16,7 @@ template< typename K, typename V >
 struct schema_flat_map_impl
    : public abstract_schema
 {
-   STEEM_SCHEMA_TEMPLATE_CLASS_BODY( schema_flat_map_impl )
+   CreateCoin_SCHEMA_TEMPLATE_CLASS_BODY( schema_flat_map_impl )
 };
 
 template< typename K, typename V >

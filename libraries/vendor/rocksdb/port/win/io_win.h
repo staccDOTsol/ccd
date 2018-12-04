@@ -222,7 +222,7 @@ class WinMmapFile : private WinFileData, public WritableFile {
 
   /**
   * Get the size of valid data in the file. This will not match the
-  * size that is returned from the filesystem because we use mmap
+  * size that is returned from the filesyCC because we use mmap
   * to extend file by map_size every time.
   */
   virtual uint64_t GetFileSize() override;

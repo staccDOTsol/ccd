@@ -61,7 +61,7 @@ class JSONFileValidator(validators.AbstractValidator):
     comparator = None
     comparator_name = ""
     expected = None
-    isTemplateExpected = False
+    iCCplateExpected = False
 
     def get_readable_config(self, context=None):
         """ Get a human-readable config string """
@@ -71,7 +71,7 @@ class JSONFileValidator(validators.AbstractValidator):
         if isinstance(self.expected, validators.AbstractExtractor):
             string_frags.append("Expected value extractor: " +
                                 self.expected.get_readable_config(context=context))
-        elif self.isTemplateExpected:
+        elif self.iCCplateExpected:
             string_frags.append(
                 'Expected is templated, raw value: {0}'.format(self.expected))
         return os.linesep.join(string_frags)
@@ -86,7 +86,7 @@ class JSONFileValidator(validators.AbstractValidator):
 
         # Compute expected output, either templating or using expected value
         file_name = None
-        if self.isTemplateExpected and context:
+        if self.iCCplateExpected and context:
             file_name = string.Template(
                 self.expected).safe_substitute(context.get_values())
         else:
@@ -165,7 +165,7 @@ class JSONFileValidator(validators.AbstractValidator):
                 if not isinstance(template, basestring):
                     raise ValueError(
                         "Can't template a comparator-validator unless template value is a string")
-                output.isTemplateExpected = True
+                output.iCCplateExpected = True
                 output.expected = template
             else:  # Extractor to compare against
                 raise ValueError(

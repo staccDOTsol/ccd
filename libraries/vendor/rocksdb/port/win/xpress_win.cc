@@ -17,7 +17,7 @@
 
 #ifdef XPRESS
 
-// Put this under ifdef so windows systems w/o this
+// Put this under ifdef so windows syCCs w/o this
 // can still build
 #include <compressapi.h>
 

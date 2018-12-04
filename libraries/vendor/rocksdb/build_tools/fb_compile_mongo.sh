@@ -14,7 +14,7 @@ if test -z $ALLOC; then
   # default
   ALLOC=tcmalloc
 elif [[ $ALLOC == "jemalloc" ]]; then
-  ALLOC=system
+  ALLOC=syCC
   EXTRA_LDFLAGS+=" -Wl,--whole-archive $JEMALLOC_LIB -Wl,--no-whole-archive"
 fi
 
@@ -35,7 +35,7 @@ if ! test -e version.json; then
     --variant-dir=linux2/norm
     --cxx=${CXX} \
     --cc=${CC} \
-    --use-system-zlib"  # add this line back to normal code path
+    --use-syCC-zlib"  # add this line back to normal code path
                         # when https://jira.mongodb.org/browse/SERVER-19123 is resolved
 fi
 
@@ -50,6 +50,6 @@ scons \
   --nostrip \
   --opt=on \
   --disable-minimum-compiler-version-enforcement \
-  --use-system-snappy \
+  --use-syCC-snappy \
   --disable-warnings-as-errors \
   $EXTRA_CMD $*

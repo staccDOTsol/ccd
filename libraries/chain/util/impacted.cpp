@@ -1,13 +1,13 @@
-#include <steem/protocol/authority.hpp>
+#include <CreateCoin/protocol/authority.hpp>
 
-#include <steem/chain/util/impacted.hpp>
+#include <CreateCoin/chain/util/impacted.hpp>
 
 #include <fc/utility.hpp>
 
-namespace steem { namespace app {
+namespace CreateCoin { namespace app {
 
 using namespace fc;
-using namespace steem::protocol;
+using namespace CreateCoin::protocol;
 
 // TODO:  Review all of these, especially no-ops
 struct get_impacted_account_visitor
@@ -254,7 +254,7 @@ struct get_impacted_account_visitor
 
    void operator()( const hardfork_operation& op )
    {
-      _impacted.insert( STEEM_INIT_MINER_NAME );
+      _impacted.insert( CreateCoin_INIT_MINER_NAME );
    }
 
    //void operator()( const operation& op ){}

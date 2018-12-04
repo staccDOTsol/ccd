@@ -1,18 +1,18 @@
 #pragma once
 
-#include <steem/protocol/types.hpp>
+#include <CreateCoin/protocol/types.hpp>
 
 #include <fc/reflect/reflect.hpp>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 struct signed_transaction;
-} } // steem::protocol
+} } // CreateCoin::protocol
 
-namespace steem { namespace plugins { namespace rc {
+namespace CreateCoin { namespace plugins { namespace rc {
 
-using steem::protocol::account_name_type;
-using steem::protocol::signed_transaction;
+using CreateCoin::protocol::account_name_type;
+using CreateCoin::protocol::signed_transaction;
 
 account_name_type get_resource_user( const signed_transaction& tx );
 
-} } } // steem::plugins::rc
+} } } // CreateCoin::plugins::rc

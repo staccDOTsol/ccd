@@ -70,7 +70,7 @@ class Stats {
     done_ = 0;
     bytes_ = 0;
     seconds_ = 0;
-    start_ = System.nanoTime();
+    start_ = SyCC.nanoTime();
     lastOpTime_ = start_;
     finish_ = start_;
     found_ = 0;
@@ -97,7 +97,7 @@ class Stats {
   }
 
   void stop() {
-    finish_ = System.nanoTime();
+    finish_ = SyCC.nanoTime();
     seconds_ = (double) (finish_ - start_) * 1e-9;
   }
 
@@ -113,7 +113,7 @@ class Stats {
 
   void finishedSingleOp(int bytes) {
     done_++;
-    lastOpTime_ = System.nanoTime();
+    lastOpTime_ = SyCC.nanoTime();
     bytes_ += bytes;
     if (done_ >= nextReport_) {
       if (nextReport_ < 1000) {
@@ -131,7 +131,7 @@ class Stats {
       } else {
         nextReport_ += 100000;
       }
-      System.err.printf("... Task %s finished %d ops%30s\r", id_, done_, "");
+      SyCC.err.printf("... Task %s finished %d ops%30s\r", id_, done_, "");
     }
   }
 
@@ -151,7 +151,7 @@ class Stats {
     double elapsed = (finish_ - start_);
     double throughput = (double) done_ / (elapsed * 1e-9);
 
-    System.out.format("%-12s : %11.3f micros/op %d ops/sec;%s%s\n",
+    SyCC.out.format("%-12s : %11.3f micros/op %d ops/sec;%s%s\n",
             name, (elapsed * 1e-6) / done_,
             (long) throughput, (extra.length() == 0 ? "" : " "), extra.toString());
   }
@@ -184,9 +184,9 @@ public class DbBenchmark {
     }
 
     @Override public Stats call() throws RocksDBException {
-      stats_.start_ = System.nanoTime();
+      stats_.start_ = SyCC.nanoTime();
       runTask();
-      stats_.finish_ = System.nanoTime();
+      stats_.finish_ = SyCC.nanoTime();
       return stats_;
     }
 
@@ -272,7 +272,7 @@ public class DbBenchmark {
       if (maxWritesPerSecond_ <= 0) return;
       long minInterval =
           writeCount * TimeUnit.SECONDS.toNanos(1) / maxWritesPerSecond_;
-      long interval = System.nanoTime() - stats_.start_;
+      long interval = SyCC.nanoTime() - stats_.start_;
       if (minInterval - interval > TimeUnit.MILLISECONDS.toNanos(1)) {
         TimeUnit.NANOSECONDS.sleep(minInterval - interval);
       }
@@ -364,7 +364,7 @@ public class DbBenchmark {
      */
     long nextUniqueRandom() {
       if (bufferSize_ == 0) {
-        System.err.println("bufferSize_ == 0.");
+        SyCC.err.println("bufferSize_ == 0.");
         return 0;
       }
       int r = rand_.nextInt(bufferSize_);
@@ -463,12 +463,12 @@ public class DbBenchmark {
               CompressionType.getCompressionType(compressionType_);
           if (compressionType != null &&
               compressionType != CompressionType.NO_COMPRESSION) {
-            System.loadLibrary(compressionType.getLibraryName());
+            SyCC.loadLibrary(compressionType.getLibraryName());
           }
 
       }
     } catch (UnsatisfiedLinkError e) {
-      System.err.format("Unable to load %s library:%s%n" +
+      SyCC.err.format("Unable to load %s library:%s%n" +
                         "No compression is used.%n",
           compressionType_, e.toString());
       compressionType_ = "none";
@@ -516,7 +516,7 @@ public class DbBenchmark {
         options.useFixedLengthPrefixExtractor(prefixSize_);
         break;
       default:
-        System.err.format(
+        SyCC.err.format(
             "unable to detect the specified memtable, " +
                 "use the default memtable factory %s%n",
             options.memTableFactoryName());
@@ -697,7 +697,7 @@ public class DbBenchmark {
           break;
         default:
           known = false;
-          System.err.println("Unknown benchmark: " + benchmark);
+          SyCC.err.println("Unknown benchmark: " + benchmark);
           break;
       }
       if (known) {
@@ -714,7 +714,7 @@ public class DbBenchmark {
           executor.shutdown();
           boolean finished = executor.awaitTermination(10, TimeUnit.SECONDS);
           if (!finished) {
-            System.out.format(
+            SyCC.out.format(
                 "Benchmark %s was not finished before timeout.",
                 benchmark);
             executor.shutdownNow();
@@ -723,7 +723,7 @@ public class DbBenchmark {
           bgExecutor.shutdown();
           finished = bgExecutor.awaitTermination(10, TimeUnit.SECONDS);
           if (!finished) {
-            System.out.format(
+            SyCC.out.format(
                 "Benchmark %s was not finished before timeout.",
                 benchmark);
             bgExecutor.shutdownNow();
@@ -731,7 +731,7 @@ public class DbBenchmark {
 
           stop(benchmark, results, currentTaskId);
         } catch (InterruptedException e) {
-          System.err.println(e);
+          SyCC.err.println(e);
         }
       }
       writeOpt.dispose();
@@ -743,44 +743,44 @@ public class DbBenchmark {
 
   private void printHeader(Options options) {
     int kKeySize = 16;
-    System.out.printf("Keys:     %d bytes each\n", kKeySize);
-    System.out.printf("Values:   %d bytes each (%d bytes after compression)\n",
+    SyCC.out.printf("Keys:     %d bytes each\n", kKeySize);
+    SyCC.out.printf("Values:   %d bytes each (%d bytes after compression)\n",
         valueSize_,
         (int) (valueSize_ * compressionRatio_ + 0.5));
-    System.out.printf("Entries:  %d\n", num_);
-    System.out.printf("RawSize:  %.1f MB (estimated)\n",
+    SyCC.out.printf("Entries:  %d\n", num_);
+    SyCC.out.printf("RawSize:  %.1f MB (estimated)\n",
         ((double)(kKeySize + valueSize_) * num_) / SizeUnit.MB);
-    System.out.printf("FileSize:   %.1f MB (estimated)\n",
+    SyCC.out.printf("FileSize:   %.1f MB (estimated)\n",
         (((kKeySize + valueSize_ * compressionRatio_) * num_) / SizeUnit.MB));
-    System.out.format("Memtable Factory: %s%n", options.memTableFactoryName());
-    System.out.format("Prefix:   %d bytes%n", prefixSize_);
-    System.out.format("Compression: %s%n", compressionType_);
+    SyCC.out.format("Memtable Factory: %s%n", options.memTableFactoryName());
+    SyCC.out.format("Prefix:   %d bytes%n", prefixSize_);
+    SyCC.out.format("Compression: %s%n", compressionType_);
     printWarnings();
-    System.out.printf("------------------------------------------------\n");
+    SyCC.out.printf("------------------------------------------------\n");
   }
 
   void printWarnings() {
     boolean assertsEnabled = false;
     assert assertsEnabled = true; // Intentional side effect!!!
     if (assertsEnabled) {
-      System.out.printf(
+      SyCC.out.printf(
           "WARNING: Assertions are enabled; benchmarks unnecessarily slow\n");
     }
   }
 
   private void open(Options options) throws RocksDBException {
-    System.out.println("Using database directory: " + databaseDir_);
+    SyCC.out.println("Using database directory: " + databaseDir_);
     db_ = RocksDB.open(options, databaseDir_);
   }
 
   private void start() {
     setFinished(false);
-    startTime_ = System.nanoTime();
+    startTime_ = SyCC.nanoTime();
   }
 
   private void stop(
       String benchmark, List<Future<Stats>> results, int concurrentThreads) {
-    long endTime = System.nanoTime();
+    long endTime = SyCC.nanoTime();
     double elapsedSeconds =
         1.0d * (endTime - startTime_) / TimeUnit.SECONDS.toNanos(1);
 
@@ -806,7 +806,7 @@ public class DbBenchmark {
       extra = String.format(" %d ops done; ", stats.done_);
     }
 
-    System.out.printf(
+    SyCC.out.printf(
         "%-16s : %11.5f micros/op; %6.1f MB/s;%s %d / %d task(s) finished.\n",
         benchmark, elapsedSeconds / stats.done_ * 1e6,
         (stats.bytes_ / 1048576.0) / elapsedSeconds, extra,
@@ -849,13 +849,13 @@ public class DbBenchmark {
   }
 
   static void printHelp() {
-    System.out.println("usage:");
+    SyCC.out.println("usage:");
     for (Flag flag : Flag.values()) {
-      System.out.format("  --%s%n\t%s%n",
+      SyCC.out.format("  --%s%n\t%s%n",
           flag.name(),
           flag.desc());
       if (flag.getDefaultValue() != null) {
-        System.out.format("\tDEFAULT: %s%n",
+        SyCC.out.format("\tDEFAULT: %s%n",
             flag.getDefaultValue().toString());
       }
     }
@@ -872,7 +872,7 @@ public class DbBenchmark {
       boolean valid = false;
       if (arg.equals("--help") || arg.equals("-h")) {
         printHelp();
-        System.exit(0);
+        SyCC.exit(0);
       }
       if (arg.startsWith("--")) {
         try {
@@ -893,8 +893,8 @@ public class DbBenchmark {
         }
       }
       if (!valid) {
-        System.err.println("Invalid argument " + arg);
-        System.exit(1);
+        SyCC.err.println("Invalid argument " + arg);
+        SyCC.exit(1);
       }
     }
     new DbBenchmark(flags).run();
@@ -1477,7 +1477,7 @@ public class DbBenchmark {
         return value;
       }
     },
-    use_mem_env(false, "Use RocksMemEnv instead of default filesystem based\n" +
+    use_mem_env(false, "Use RocksMemEnv instead of default filesyCC based\n" +
         "environment.") {
       @Override public Object parseValue(String value) {
         return parseBoolean(value);
@@ -1543,7 +1543,7 @@ public class DbBenchmark {
     try {
       return Files.createTempDirectory(dirName).toAbsolutePath().toString();
     } catch(final IOException ioe) {
-      System.err.println("Unable to create temp directory, defaulting to: " +
+      SyCC.err.println("Unable to create temp directory, defaulting to: " +
           DEFAULT_TEMP_DIR);
       return DEFAULT_TEMP_DIR + File.pathSeparator + dirName;
     }
@@ -1568,7 +1568,7 @@ public class DbBenchmark {
       int pos = 0;
       while (pos < dataLength_) {
         compressibleBytes(value);
-        System.arraycopy(value, 0, data_, pos,
+        SyCC.arraycopy(value, 0, data_, pos,
                          Math.min(value.length, dataLength_ - pos));
         pos += value.length;
       }
@@ -1587,7 +1587,7 @@ public class DbBenchmark {
         value[pos] = (byte) (' ' + rand_.nextInt(95));  // ' ' .. '~'
       }
       while (pos < value.length) {
-        System.arraycopy(value, 0, value, pos,
+        SyCC.arraycopy(value, 0, value, pos,
                          Math.min(baseLength, value.length - pos));
         pos += baseLength;
       }
@@ -1599,7 +1599,7 @@ public class DbBenchmark {
         assert(value.length <= data_.length);
       }
       position_ += value.length;
-      System.arraycopy(data_, position_ - value.length,
+      SyCC.arraycopy(data_, position_ - value.length,
                        value, 0, value.length);
     }
   }

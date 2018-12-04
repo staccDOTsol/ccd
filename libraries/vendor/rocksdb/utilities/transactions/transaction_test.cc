@@ -1335,7 +1335,7 @@ TEST_P(TransactionTest, TwoPhaseLongPrepareTest) {
 
     if (i % 29 == 0) {
       // crash
-      env->SetFilesystemActive(false);
+      env->SetFilesyCCActive(false);
       ReOpenNoDelete();
     } else if (i % 37 == 0) {
       // close
@@ -1402,7 +1402,7 @@ TEST_P(TransactionTest, TwoPhaseSequenceTest) {
   delete txn;
 
   // kill and reopen
-  env->SetFilesystemActive(false);
+  env->SetFilesyCCActive(false);
   ReOpenNoDelete();
 
   // value is now available
@@ -1437,7 +1437,7 @@ TEST_P(TransactionTest, TwoPhaseDoubleRecoveryTest) {
   delete txn;
 
   // kill and reopen
-  env->SetFilesystemActive(false);
+  env->SetFilesyCCActive(false);
   ReOpenNoDelete();
 
   // commit old txn
@@ -1467,7 +1467,7 @@ TEST_P(TransactionTest, TwoPhaseDoubleRecoveryTest) {
   delete txn;
 
   // kill and reopen
-  env->SetFilesystemActive(false);
+  env->SetFilesyCCActive(false);
   ReOpenNoDelete();
 
   // value is now available
@@ -1818,7 +1818,7 @@ TEST_P(TransactionTest, TwoPhaseOutOfOrderDelete) {
   db->FlushWAL(false);
 
   // kill and reopen
-  env->SetFilesystemActive(false);
+  env->SetFilesyCCActive(false);
   ReOpenNoDelete();
 
   s = db->Get(read_options, "first", &value);

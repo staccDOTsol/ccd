@@ -23,15 +23,15 @@
  */
 #pragma once
 
-#include <steem/app/plugin.hpp>
-#include <steem/chain/steem_objects.hpp>
+#include <CreateCoin/app/plugin.hpp>
+#include <CreateCoin/chain/CreateCoin_objects.hpp>
 
-namespace steem { namespace delayed_node {
+namespace CreateCoin { namespace delayed_node {
 namespace detail { struct delayed_node_plugin_impl; }
 
 using app::application;
 
-class delayed_node_plugin : public steem::app::plugin
+class delayed_node_plugin : public CreateCoin::app::plugin
 {
    std::unique_ptr<detail::delayed_node_plugin_impl> my;
 public:
@@ -51,5 +51,5 @@ protected:
    void sync_with_trusted_node();
 };
 
-} } //steem::account_history
+} } //CreateCoin::account_history
 

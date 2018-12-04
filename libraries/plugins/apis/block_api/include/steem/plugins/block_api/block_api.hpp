@@ -1,12 +1,12 @@
 #pragma once
 
-#include <steem/plugins/json_rpc/utility.hpp>
+#include <CreateCoin/plugins/json_rpc/utility.hpp>
 
-#include <steem/plugins/block_api/block_api_args.hpp>
+#include <CreateCoin/plugins/block_api/block_api_args.hpp>
 
 #define BLOCK_API_SINGLE_QUERY_LIMIT 1000
 
-namespace steem { namespace plugins { namespace block_api {
+namespace CreateCoin { namespace plugins { namespace block_api {
 
 class block_api_impl;
 
@@ -41,5 +41,5 @@ class block_api
       std::unique_ptr< block_api_impl > my;
 };
 
-} } } //steem::plugins::block_api
+} } } //CreateCoin::plugins::block_api
 

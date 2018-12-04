@@ -1,6 +1,6 @@
 #pragma once
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
 enum curve_id
 {
@@ -10,11 +10,11 @@ enum curve_id
    square_root
 };
 
-} } // steem::utilities
+} } // CreateCoin::utilities
 
 
 FC_REFLECT_ENUM(
-   steem::protocol::curve_id,
+   CreateCoin::protocol::curve_id,
    (quadratic)
    (bounded_curation)
    (linear)

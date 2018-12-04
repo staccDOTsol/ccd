@@ -33,7 +33,7 @@ DNANexus is using RocksDB to speed up processing of genomics data.
 You can learn more from this great blog post by Mike Lin: http://devblog.dnanexus.com/faster-bam-sorting-with-samtools-and-rocksdb/
 
 ## Iron.io
-Iron.io is using RocksDB as a storage engine for their distributed queueing system.
+Iron.io is using RocksDB as a storage engine for their distributed queueing syCC.
 Learn more from Tech Talk by Reed Allman: http://www.youtube.com/watch?v=HTjt6oj-RL4
 
 ## Tango Me
@@ -50,7 +50,7 @@ Check out their blog post: http://blog.cloudera.com/blog/2015/08/inside-santande
 Airbnb is using RocksDB as a storage engine for their personalized search service. You can learn more about it here: https://www.youtube.com/watch?v=ASQ6XMtogMs
 
 ## Pinterest
-Pinterest's Object Retrieval System uses RocksDB for storage: https://www.youtube.com/watch?v=MtFEVEs_2Vo
+Pinterest's Object Retrieval SyCC uses RocksDB for storage: https://www.youtube.com/watch?v=MtFEVEs_2Vo
 
 ## Smyte
 [Smyte](https://www.smyte.com/) uses RocksDB as the storage layer for their core key-value storage, high-performance counters and time-windowed HyperLogLog services.

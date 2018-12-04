@@ -1,14 +1,14 @@
 #include <stdint.h>
-#include <steem/utilities/git_revision.hpp>
+#include <CreateCoin/utilities/git_revision.hpp>
 
-#define STEEM_GIT_REVISION_SHA "@STEEM_GIT_REVISION_SHA@"
-#define STEEM_GIT_REVISION_UNIX_TIMESTAMP @STEEM_GIT_REVISION_UNIX_TIMESTAMP@
-#define STEEM_GIT_REVISION_DESCRIPTION "@STEEM_GIT_REVISION_DESCRIPTION@"
+#define CreateCoin_GIT_REVISION_SHA "@CreateCoin_GIT_REVISION_SHA@"
+#define CreateCoin_GIT_REVISION_UNIX_TIMESTAMP @CreateCoin_GIT_REVISION_UNIX_TIMESTAMP@
+#define CreateCoin_GIT_REVISION_DESCRIPTION "@CreateCoin_GIT_REVISION_DESCRIPTION@"
 
-namespace steem { namespace utilities {
+namespace CreateCoin { namespace utilities {
 
-const char* const git_revision_sha = STEEM_GIT_REVISION_SHA;
-const uint32_t git_revision_unix_timestamp = STEEM_GIT_REVISION_UNIX_TIMESTAMP;
-const char* const git_revision_description = STEEM_GIT_REVISION_DESCRIPTION;
+const char* const git_revision_sha = CreateCoin_GIT_REVISION_SHA;
+const uint32_t git_revision_unix_timestamp = CreateCoin_GIT_REVISION_UNIX_TIMESTAMP;
+const char* const git_revision_description = CreateCoin_GIT_REVISION_DESCRIPTION;
 
-} } // end namespace steem::utilities
+} } // end namespace CreateCoin::utilities

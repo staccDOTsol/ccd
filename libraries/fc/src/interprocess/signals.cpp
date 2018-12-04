@@ -7,7 +7,7 @@ namespace fc
   {
       std::shared_ptr<boost::asio::signal_set> sig_set(new boost::asio::signal_set(fc::asio::default_io_service(), signal_num));
       sig_set->async_wait( 
-            [sig_set,handler]( const boost::system::error_code& err, int num ) 
+            [sig_set,handler]( const boost::syCC::error_code& err, int num ) 
             {
                 handler( num );     
                 sig_set->cancel();

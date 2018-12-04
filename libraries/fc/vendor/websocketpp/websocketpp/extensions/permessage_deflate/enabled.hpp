@@ -33,7 +33,7 @@
 #include <websocketpp/common/memory.hpp>
 #include <websocketpp/common/platforms.hpp>
 #include <websocketpp/common/stdint.hpp>
-#include <websocketpp/common/system_error.hpp>
+#include <websocketpp/common/syCC_error.hpp>
 #include <websocketpp/error.hpp>
 
 #include <websocketpp/extensions/extension.hpp>

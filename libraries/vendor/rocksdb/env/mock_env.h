@@ -104,10 +104,10 @@ class MockEnv : public EnvWrapper {
  private:
   std::string NormalizePath(const std::string path);
 
-  // Map from filenames to MemFile objects, representing a simple file system.
-  typedef std::map<std::string, MemFile*> FileSystem;
+  // Map from filenames to MemFile objects, representing a simple file syCC.
+  typedef std::map<std::string, MemFile*> FileSyCC;
   port::Mutex mutex_;
-  FileSystem file_map_;  // Protected by mutex_.
+  FileSyCC file_map_;  // Protected by mutex_.
 
   std::atomic<int64_t> fake_sleep_micros_;
 };

@@ -3,10 +3,10 @@
 #include <fc/string.hpp>
 #include <fc/time.hpp>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
 /*
- * This class represents the basic versioning scheme of the Steem blockchain.
+ * This class represents the basic versioning scheme of the CreateCoin blockchain.
  * All versions are a triple consisting of a major version, hardfork version, and release version.
  * It allows easy comparison between versions. A version is a read only object.
  */
@@ -66,20 +66,20 @@ struct hardfork_version_vote
    fc::time_point_sec hf_time;
 };
 
-} } // steem::protocol
+} } // CreateCoin::protocol
 
 namespace fc
 {
    class variant;
-   void to_variant( const steem::protocol::version& v, variant& var );
-   void from_variant( const variant& var, steem::protocol::version& v );
+   void to_variant( const CreateCoin::protocol::version& v, variant& var );
+   void from_variant( const variant& var, CreateCoin::protocol::version& v );
 
-   void to_variant( const steem::protocol::hardfork_version& hv, variant& var );
-   void from_variant( const variant& var, steem::protocol::hardfork_version& hv );
+   void to_variant( const CreateCoin::protocol::hardfork_version& hv, variant& var );
+   void from_variant( const variant& var, CreateCoin::protocol::hardfork_version& hv );
 } // fc
 
 #include <fc/reflect/reflect.hpp>
-FC_REFLECT( steem::protocol::version, (v_num) )
-FC_REFLECT_DERIVED( steem::protocol::hardfork_version, (steem::protocol::version), )
+FC_REFLECT( CreateCoin::protocol::version, (v_num) )
+FC_REFLECT_DERIVED( CreateCoin::protocol::hardfork_version, (CreateCoin::protocol::version), )
 
-FC_REFLECT( steem::protocol::hardfork_version_vote, (hf_version)(hf_time) )
+FC_REFLECT( CreateCoin::protocol::hardfork_version_vote, (hf_version)(hf_time) )

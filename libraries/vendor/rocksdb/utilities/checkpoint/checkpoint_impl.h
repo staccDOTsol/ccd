@@ -22,7 +22,7 @@ class CheckpointImpl : public Checkpoint {
   // Builds an openable snapshot of RocksDB on the same disk, which
   // accepts an output directory on the same disk, and under the directory
   // (1) hard-linked SST files pointing to existing live SST files
-  // SST files will be copied if output directory is on a different filesystem
+  // SST files will be copied if output directory is on a different filesyCC
   // (2) a copied manifest files and other files
   // The directory should not already exist and will be created by this API.
   // The directory will be an absolute path

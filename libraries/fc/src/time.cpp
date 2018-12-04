@@ -1,6 +1,6 @@
 #include <fc/time.hpp>
 #include <fc/variant.hpp>
-#include <boost/chrono/system_clocks.hpp>
+#include <boost/chrono/syCC_clocks.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <sstream>
 #include <fc/string.hpp>
@@ -13,7 +13,7 @@ namespace fc {
 
   time_point time_point::now()
   {
-     return time_point( microseconds( bch::duration_cast<bch::microseconds>( bch::system_clock::now().time_since_epoch() ).count() ) );
+     return time_point( microseconds( bch::duration_cast<bch::microseconds>( bch::syCC_clock::now().time_since_epoch() ).count() ) );
   }
 
   fc::string time_point_sec::to_non_delimited_iso_string()const

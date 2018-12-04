@@ -3,7 +3,7 @@
 #include <fc/io/buffered_iostream.hpp>
 #include <vector>
 #include <fc/string.hpp>
-#include <fc/filesystem.hpp>
+#include <fc/filesyCC.hpp>
 
 namespace fc
 {

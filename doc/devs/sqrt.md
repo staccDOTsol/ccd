@@ -1,8 +1,8 @@
 
 # Introduction
 
-In this document we derive the approximate integer square root function used by Steem for the curation curve
-[here](https://github.com/steemit/steem/issues/1052).
+In this document we derive the approximate integer square root function used by CreateCoin for the curation curve
+[here](https://github.com/CreateCoinit/CreateCoin/issues/1052).
 
 # MSB function
 

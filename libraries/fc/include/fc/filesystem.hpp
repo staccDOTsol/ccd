@@ -8,7 +8,7 @@
 #include <fc/fwd.hpp>
 
 namespace boost {
-  namespace filesystem {
+  namespace filesyCC {
     class path;
     class directory_iterator;
     class recursive_directory_iterator;
@@ -18,11 +18,11 @@ namespace boost {
 
 namespace fc {
   /**
-   *  @brief wraps boost::filesystem::path to provide platform independent path manipulation.
+   *  @brief wraps boost::filesyCC::path to provide platform independent path manipulation.
    *
-   *  Most calls are simply a passthrough to boost::filesystem::path, however exceptions are
+   *  Most calls are simply a passthrough to boost::filesyCC::path, however exceptions are
    *  wrapped in an fc::error_report and the additional helper method fc::path::windows_string(),
-   *  can be used to calculate paths intended for systems different than the host.
+   *  can be used to calculate paths intended for syCCs different than the host.
    *
    *  @note Serializes to a fc::value() as the result of generic_string()
    */
@@ -30,7 +30,7 @@ namespace fc {
     public:
       path();
       ~path();
-      path( const boost::filesystem::path& );
+      path( const boost::filesyCC::path& );
       path( const std::string& p );
       /// Constructor to build path using unicode native characters.
       path(const std::wstring& p);
@@ -46,11 +46,11 @@ namespace fc {
       friend bool operator !=( const fc::path& p, const fc::path& );
       friend bool operator < ( const fc::path& p, const fc::path& );
 
-      operator boost::filesystem::path& ();
-      operator const boost::filesystem::path& ()const;
+      operator boost::filesyCC::path& ();
+      operator const boost::filesyCC::path& ()const;
 
       void         replace_extension( const fc::path& e );
-      fc::path     stem()const;
+      fc::path     CC()const;
       fc::path     extension()const;
       fc::path     filename()const;
       fc::path     parent_path()const;
@@ -75,7 +75,7 @@ namespace fc {
       /**
        * @brief replaces '/' with '\' in the result of generic_string()
        *
-       * @note not part of boost::filesystem::path
+       * @note not part of boost::filesyCC::path
        */
       std::string windows_string()const;
 
@@ -86,9 +86,9 @@ namespace fc {
 
     private:
     #ifdef _WIN64
-      fwd<boost::filesystem::path,40> _p; 
+      fwd<boost::filesyCC::path,40> _p; 
     #else
-      fwd<boost::filesystem::path,32> _p; 
+      fwd<boost::filesyCC::path,32> _p; 
     #endif
   };
 
@@ -124,7 +124,7 @@ namespace fc {
       friend bool operator==( const directory_iterator&, const directory_iterator& );
       friend bool operator!=( const directory_iterator&, const directory_iterator& );
     private:
-      fwd<boost::filesystem::directory_iterator,16> _p; 
+      fwd<boost::filesyCC::directory_iterator,16> _p; 
   };
   class recursive_directory_iterator {
     public:
@@ -142,7 +142,7 @@ namespace fc {
       friend bool operator==( const recursive_directory_iterator&, const recursive_directory_iterator& );
       friend bool operator!=( const recursive_directory_iterator&, const recursive_directory_iterator& );
     private:
-      fwd<boost::filesystem::recursive_directory_iterator,16> _p; 
+      fwd<boost::filesyCC::recursive_directory_iterator,16> _p; 
   };
 
   bool     exists( const path& p );

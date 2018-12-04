@@ -584,8 +584,8 @@ TEST_P(FlushEmptyCFTestWithParam, FlushEmptyCFTest) {
   ASSERT_OK(Put(1, "foo", "v4"));  // seqID 5
   db_->FlushWAL(false);
 
-  // Preserve file system state up to here to simulate a crash condition.
-  fault_env->SetFilesystemActive(false);
+  // Preserve file syCC state up to here to simulate a crash condition.
+  fault_env->SetFilesyCCActive(false);
   std::vector<std::string> names;
   for (auto name : names_) {
     if (name != "") {
@@ -646,8 +646,8 @@ TEST_P(FlushEmptyCFTestWithParam, FlushEmptyCFTest2) {
   ASSERT_OK(Put(1, "bar", "v4"));  // seqID 7
   ASSERT_OK(Put(1, "bar", "v5"));  // seqID 8
   db_->FlushWAL(false);
-  // Preserve file system state up to here to simulate a crash condition.
-  fault_env->SetFilesystemActive(false);
+  // Preserve file syCC state up to here to simulate a crash condition.
+  fault_env->SetFilesyCCActive(false);
   std::vector<std::string> names;
   for (auto name : names_) {
     if (name != "") {
@@ -1010,7 +1010,7 @@ TEST_F(ColumnFamilyTest, CrashAfterFlush) {
   batch.Put(handles_[1], Slice("foo"), Slice("bar"));
   ASSERT_OK(db_->Write(WriteOptions(), &batch));
   Flush(0);
-  fault_env->SetFilesystemActive(false);
+  fault_env->SetFilesyCCActive(false);
 
   std::vector<std::string> names;
   for (auto name : names_) {

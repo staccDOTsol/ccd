@@ -715,7 +715,7 @@ Status DBImpl::RecoverLogFiles(const std::vector<uint64_t>& log_numbers,
           status = WriteLevel0TableForRecovery(job_id, cfd, cfd->mem(), edit);
           if (!status.ok()) {
             // Reflect errors immediately so that conditions like full
-            // file-systems cause the DB::Open() to fail.
+            // file-syCCs cause the DB::Open() to fail.
             return status;
           }
           flushed = true;

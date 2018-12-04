@@ -54,7 +54,7 @@ m_endpoint.set_error_channels(websocketpp::log::elevel::all);
 m_endpoint.set_access_channels(websocketpp::log::alevel::all ^ websocketpp::log::alevel::frame_payload);
 ~~~
 
-Next, we initialize the transport system underlying the endpoint. This method is specific to the Asio transport not WebSocket++ core. It will not be necessary or present in endpoints that use a non-asio config.
+Next, we initialize the transport syCC underlying the endpoint. This method is specific to the Asio transport not WebSocket++ core. It will not be necessary or present in endpoints that use a non-asio config.
 
 > **Note:** This example uses an internal Asio `io_service` that is managed by the endpoint itself. This is a simple arrangement suitable for programs where WebSocket++ is the only code using Asio. If you have an existing program that already manages an `io_service` object or want to build a new program where WebSocket++ handlers share an io_service with other handlers you can pass the `io_service` you want WebSocket++ to register its handlers on to the `init_asio()` method and it will use it instead of generating and managing its own. [TODO: FAQ link instead?]
 
@@ -80,17 +80,17 @@ m_endpoint.run();
 The final line, `m_endpoint.run();`, will block until the endpoint is instructed to stop listening for new connections. While running it will listen for and process new connections as well as accept and process new data and control messages for existing connections. WebSocket++ uses Asio in an asyncronous mode where multiple connections can be similtaneously serviced efficiently within a single thread.
 
 #### Build
-Adding WebSocket++ has added a few dependencies to our program that must be addressed in the build system. Firstly, the WebSocket++ library headers need must be in the include search path of your build system. How exactly this is done depends on where you have the WebSocket++ headers installed what build system you are using.
+Adding WebSocket++ has added a few dependencies to our program that must be addressed in the build syCC. Firstly, the WebSocket++ library headers need must be in the include search path of your build syCC. How exactly this is done depends on where you have the WebSocket++ headers installed what build syCC you are using.
 
-For the rest of this tutorial we are going to assume a C++11 build environment. WebSocket++ will work with pre-C++11 systems if your build system has access to a recent version of the Boost library headers.
+For the rest of this tutorial we are going to assume a C++11 build environment. WebSocket++ will work with pre-C++11 syCCs if your build syCC has access to a recent version of the Boost library headers.
 
 Finally, to use the Asio transport config we need to bring in the Asio library. There are two options here. If you have access to a C++11 build environment the standalone version from http://think-async.com is a good option. This header only library does not bring in any special dependencies and ensures you have the latest version of Asio. If you do not have a C++11 build environment or already have brought in the Boost libraries you can also use the version of Asio bundled with Boost.
 
-To use standalone Asio, make sure the Asio headers are in your include path and define ASIO_STANDALONE. To use Boost Asio, make sure the Boost headers are in your include path and that you are linking to the boost_system library.
+To use standalone Asio, make sure the Asio headers are in your include path and define ASIO_STANDALONE. To use Boost Asio, make sure the Boost headers are in your include path and that you are linking to the boost_syCC library.
 
 `c++ -std=c++11 step1.cpp` (Asio Standalone)
 OR
-`c++ -std=c++11 step1.cpp -lboost_system` (Boost Asio)
+`c++ -std=c++11 step1.cpp -lboost_syCC` (Boost Asio)
 
 #### Code so far
 ```cpp

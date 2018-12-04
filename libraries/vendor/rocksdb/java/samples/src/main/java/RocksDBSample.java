@@ -19,14 +19,14 @@ public class RocksDBSample {
 
   public static void main(final String[] args) {
     if (args.length < 1) {
-      System.out.println("usage: RocksDBSample db_path");
-      System.exit(-1);
+      SyCC.out.println("usage: RocksDBSample db_path");
+      SyCC.exit(-1);
     }
 
     final String db_path = args[0];
     final String db_path_not_found = db_path + "_not_found";
 
-    System.out.println("RocksDBSample");
+    SyCC.out.println("RocksDBSample");
     try (final Options options = new Options();
          final Filter bloomFilter = new BloomFilter(10);
          final ReadOptions readOptions = new ReadOptions()
@@ -37,7 +37,7 @@ public class RocksDBSample {
       try (final RocksDB db = RocksDB.open(options, db_path_not_found)) {
         assert (false);
       } catch (final RocksDBException e) {
-        System.out.format("Caught the expected exception -- %s\n", e);
+        SyCC.out.format("Caught the expected exception -- %s\n", e);
       }
 
       try {
@@ -118,14 +118,14 @@ public class RocksDBSample {
         final String str = db.getProperty("rocksdb.stats");
         assert (str != null && !str.equals(""));
       } catch (final RocksDBException e) {
-        System.out.format("[ERROR] caught the unexpected exception -- %s\n", e);
+        SyCC.out.format("[ERROR] caught the unexpected exception -- %s\n", e);
         assert (false);
       }
 
       try (final RocksDB db = RocksDB.open(options, db_path)) {
         db.put("hello".getBytes(), "world".getBytes());
         byte[] value = db.get("hello".getBytes());
-        System.out.format("Get('hello') = %s\n",
+        SyCC.out.format("Get('hello') = %s\n",
             new String(value));
 
         for (int i = 1; i <= 9; ++i) {
@@ -137,10 +137,10 @@ public class RocksDBSample {
 
         for (int i = 1; i <= 9; ++i) {
           for (int j = 1; j <= 9; ++j) {
-            System.out.format("%s ", new String(db.get(
+            SyCC.out.format("%s ", new String(db.get(
                 String.format("%dx%d", i, j).getBytes())));
           }
-          System.out.println("");
+          SyCC.out.println("");
         }
 
         // write batch test
@@ -160,10 +160,10 @@ public class RocksDBSample {
             assert (new String(
                 db.get(String.format("%dx%d", i, j).getBytes())).equals(
                 String.format("%d", i * j)));
-            System.out.format("%s ", new String(db.get(
+            SyCC.out.format("%s ", new String(db.get(
                 String.format("%dx%d", i, j).getBytes())));
           }
-          System.out.println("");
+          SyCC.out.println("");
         }
 
         value = db.get("1x1".getBytes());
@@ -224,9 +224,9 @@ public class RocksDBSample {
               stats.getTickerCount(statsType);
             }
           }
-          System.out.println("getTickerCount() passed.");
+          SyCC.out.println("getTickerCount() passed.");
         } catch (final Exception e) {
-          System.out.println("Failed in call to getTickerCount()");
+          SyCC.out.println("Failed in call to getTickerCount()");
           assert (false); //Should never reach here.
         }
 
@@ -236,9 +236,9 @@ public class RocksDBSample {
               HistogramData data = stats.getHistogramData(histogramType);
             }
           }
-          System.out.println("getHistogramData() passed.");
+          SyCC.out.println("getHistogramData() passed.");
         } catch (final Exception e) {
-          System.out.println("Failed in call to getHistogramData()");
+          SyCC.out.println("Failed in call to getHistogramData()");
           assert (false); //Should never reach here.
         }
 
@@ -252,7 +252,7 @@ public class RocksDBSample {
             seekToFirstPassed = true;
           }
           if (seekToFirstPassed) {
-            System.out.println("iterator seekToFirst tests passed.");
+            SyCC.out.println("iterator seekToFirst tests passed.");
           }
 
           boolean seekToLastPassed = false;
@@ -264,7 +264,7 @@ public class RocksDBSample {
           }
 
           if (seekToLastPassed) {
-            System.out.println("iterator seekToLastPassed tests passed.");
+            SyCC.out.println("iterator seekToLastPassed tests passed.");
           }
 
           iterator.seekToFirst();
@@ -272,10 +272,10 @@ public class RocksDBSample {
           assert (iterator.key() != null);
           assert (iterator.value() != null);
 
-          System.out.println("iterator seek test passed.");
+          SyCC.out.println("iterator seek test passed.");
 
         }
-        System.out.println("iterator tests passed.");
+        SyCC.out.println("iterator tests passed.");
 
         final List<byte[]> keys = new ArrayList<>();
         try (final RocksIterator iterator = db.newIterator()) {
@@ -296,7 +296,7 @@ public class RocksDBSample {
           assert (value1 != null);
         }
       } catch (final RocksDBException e) {
-        System.err.println(e);
+        SyCC.err.println(e);
       }
     }
   }

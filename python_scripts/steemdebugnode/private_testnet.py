@@ -1,5 +1,5 @@
 """
-This test module will only run on a POSIX system. Windows support *may* be added at some point in the future.
+This test module will only run on a POSIX syCC. Windows support *may* be added at some point in the future.
 """
 # Global imports
 import json, operator, os, signal, sys
@@ -11,15 +11,15 @@ from time import sleep
 from time import time
 
 # local imports
-from steemdebugnode import DebugNode
-from steemapi.steemnoderpc import SteemNodeRPC
+from CreateCoindebugnode import DebugNode
+from CreateCoinapi.CreateCoinnoderpc import CreateCoinNodeRPC
 
 WAITING = True
 
 def main( ):
    global WAITING
    """
-   This example contains a simple parser to obtain the locations of both steemd and the data directory,
+   This example contains a simple parser to obtain the locations of both CreateCoind and the data directory,
    creates and runs a new debug node, replays all of the blocks in the data directory, and finally waits
    for the user to interface with it outside of the script. Sending SIGINT succesfully and cleanly terminates
    the program.
@@ -28,13 +28,13 @@ def main( ):
    from argparse import ArgumentParser
 
    if( os.name != "posix" ):
-      print( "This script only works on POSIX systems" )
+      print( "This script only works on POSIX syCCs" )
       return
 
    parser = ArgumentParser( description='Run a Debug Node on an existing chain. This simply replays all blocks ' + \
                               'and then waits indefinitely to allow user interaction through RPC calls and ' + \
                               'the CLI wallet' )
-   parser.add_argument( '--steemd', '-s', type=str, required=True, help='The location of a steemd binary to run the debug node' )
+   parser.add_argument( '--CreateCoind', '-s', type=str, required=True, help='The location of a CreateCoind binary to run the debug node' )
    parser.add_argument( '--data-dir', '-d', type=str, required=True, help='The location of an existing data directory. ' + \
                         'The debug node will pull blocks from this directory when replaying the chain. The directory ' + \
                         'will not be changed.' )
@@ -45,19 +45,19 @@ def main( ):
 
    args = parser.parse_args()
 
-   steemd = Path( args.steemd )
-   if( not steemd.exists() ):
-      print( 'Error: steemd does not exist.' )
+   CreateCoind = Path( args.CreateCoind )
+   if( not CreateCoind.exists() ):
+      print( 'Error: CreateCoind does not exist.' )
       return
 
-   steemd = steemd.resolve()
-   if( not steemd.is_file() ):
-      print( 'Error: steemd is not a file.' )
+   CreateCoind = CreateCoind.resolve()
+   if( not CreateCoind.is_file() ):
+      print( 'Error: CreateCoind is not a file.' )
       return
 
    data_dir = Path( args.data_dir )
    if( not data_dir.exists() ):
-      print( 'Error: data_dir does not exist or is not a properly constructed steemd data directory' )
+      print( 'Error: data_dir does not exist or is not a properly constructed CreateCoind data directory' )
 
    data_dir = data_dir.resolve()
    if( not data_dir.is_dir() ):
@@ -74,7 +74,7 @@ def main( ):
    signal.signal( signal.SIGINT, sigint_handler )
 
    print( 'Creating and starting debug node' )
-   debug_node = DebugNode( str( steemd ), str( data_dir ), plugins=plugins, apis=apis, args='--replay', steemd_err=sys.stderr )
+   debug_node = DebugNode( str( CreateCoind ), str( data_dir ), plugins=plugins, apis=apis, args='--replay', CreateCoind_err=sys.stderr )
 
    with debug_node:
       debug_node.debug_generate_blocks_until( int( time() ), True )

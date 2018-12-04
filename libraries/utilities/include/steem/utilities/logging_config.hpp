@@ -10,7 +10,7 @@
 
 #include <boost/program_options.hpp>
 
-namespace steem { namespace utilities {
+namespace CreateCoin { namespace utilities {
 
 struct appender_args
 {
@@ -32,9 +32,9 @@ struct logger_args
 
 void set_logging_program_options( boost::program_options::options_description& options );
 
-fc::optional<fc::logging_config> load_logging_config( const boost::program_options::variables_map& args, const boost::filesystem::path& pwd );
+fc::optional<fc::logging_config> load_logging_config( const boost::program_options::variables_map& args, const boost::filesyCC::path& pwd );
 
-} } // steem::utilities
+} } // CreateCoin::utilities
 
-FC_REFLECT( steem::utilities::appender_args, (appender)(file)(stream) )
-FC_REFLECT( steem::utilities::logger_args, (name)(level)(appender) )
+FC_REFLECT( CreateCoin::utilities::appender_args, (appender)(file)(stream) )
+FC_REFLECT( CreateCoin::utilities::logger_args, (name)(level)(appender) )

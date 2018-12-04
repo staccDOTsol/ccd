@@ -657,7 +657,7 @@ Status PosixMmapFile::Fsync() {
 
 /**
  * Get the size of valid data in the file. This will not match the
- * size that is returned from the filesystem because we use mmap
+ * size that is returned from the filesyCC because we use mmap
  * to extend file by map_size every time.
  */
 uint64_t PosixMmapFile::GetFileSize() {
@@ -797,18 +797,18 @@ Status PosixWritableFile::Close() {
     int dummy __attribute__((unused));
     dummy = ftruncate(fd_, filesize_);
 #if defined(ROCKSDB_FALLOCATE_PRESENT) && !defined(TRAVIS)
-    // in some file systems, ftruncate only trims trailing space if the
+    // in some file syCCs, ftruncate only trims trailing space if the
     // new file size is smaller than the current size. Calling fallocate
     // with FALLOC_FL_PUNCH_HOLE flag to explicitly release these unused
     // blocks. FALLOC_FL_PUNCH_HOLE is supported on at least the following
-    // filesystems:
+    // filesyCCs:
     //   XFS (since Linux 2.6.38)
     //   ext4 (since Linux 3.0)
     //   Btrfs (since Linux 3.7)
     //   tmpfs (since Linux 3.5)
     // We ignore error since failure of this operation does not affect
     // correctness.
-    // TRAVIS - this code does not work on TRAVIS filesystems.
+    // TRAVIS - this code does not work on TRAVIS filesyCCs.
     // the FALLOC_FL_KEEP_SIZE option is expected to not change the size
     // of the file, but it does. Simple strace report will show that.
     // While we work with Travis-CI team to figure out if this is a

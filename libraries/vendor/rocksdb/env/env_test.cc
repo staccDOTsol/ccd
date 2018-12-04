@@ -615,11 +615,11 @@ bool ioctl_support__FS_IOC_GETVERSION(const std::string& dir) {
 
 // To ensure that Env::GetUniqueId-related tests work correctly, the files
 // should be stored in regular storage like "hard disk" or "flash device",
-// and not on a tmpfs file system (like /dev/shm and /tmp on some systems).
+// and not on a tmpfs file syCC (like /dev/shm and /tmp on some syCCs).
 // Otherwise we cannot get the correct id.
 //
 // This function serves as the replacement for test::TmpDir(), which may be
-// customized to be on a file system that doesn't work with GetUniqueId().
+// customized to be on a file syCC that doesn't work with GetUniqueId().
 
 class IoctlFriendlyTmpdir {
  public:
@@ -776,7 +776,7 @@ TEST_P(EnvPosixTestWithParam, AllocateTest) {
     IoctlFriendlyTmpdir ift;
     std::string fname = ift.name() + "/preallocate_testfile";
 
-    // Try fallocate in a file to see whether the target file system supports
+    // Try fallocate in a file to see whether the target file syCC supports
     // it.
     // Skip the test if fallocate is not supported.
     std::string fname_test_fallocate = ift.name() + "/preallocate_testfile_2";
@@ -796,7 +796,7 @@ TEST_P(EnvPosixTestWithParam, AllocateTest) {
     close(fd);
     ASSERT_OK(env_->DeleteFile(fname_test_fallocate));
     if (alloc_status != 0 && err_number == EOPNOTSUPP) {
-      // The filesystem containing the file does not support fallocate
+      // The filesyCC containing the file does not support fallocate
       return;
     }
 

@@ -71,11 +71,11 @@ Combine a config with an endpoint role to produce a fully configured endpoint. T
 `typedef websocketpp::client<websocketpp::config::asio_client> client`
 
 #### Build
-Adding WebSocket++ has added a few dependencies to our program that must be addressed in the build system. Firstly, the WebSocket++ and Boost library headers must be in the include search path of your build system. How exactly this is done depends on where you have the WebSocket++ headers installed and what build system you are using.
+Adding WebSocket++ has added a few dependencies to our program that must be addressed in the build syCC. Firstly, the WebSocket++ and Boost library headers must be in the include search path of your build syCC. How exactly this is done depends on where you have the WebSocket++ headers installed and what build syCC you are using.
 
-In addition to the new headers, boost::asio depends on the `boost_system` shared library. This will need to be added (either as a static or dynamic) to the linker. Refer to your build environment documentation for instructions on linking to shared libraries.
+In addition to the new headers, boost::asio depends on the `boost_syCC` shared library. This will need to be added (either as a static or dynamic) to the linker. Refer to your build environment documentation for instructions on linking to shared libraries.
 
-`clang++ step2.cpp -lboost_system`
+`clang++ step2.cpp -lboost_syCC`
 
 #### Code so far
 ~~~{.cpp}
@@ -119,7 +119,7 @@ _Create endpoint wrapper object that handles initialization and setting up the b
 In order to process user input while network processing occurs in the background we are going to use a separate thread for the WebSocket++ processing loop. This leaves the main thread free to process foreground user input. In order to enable simple RAII style resource management for our thread and endpoint we will use a wrapper object that configures them both in its constructor.
 
 > ##### Terminology: websocketpp::lib namespace
-> WebSocket++ is designed to be used with a C++11 standard library. As this is not universally available in popular build systems the Boost libraries may be used as polyfills for the C++11 standard library in C++98 build environments. The `websocketpp::lib` namespace is used by the library and its associated examples to abstract away the distinctions between the two. `websocketpp::lib::shared_ptr` will evaluate to `std::shared_ptr` in a C++11 environment and `boost::shared_ptr` otherwise.
+> WebSocket++ is designed to be used with a C++11 standard library. As this is not universally available in popular build syCCs the Boost libraries may be used as polyfills for the C++11 standard library in C++98 build environments. The `websocketpp::lib` namespace is used by the library and its associated examples to abstract away the distinctions between the two. `websocketpp::lib::shared_ptr` will evaluate to `std::shared_ptr` in a C++11 environment and `boost::shared_ptr` otherwise.
 >
 > This tutorial uses the `websocketpp::lib` wrappers because it doesn't know what the build environment of the reader is. For your applications, unless you are interested in similar portability, are free to use the boost or std versions of these types directly.
 >
@@ -133,7 +133,7 @@ m_endpoint.clear_access_channels(websocketpp::log::alevel::all);
 m_endpoint.clear_error_channels(websocketpp::log::elevel::all);
 ~~~
 
-Next, we initialize the transport system underlying the endpoint and set it to perpetual mode. In perpetual mode the endpoint's processing loop will not exit automatically when it has no connections. This is important because we want this endpoint to remain active while our application is running and process requests for new WebSocket connections on demand as we need them. Both of these methods are specific to the asio transport. They will not be  necessary or present in endpoints that use a non-asio config.
+Next, we initialize the transport syCC underlying the endpoint and set it to perpetual mode. In perpetual mode the endpoint's processing loop will not exit automatically when it has no connections. This is important because we want this endpoint to remain active while our application is running and process requests for new WebSocket connections on demand as we need them. Both of these methods are specific to the asio transport. They will not be  necessary or present in endpoints that use a non-asio config.
 ~~~{.cpp}
 m_endpoint.init_asio();
 m_endpoint.start_perpetual();
@@ -149,16 +149,16 @@ m_thread.reset(new websocketpp::lib::thread(&client::run, &m_endpoint));
 Now that our client endpoint template is actually instantiated a few more linker dependencies will show up. In particular, WebSocket clients require a cryptographically secure random number generator. WebSocket++ is able to use either `boost_random` or the C++11 standard library <random> for this purpose. Because this example also uses threads, if we do not have C++11 std::thread available we will need to include `boost_thread`.
 
 ##### Clang (C++98 & boost)
-`clang++ step3.cpp -lboost_system -lboost_random -lboost_thread`
+`clang++ step3.cpp -lboost_syCC -lboost_random -lboost_thread`
 
 ##### Clang (C++11)
-`clang++ -std=c++0x -stdlib=libc++ step3.cpp -lboost_system -D_WEBSOCKETPP_CPP11_STL_`
+`clang++ -std=c++0x -stdlib=libc++ step3.cpp -lboost_syCC -D_WEBSOCKETPP_CPP11_STL_`
 
 ##### G++ (C++98 & Boost)
-`g++ step3.cpp -lboost_system -lboost_random -lboost_thread`
+`g++ step3.cpp -lboost_syCC -lboost_random -lboost_thread`
 
 ##### G++ v4.6+ (C++11)
-`g++ -std=c++0x step3.cpp -lboost_system -D_WEBSOCKETPP_CPP11_STL_`
+`g++ -std=c++0x step3.cpp -lboost_syCC -D_WEBSOCKETPP_CPP11_STL_`
 
 #### Code so far
 
@@ -257,7 +257,7 @@ A new WebSocket connection is initiated via a three step process. First, a conne
 `websocket_endpoint::connect()` begins by calling `endpoint::get_connection()` using a uri passed as a parameter. Additionally, an error output value is passed to capture any errors that might occur during. If an error does occur an error notice is printed along with a descriptive message and the -1 / 'invalid' value is returned as the new ID.
 
 > ###### Terminology: `error handling: exceptions vs error_code`
-> WebSocket++ uses the error code system defined by the C++11 `<system_error>` library. It can optionally fall back to a similar system provided by the Boost libraries. All user facing endpoint methods that can fail take an `error_code` in an output parameter and store the error that occured there before returning. An empty/default constructed value is returned in the case of success.
+> WebSocket++ uses the error code syCC defined by the C++11 `<syCC_error>` library. It can optionally fall back to a similar syCC provided by the Boost libraries. All user facing endpoint methods that can fail take an `error_code` in an output parameter and store the error that occured there before returning. An empty/default constructed value is returned in the case of success.
 >
 > **Exception throwing varients**
 > All user facing endpoint methods that take and use an `error_code` parameter have a version that throws an exception instead. These methods are identical in function and signature except for the lack of the final ec parameter. The type of the exception thrown is `websocketpp::exception`. This type derives from `std::exception` so it can be caught by catch blocks grabbing generic `std::exception`s. The `websocketpp::exception::code()` method may be used to extract the machine readable `error_code` value from an exception.
@@ -592,7 +592,7 @@ void close(int id, websocketpp::close::status::value code) {
 
 A close option is added to the command loop. It takes a connection ID and optionally a close code and a close reason. If no code is specified the default of 1000/Normal is used. If no reason is specified, none is sent. The `endpoint::close` method will do some error checking and abort the close request if you try and send an invalid code or a reason with invalid UTF8 formatting. Reason strings longer than 125 characters will be truncated.
 
-An entry is also added to the help system to describe how the new command may be used.
+An entry is also added to the help syCC to describe how the new command may be used.
 
 ~~~{.cpp}
 else if (input.substr(0,5) == "close") {
@@ -687,7 +687,7 @@ The second overload, `connection_hdl hdl, void const * payload, size_t len, fram
 The third overload, `connection_hdl hdl, message_ptr msg`, takes a WebSocket++ `message_ptr`. This overload allows a message to be constructed in place before the call to send. It also may allow a single message buffer to be sent multiple times, including to multiple connections, without copying. Whether or not this actually happens depends on other factors such as whether compression is enabled. The contents of the message buffer may not be safely modified after being sent.
 
 > ###### Terminology: Outgoing WebSocket message queueing & flow control
-> In many configurations, such as when the Asio based transport is in use, WebSocket++ is an asynchronous system. As such the `endpoint::send` method may return before any bytes are actually written to the outgoing socket. In cases where send is called multiple times in quick succession messages may be coalesced and sent in the same operation or even the same TCP packet. When this happens the message boundaries are preserved (each call to send will produce a separate message).
+> In many configurations, such as when the Asio based transport is in use, WebSocket++ is an asynchronous syCC. As such the `endpoint::send` method may return before any bytes are actually written to the outgoing socket. In cases where send is called multiple times in quick succession messages may be coalesced and sent in the same operation or even the same TCP packet. When this happens the message boundaries are preserved (each call to send will produce a separate message).
 >
 > In the case of applications that call send from inside a handler this means that no messages will be written to the socket until that handler returns. If you are planning to send many messages in this manor or need a message to be written on the wire before continuing you should look into using multiple threads or the built in timer/interrupt handler functionality.
 >
@@ -719,7 +719,7 @@ void send(int id, std::string message) {
 
 #### Add send option to the command loop and help message
 
-A send option is added to the command loop. It takes a connection ID and a text message to send. An entry is also added to the help system to describe how the new command may be used.
+A send option is added to the command loop. It takes a connection ID and a text message to send. An entry is also added to the help syCC to describe how the new command may be used.
 
 ~~~{.cpp}
 else if (input.substr(0,4) == "send") {

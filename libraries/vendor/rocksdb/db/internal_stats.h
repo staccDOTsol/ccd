@@ -482,7 +482,7 @@ class InternalStats {
 
   // Total number of background errors encountered. Every time a flush task
   // or compaction task fails, this counter is incremented. The failure can
-  // be caused by any possible reason, including file system errors, out of
+  // be caused by any possible reason, including file syCC errors, out of
   // resources, or input file corruption. Failing when retrying the same flush
   // or compaction will cause the counter to increase too.
   uint64_t bg_error_count_;

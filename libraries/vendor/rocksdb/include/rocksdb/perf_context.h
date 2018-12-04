@@ -131,7 +131,7 @@ struct PerfContext {
   // total number of SST table bloom misses
   uint64_t bloom_sst_miss_count;
 
-  // Total time spent in Env filesystem operations. These are only populated
+  // Total time spent in Env filesyCC operations. These are only populated
   // when TimedEnv is used.
   uint64_t env_new_sequential_file_nanos;
   uint64_t env_new_random_access_file_nanos;

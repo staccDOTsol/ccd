@@ -1,12 +1,12 @@
 #pragma once
 
-#include <steem/protocol/types.hpp>
-#include <steem/protocol/authority.hpp>
-#include <steem/protocol/version.hpp>
+#include <CreateCoin/protocol/types.hpp>
+#include <CreateCoin/protocol/authority.hpp>
+#include <CreateCoin/protocol/version.hpp>
 
 #include <fc/time.hpp>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
    struct base_operation
    {
@@ -32,6 +32,6 @@ namespace steem { namespace protocol {
    typedef flat_set<future_extensions> extensions_type;
 
 
-} } // steem::protocol
+} } // CreateCoin::protocol
 
-FC_REFLECT_TYPENAME( steem::protocol::future_extensions )
+FC_REFLECT_TYPENAME( CreateCoin::protocol::future_extensions )

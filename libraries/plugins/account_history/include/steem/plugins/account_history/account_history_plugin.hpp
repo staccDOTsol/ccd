@@ -1,14 +1,14 @@
 #pragma once
-#include <steem/plugins/chain/chain_plugin.hpp>
+#include <CreateCoin/plugins/chain/chain_plugin.hpp>
 
-#define STEEM_ACCOUNT_HISTORY_PLUGIN_NAME "account_history"
+#define CreateCoin_ACCOUNT_HISTORY_PLUGIN_NAME "account_history"
 
-namespace steem { namespace plugins { namespace account_history {
+namespace CreateCoin { namespace plugins { namespace account_history {
 
 namespace detail { class account_history_plugin_impl; }
 
 using namespace appbase;
-using steem::protocol::account_name_type;
+using CreateCoin::protocol::account_name_type;
 
 //
 // Plugins should #define their SPACE_ID's so plugins with
@@ -20,8 +20,8 @@ using steem::protocol::account_name_type;
 // various template automagic depends on them being known at compile
 // time.
 //
-#ifndef STEEM_ACCOUNT_HISTORY_SPACE_ID
-#define STEEM_ACCOUNT_HISTORY_SPACE_ID 5
+#ifndef CreateCoin_ACCOUNT_HISTORY_SPACE_ID
+#define CreateCoin_ACCOUNT_HISTORY_SPACE_ID 5
 #endif
 
 /**
@@ -34,9 +34,9 @@ class account_history_plugin : public plugin< account_history_plugin >
       account_history_plugin();
       virtual ~account_history_plugin();
 
-      APPBASE_PLUGIN_REQUIRES( (steem::plugins::chain::chain_plugin) )
+      APPBASE_PLUGIN_REQUIRES( (CreateCoin::plugins::chain::chain_plugin) )
 
-      static const std::string& name() { static std::string name = STEEM_ACCOUNT_HISTORY_PLUGIN_NAME; return name; }
+      static const std::string& name() { static std::string name = CreateCoin_ACCOUNT_HISTORY_PLUGIN_NAME; return name; }
 
       virtual void set_program_options(
          options_description& cli,
@@ -51,5 +51,5 @@ class account_history_plugin : public plugin< account_history_plugin >
       std::unique_ptr< detail::account_history_plugin_impl > my;
 };
 
-} } } //steem::plugins::account_history
+} } } //CreateCoin::plugins::account_history
 

@@ -1,17 +1,17 @@
 #pragma once
-#include <steem/protocol/sign_state.hpp>
-#include <steem/protocol/exceptions.hpp>
+#include <CreateCoin/protocol/sign_state.hpp>
+#include <CreateCoin/protocol/exceptions.hpp>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
 template< typename AuthContainerType >
 void verify_authority( const vector<AuthContainerType>& auth_containers, const flat_set<public_key_type>& sigs,
                        const authority_getter& get_active,
                        const authority_getter& get_owner,
                        const authority_getter& get_posting,
-                       uint32_t max_recursion_depth = STEEM_MAX_SIG_CHECK_DEPTH,
-                       uint32_t max_membership = STEEM_MAX_AUTHORITY_MEMBERSHIP,
-                       uint32_t max_account_auths = STEEM_MAX_SIG_CHECK_ACCOUNTS,
+                       uint32_t max_recursion_depth = CreateCoin_MAX_SIG_CHECK_DEPTH,
+                       uint32_t max_membership = CreateCoin_MAX_AUTHORITY_MEMBERSHIP,
+                       uint32_t max_account_auths = CreateCoin_MAX_SIG_CHECK_ACCOUNTS,
                        bool allow_committe = false,
                        const flat_set< account_name_type >& active_approvals = flat_set< account_name_type >(),
                        const flat_set< account_name_type >& owner_approvals = flat_set< account_name_type >(),
@@ -48,7 +48,7 @@ void verify_authority( const vector<AuthContainerType>& auth_containers, const f
          s.approved_by.insert( id );
       for( const auto& id : required_posting )
       {
-         STEEM_ASSERT( s.check_authority(id) ||
+         CreateCoin_ASSERT( s.check_authority(id) ||
                           s.check_authority(get_active(id)) ||
                           s.check_authority(get_owner(id)),
                           tx_missing_posting_auth, "Missing Posting Authority ${id}",
@@ -57,7 +57,7 @@ void verify_authority( const vector<AuthContainerType>& auth_containers, const f
                           ("active",get_active(id))
                           ("owner",get_owner(id)) );
       }
-      STEEM_ASSERT(
+      CreateCoin_ASSERT(
          !s.remove_unused_signatures(),
          tx_irrelevant_sig,
          "Unnecessary signature(s) detected"
@@ -77,29 +77,29 @@ void verify_authority( const vector<AuthContainerType>& auth_containers, const f
 
    for( const auto& auth : other )
    {
-      STEEM_ASSERT( s.check_authority(auth), tx_missing_other_auth, "Missing Authority", ("auth",auth)("sigs",sigs) );
+      CreateCoin_ASSERT( s.check_authority(auth), tx_missing_other_auth, "Missing Authority", ("auth",auth)("sigs",sigs) );
    }
 
    // fetch all of the top level authorities
    for( const auto& id : required_active )
    {
-      STEEM_ASSERT( s.check_authority(id) ||
+      CreateCoin_ASSERT( s.check_authority(id) ||
                        s.check_authority(get_owner(id)),
                        tx_missing_active_auth, "Missing Active Authority ${id}", ("id",id)("auth",get_active(id))("owner",get_owner(id)) );
    }
 
    for( const auto& id : required_owner )
    {
-      STEEM_ASSERT( owner_approvals.find(id) != owner_approvals.end() ||
+      CreateCoin_ASSERT( owner_approvals.find(id) != owner_approvals.end() ||
                        s.check_authority(get_owner(id)),
                        tx_missing_owner_auth, "Missing Owner Authority ${id}", ("id",id)("auth",get_owner(id)) );
    }
 
-   STEEM_ASSERT(
+   CreateCoin_ASSERT(
       !s.remove_unused_signatures(),
       tx_irrelevant_sig,
       "Unnecessary signature(s) detected"
       );
 } FC_CAPTURE_AND_RETHROW( (auth_containers)(sigs) ) }
 
-} } // steem::protocol
+} } // CreateCoin::protocol

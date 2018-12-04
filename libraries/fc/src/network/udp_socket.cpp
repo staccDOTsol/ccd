@@ -50,7 +50,7 @@ namespace fc {
     {
       return my->_sock.send_to( boost::asio::buffer(buffer, length), to_asio_ep(to) );
     } 
-    catch( const boost::system::system_error& e ) 
+    catch( const boost::syCC::syCC_error& e ) 
     {
       if( e.code() != boost::asio::error::would_block )
         throw;
@@ -70,7 +70,7 @@ namespace fc {
     {
       return my->_sock.send_to( boost::asio::buffer(buffer.get(), length), to_asio_ep(to) );
     } 
-    catch( const boost::system::system_error& e ) 
+    catch( const boost::syCC::syCC_error& e ) 
     {
       if( e.code() != boost::asio::error::would_block )
         throw;
@@ -104,7 +104,7 @@ namespace fc {
       from = to_fc_ep(boost_from_endpoint);
       return bytes_read;
     } 
-    catch( const boost::system::system_error& e ) 
+    catch( const boost::syCC::syCC_error& e ) 
     {
       if( e.code() != boost::asio::error::would_block ) 
         throw;
@@ -130,7 +130,7 @@ namespace fc {
       from = to_fc_ep(boost_from_endpoint);
       return bytes_read;
     } 
-    catch( const boost::system::system_error& e ) 
+    catch( const boost::syCC::syCC_error& e ) 
     {
       if( e.code() != boost::asio::error::would_block ) 
         throw;

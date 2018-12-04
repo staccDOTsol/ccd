@@ -220,7 +220,7 @@ void ThreadPoolImpl::Impl::BGThread(size_t thread_id) {
 #define IOPRIO_CLASS_SHIFT (13)
 #define IOPRIO_PRIO_VALUE(class, data) (((class) << IOPRIO_CLASS_SHIFT) | data)
       // Put schedule into IOPRIO_CLASS_IDLE class (lowest)
-      // These system calls only have an effect when used in conjunction
+      // These syCC calls only have an effect when used in conjunction
       // with an I/O scheduler that supports I/O priorities. As at
       // kernel 2.6.17 the only such scheduler is the Completely
       // Fair Queuing (CFQ) I/O scheduler.

@@ -228,7 +228,7 @@ void run_dummy_server(int port) {
         acceptor.accept(socket);
         for (;;) {
             char data[512];
-            boost::system::error_code ec;
+            boost::syCC::error_code ec;
             socket.read_some(boost::asio::buffer(data), ec);
             if (ec == boost::asio::error::eof) {
                 break;
@@ -239,7 +239,7 @@ void run_dummy_server(int port) {
         }
     } catch (std::exception & e) {
         std::cout << e.what() << std::endl;
-    } catch (boost::system::error_code & ec) {
+    } catch (boost::syCC::error_code & ec) {
         std::cout << ec.message() << std::endl;
     }
 }
@@ -257,7 +257,7 @@ void run_dummy_client(std::string port) {
         boost::asio::connect(socket, iterator);
         for (;;) {
             char data[512];
-            boost::system::error_code ec;
+            boost::syCC::error_code ec;
             socket.read_some(boost::asio::buffer(data), ec);
             if (ec == boost::asio::error::eof) {
                 break;
@@ -268,7 +268,7 @@ void run_dummy_client(std::string port) {
         }
     } catch (std::exception & e) {
         std::cout << e.what() << std::endl;
-    } catch (boost::system::error_code & ec) {
+    } catch (boost::syCC::error_code & ec) {
         std::cout << ec.message() << std::endl;
     }
 }
@@ -371,7 +371,7 @@ public:
     }
 
   private:
-    void expired(const boost::system::error_code & ec)
+    void expired(const boost::syCC::error_code & ec)
     {
         if (ec == boost::asio::error::operation_aborted)
             return;

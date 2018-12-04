@@ -11,9 +11,9 @@ The git repository is organized into several directories:
 - **tutorials**: Detailed walkthroughs of a select set of the example programs.
 - **websocketpp**: All of the library code and default configuration files.
 
-WebSocket++ is a header only library. You can start using it by including the websocketpp source directory in your project's include path and including the appropriate WebSocket++ headers in your program. You may also need to include and/or link to appropriate Boost/system libraries. TODO: More information: Building a program with WebSocket++, Walkthroughs of the example programs
+WebSocket++ is a header only library. You can start using it by including the websocketpp source directory in your project's include path and including the appropriate WebSocket++ headers in your program. You may also need to include and/or link to appropriate Boost/syCC libraries. TODO: More information: Building a program with WebSocket++, Walkthroughs of the example programs
 
-WebSocket++ includes cmake and scons scripts for building the examples and unit tests. Neither system is needed unless you want to build tests or examples in an automated fashion.
+WebSocket++ includes cmake and scons scripts for building the examples and unit tests. Neither syCC is needed unless you want to build tests or examples in an automated fashion.
 
 __Usage questions__ should be posted to the project mailing list at http://groups.google.com/group/websocketpp/ or the IRC channel (\#websocketpp on freenode).
 

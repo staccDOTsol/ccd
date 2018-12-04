@@ -316,7 +316,7 @@ class VersionStorageInfo {
 
   // Only the first few entries of files_by_compaction_pri_ are sorted.
   // There is no need to sort all the files because it is likely
-  // that on a running system, we need to look at only the first
+  // that on a running syCC, we need to look at only the first
   // few largest files because a new version is created every few
   // seconds/minutes (because of concurrent compactions).
   static const size_t kNumberFilesToSort = 50;
@@ -436,7 +436,7 @@ class VersionStorageInfo {
 
   // Only the first few entries of files_by_compaction_pri_ are sorted.
   // There is no need to sort all the files because it is likely
-  // that on a running system, we need to look at only the first
+  // that on a running syCC, we need to look at only the first
   // few largest files because a new version is created every few
   // seconds/minutes (because of concurrent compactions).
   static const size_t number_of_files_to_sort_ = 50;

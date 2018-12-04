@@ -29,7 +29,7 @@ namespace mock {
 stl_wrappers::KVMap MakeMockFile(
     std::initializer_list<std::pair<const std::string, std::string>> l = {});
 
-struct MockTableFileSystem {
+struct MockTableFileSyCC {
   port::Mutex mutex;
   std::map<uint32_t, stl_wrappers::KVMap> files;
 };
@@ -108,8 +108,8 @@ class MockTableIterator : public InternalIterator {
 
 class MockTableBuilder : public TableBuilder {
  public:
-  MockTableBuilder(uint32_t id, MockTableFileSystem* file_system)
-      : id_(id), file_system_(file_system) {
+  MockTableBuilder(uint32_t id, MockTableFileSyCC* file_syCC)
+      : id_(id), file_syCC_(file_syCC) {
     table_ = MakeMockFile({});
   }
 
@@ -127,8 +127,8 @@ class MockTableBuilder : public TableBuilder {
   Status status() const override { return Status::OK(); }
 
   Status Finish() override {
-    MutexLock lock_guard(&file_system_->mutex);
-    file_system_->files.insert({id_, table_});
+    MutexLock lock_guard(&file_syCC_->mutex);
+    file_syCC_->files.insert({id_, table_});
     return Status::OK();
   }
 
@@ -144,7 +144,7 @@ class MockTableBuilder : public TableBuilder {
 
  private:
   uint32_t id_;
-  MockTableFileSystem* file_system_;
+  MockTableFileSyCC* file_syCC_;
   stl_wrappers::KVMap table_;
 };
 
@@ -186,7 +186,7 @@ class MockTableFactory : public TableFactory {
   uint32_t GetAndWriteNextID(WritableFileWriter* file) const;
   uint32_t GetIDFromFile(RandomAccessFileReader* file) const;
 
-  mutable MockTableFileSystem file_system_;
+  mutable MockTableFileSyCC file_syCC_;
   mutable std::atomic<uint32_t> next_id_;
 };
 

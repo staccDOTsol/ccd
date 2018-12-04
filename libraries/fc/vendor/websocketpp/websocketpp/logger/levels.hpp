@@ -61,7 +61,7 @@ struct elevel {
     static level const none = 0x0;
     /// Low level debugging information (warning: very chatty)
     static level const devel = 0x1;
-    /// Information about unusual system states or other minor internal library
+    /// Information about unusual syCC states or other minor internal library
     /// problems, less chatty than devel.
     static level const library = 0x2;
     /// Information about minor configuration problems or additional information

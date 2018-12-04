@@ -1,21 +1,21 @@
 
 #pragma once
 
-#include <steem/app/plugin.hpp>
-#include <steem/plugins/block_info/block_info.hpp>
+#include <CreateCoin/app/plugin.hpp>
+#include <CreateCoin/plugins/block_info/block_info.hpp>
 
 #include <string>
 #include <vector>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 struct signed_block;
 } }
 
-namespace steem { namespace plugin { namespace block_info {
+namespace CreateCoin { namespace plugin { namespace block_info {
 
-using steem::app::application;
+using CreateCoin::app::application;
 
-class block_info_plugin : public steem::app::plugin
+class block_info_plugin : public CreateCoin::app::plugin
 {
    public:
       block_info_plugin( application* app );

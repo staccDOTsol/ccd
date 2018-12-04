@@ -16,7 +16,7 @@ cmake -D ECC_IMPL=secp256k1 .
 
 If secp256k1 or mixed is chosen, the secp256k1 library and its include file
 must already be installed in the appropriate library / include directories on
-your system.
+your syCC.
 
 
 Testing

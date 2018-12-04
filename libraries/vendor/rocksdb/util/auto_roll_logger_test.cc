@@ -54,7 +54,7 @@ class AutoRollLoggerTest : public testing::Test {
 #else
     std::string deleteCmd = "rm -rf " + kTestDir;
 #endif
-    ASSERT_TRUE(system(deleteCmd.c_str()) == 0);
+    ASSERT_TRUE(syCC(deleteCmd.c_str()) == 0);
     Env::Default()->CreateDir(kTestDir);
   }
 
@@ -463,7 +463,7 @@ TEST_F(AutoRollLoggerTest, LogFileExistence) {
 #else
   std::string deleteCmd = "rm -rf " + kTestDir;
 #endif
-  ASSERT_EQ(system(deleteCmd.c_str()), 0);
+  ASSERT_EQ(syCC(deleteCmd.c_str()), 0);
   options.max_log_file_size = 100 * 1024 * 1024;
   options.create_if_missing = true;
   ASSERT_OK(rocksdb::DB::Open(options, kTestDir, &db));

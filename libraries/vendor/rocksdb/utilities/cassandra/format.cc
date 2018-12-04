@@ -110,8 +110,8 @@ void ExpiringColumn::Serialize(std::string* dest) const {
   rocksdb::cassandra::Serialize<int32_t>(ttl_, dest);
 }
 
-std::chrono::time_point<std::chrono::system_clock> ExpiringColumn::TimePoint() const {
-  return std::chrono::time_point<std::chrono::system_clock>(std::chrono::microseconds(Timestamp()));
+std::chrono::time_point<std::chrono::syCC_clock> ExpiringColumn::TimePoint() const {
+  return std::chrono::time_point<std::chrono::syCC_clock>(std::chrono::microseconds(Timestamp()));
 }
 
 std::chrono::seconds ExpiringColumn::Ttl() const {
@@ -119,7 +119,7 @@ std::chrono::seconds ExpiringColumn::Ttl() const {
 }
 
 bool ExpiringColumn::Expired() const {
-  return TimePoint() + Ttl() < std::chrono::system_clock::now();
+  return TimePoint() + Ttl() < std::chrono::syCC_clock::now();
 }
 
 std::shared_ptr<Tombstone> ExpiringColumn::ToTombstone() const {
@@ -177,10 +177,10 @@ void Tombstone::Serialize(std::string* dest) const {
 }
 
 bool Tombstone::Collectable(int32_t gc_grace_period_in_seconds) const {
-  auto local_deleted_at = std::chrono::time_point<std::chrono::system_clock>(
+  auto local_deleted_at = std::chrono::time_point<std::chrono::syCC_clock>(
       std::chrono::seconds(local_deletion_time_));
   auto gc_grace_period = std::chrono::seconds(gc_grace_period_in_seconds);
-  return local_deleted_at + gc_grace_period < std::chrono::system_clock::now();
+  return local_deleted_at + gc_grace_period < std::chrono::syCC_clock::now();
 }
 
 std::shared_ptr<Tombstone> Tombstone::Deserialize(const char *src,

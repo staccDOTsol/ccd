@@ -7,7 +7,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
-// This test uses a custom Env to keep track of the state of a filesystem as of
+// This test uses a custom Env to keep track of the state of a filesyCC as of
 // the last "sync". It then checks for data loss errors by purposely dropping
 // file data (or entire files) not protected by a "sync".
 
@@ -322,7 +322,7 @@ __attribute__((__no_sanitize_undefined__))
   void PartialCompactTestReopenWithFault(ResetMethod reset_method,
                                          int num_pre_sync, int num_post_sync,
                                          Random* rnd = nullptr) {
-    env_->SetFilesystemActive(false);
+    env_->SetFilesyCCActive(false);
     CloseDB();
     ResetDBState(reset_method, rnd);
     ASSERT_OK(OpenDB());
@@ -412,7 +412,7 @@ TEST_P(FaultInjectionTest, WriteOptionSyncTest) {
       db_->Put(write_options, Key(2, &key_space), Value(2, &value_space)));
   db_->FlushWAL(false);
 
-  env_->SetFilesystemActive(false);
+  env_->SetFilesyCCActive(false);
   NoWriteTestReopenWithFault(kResetDropAndDeleteUnsynced);
   sleeping_task_low.WakeUp();
   sleeping_task_low.WaitUntilDone();
@@ -455,7 +455,7 @@ TEST_P(FaultInjectionTest, UninstalledCompaction) {
   ASSERT_OK(db_->Put(WriteOptions(), "", ""));
   TEST_SYNC_POINT("FaultInjectionTest::FaultTest:0");
   TEST_SYNC_POINT("FaultInjectionTest::FaultTest:1");
-  env_->SetFilesystemActive(false);
+  env_->SetFilesyCCActive(false);
   TEST_SYNC_POINT("FaultInjectionTest::FaultTest:2");
   CloseDB();
   rocksdb::SyncPoint::GetInstance()->DisableProcessing();
@@ -497,7 +497,7 @@ TEST_P(FaultInjectionTest, ManualLogSyncTest) {
       db_->Put(write_options, Key(2, &key_space), Value(2, &value_space)));
   ASSERT_OK(db_->FlushWAL(true));
 
-  env_->SetFilesystemActive(false);
+  env_->SetFilesyCCActive(false);
   NoWriteTestReopenWithFault(kResetDropAndDeleteUnsynced);
   sleeping_task_low.WakeUp();
   sleeping_task_low.WaitUntilDone();
@@ -527,7 +527,7 @@ TEST_P(FaultInjectionTest, WriteBatchWalTerminationTest) {
   batch.Put("boys", "girls");
   ASSERT_OK(db_->Write(wo, &batch));
 
-  env_->SetFilesystemActive(false);
+  env_->SetFilesyCCActive(false);
   NoWriteTestReopenWithFault(kResetDropAndDeleteUnsynced);
   ASSERT_OK(OpenDB());
 

@@ -1,11 +1,11 @@
 #pragma once
-#include <steem/protocol/operations.hpp>
-#include <steem/protocol/sign_state.hpp>
-#include <steem/protocol/types.hpp>
+#include <CreateCoin/protocol/operations.hpp>
+#include <CreateCoin/protocol/sign_state.hpp>
+#include <CreateCoin/protocol/types.hpp>
 
 #include <numeric>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
 using fc::ecc::canonical_signature_type;
 
@@ -65,9 +65,9 @@ using fc::ecc::canonical_signature_type;
          const authority_getter& get_active,
          const authority_getter& get_owner,
          const authority_getter& get_posting,
-         uint32_t max_recursion = STEEM_MAX_SIG_CHECK_DEPTH,
-         uint32_t max_membership = STEEM_MAX_AUTHORITY_MEMBERSHIP,
-         uint32_t max_account_auths = STEEM_MAX_SIG_CHECK_ACCOUNTS,
+         uint32_t max_recursion = CreateCoin_MAX_SIG_CHECK_DEPTH,
+         uint32_t max_membership = CreateCoin_MAX_AUTHORITY_MEMBERSHIP,
+         uint32_t max_account_auths = CreateCoin_MAX_SIG_CHECK_ACCOUNTS,
          canonical_signature_type canon_type = fc::ecc::fc_canonical
          )const;
 
@@ -76,9 +76,9 @@ using fc::ecc::canonical_signature_type;
          const authority_getter& get_active,
          const authority_getter& get_owner,
          const authority_getter& get_posting,
-         uint32_t max_recursion/* = STEEM_MAX_SIG_CHECK_DEPTH*/,
-         uint32_t max_membership = STEEM_MAX_AUTHORITY_MEMBERSHIP,
-         uint32_t max_account_auths = STEEM_MAX_SIG_CHECK_ACCOUNTS,
+         uint32_t max_recursion/* = CreateCoin_MAX_SIG_CHECK_DEPTH*/,
+         uint32_t max_membership = CreateCoin_MAX_AUTHORITY_MEMBERSHIP,
+         uint32_t max_account_auths = CreateCoin_MAX_SIG_CHECK_ACCOUNTS,
          canonical_signature_type canon_type = fc::ecc::fc_canonical
          )const;
 
@@ -88,9 +88,9 @@ using fc::ecc::canonical_signature_type;
          const authority_getter& get_active,
          const authority_getter& get_owner,
          const authority_getter& get_posting,
-         uint32_t max_recursion = STEEM_MAX_SIG_CHECK_DEPTH,
-         uint32_t max_membership = STEEM_MAX_AUTHORITY_MEMBERSHIP,
-         uint32_t max_account_auths = STEEM_MAX_SIG_CHECK_ACCOUNTS,
+         uint32_t max_recursion = CreateCoin_MAX_SIG_CHECK_DEPTH,
+         uint32_t max_membership = CreateCoin_MAX_AUTHORITY_MEMBERSHIP,
+         uint32_t max_account_auths = CreateCoin_MAX_SIG_CHECK_ACCOUNTS,
          canonical_signature_type canon_type = fc::ecc::fc_canonical
          ) const;
 
@@ -116,8 +116,8 @@ using fc::ecc::canonical_signature_type;
 
    /// @} transactions group
 
-} } // steem::protocol
+} } // CreateCoin::protocol
 
-FC_REFLECT( steem::protocol::transaction, (ref_block_num)(ref_block_prefix)(expiration)(operations)(extensions) )
-FC_REFLECT_DERIVED( steem::protocol::signed_transaction, (steem::protocol::transaction), (signatures) )
-FC_REFLECT_DERIVED( steem::protocol::annotated_signed_transaction, (steem::protocol::signed_transaction), (transaction_id)(block_num)(transaction_num) );
+FC_REFLECT( CreateCoin::protocol::transaction, (ref_block_num)(ref_block_prefix)(expiration)(operations)(extensions) )
+FC_REFLECT_DERIVED( CreateCoin::protocol::signed_transaction, (CreateCoin::protocol::transaction), (signatures) )
+FC_REFLECT_DERIVED( CreateCoin::protocol::annotated_signed_transaction, (CreateCoin::protocol::signed_transaction), (transaction_id)(block_num)(transaction_num) );

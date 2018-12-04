@@ -521,7 +521,7 @@ class SpecialEnv : public EnvWrapper {
   // Simulate no-space errors while this pointer is non-nullptr.
   std::atomic<bool> no_space_;
 
-  // Simulate non-writable file system while this pointer is non-nullptr
+  // Simulate non-writable file syCC while this pointer is non-nullptr
   std::atomic<bool> non_writable_;
 
   // Force sync of manifest files to fail while this pointer is non-nullptr

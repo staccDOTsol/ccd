@@ -1,6 +1,6 @@
-#include <steem/plugins/condenser_api/condenser_api_legacy_asset.hpp>
+#include <CreateCoin/plugins/condenser_api/condenser_api_legacy_asset.hpp>
 
-namespace steem { namespace plugins { namespace condenser_api {
+namespace CreateCoin { namespace plugins { namespace condenser_api {
 
 uint32_t string_to_asset_num( const char* p, uint8_t decimals )
 {
@@ -42,17 +42,17 @@ uint32_t string_to_asset_num( const char* p, uint8_t decimals )
          }
          switch( name_u64 )
          {
-            case STEEM_SYMBOL_U64:
+            case CreateCoin_SYMBOL_U64:
                FC_ASSERT( decimals == 3, "Incorrect decimal places" );
-               asset_num = STEEM_ASSET_NUM_STEEM;
+               asset_num = CreateCoin_ASSET_NUM_CreateCoin;
                break;
             case SBD_SYMBOL_U64:
                FC_ASSERT( decimals == 3, "Incorrect decimal places" );
-               asset_num = STEEM_ASSET_NUM_SBD;
+               asset_num = CreateCoin_ASSET_NUM_SBD;
                break;
             case VESTS_SYMBOL_U64:
                FC_ASSERT( decimals == 6, "Incorrect decimal places" );
-               asset_num = STEEM_ASSET_NUM_VESTS;
+               asset_num = CreateCoin_ASSET_NUM_VESTS;
                break;
             default:
                FC_ASSERT( false, "Cannot parse asset symbol" );
@@ -87,17 +87,17 @@ std::string asset_num_to_string( uint32_t asset_num )
    switch( asset_num )
    {
 #ifdef IS_TEST_NET
-      case STEEM_ASSET_NUM_STEEM:
+      case CreateCoin_ASSET_NUM_CreateCoin:
          return "TESTS";
-      case STEEM_ASSET_NUM_SBD:
+      case CreateCoin_ASSET_NUM_SBD:
          return "TBD";
 #else
-      case STEEM_ASSET_NUM_STEEM:
-         return "STEEM";
-      case STEEM_ASSET_NUM_SBD:
+      case CreateCoin_ASSET_NUM_CreateCoin:
+         return "CreateCoin";
+      case CreateCoin_ASSET_NUM_SBD:
          return "SBD";
 #endif
-      case STEEM_ASSET_NUM_VESTS:
+      case CreateCoin_ASSET_NUM_VESTS:
          return "VESTS";
       default:
          return "UNKN"; // SMTs will return this symbol if returned as a legacy asset

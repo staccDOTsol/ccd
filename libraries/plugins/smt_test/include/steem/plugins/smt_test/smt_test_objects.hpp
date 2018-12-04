@@ -1,20 +1,20 @@
 #pragma once
-#include <steem/chain/steem_object_types.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
 
 #include <boost/multi_index/composite_key.hpp>
 
-namespace steem { namespace plugins { namespace smt_test {
+namespace CreateCoin { namespace plugins { namespace smt_test {
 
 using namespace std;
-using namespace steem::chain;
+using namespace CreateCoin::chain;
 
-#ifndef STEEM_SMT_TEST_SPACE_ID
-#define STEEM_SMT_TEST_SPACE_ID 13
+#ifndef CreateCoin_SMT_TEST_SPACE_ID
+#define CreateCoin_SMT_TEST_SPACE_ID 13
 #endif
 
 enum smt_test_object_types
 {
-   smt_token_object_type = ( STEEM_SMT_TEST_SPACE_ID << 8 )
+   smt_token_object_type = ( CreateCoin_SMT_TEST_SPACE_ID << 8 )
 };
 
 class smt_token_object : public object< smt_token_object_type, smt_token_object >
@@ -30,7 +30,7 @@ class smt_token_object : public object< smt_token_object_type, smt_token_object 
 
       account_name_type       control_account;
       uint8_t                 decimal_places = 0;
-      int64_t                 max_supply = STEEM_MAX_SHARE_SUPPLY;
+      int64_t                 max_supply = CreateCoin_MAX_SHARE_SUPPLY;
 
       time_point_sec          generation_begin_time;
       time_point_sec          generation_end_time;
@@ -57,9 +57,9 @@ typedef multi_index_container<
    allocator< smt_token_object >
 > smt_token_index;
 
-} } } // steem::plugins::smt_test
+} } } // CreateCoin::plugins::smt_test
 
-FC_REFLECT( steem::plugins::smt_test::smt_token_object,
+FC_REFLECT( CreateCoin::plugins::smt_test::smt_token_object,
    (id)
    (control_account)
    (decimal_places)
@@ -69,4 +69,4 @@ FC_REFLECT( steem::plugins::smt_test::smt_token_object,
    (announced_launch_time)
    (launch_expiration_time)
    )
-CHAINBASE_SET_INDEX_TYPE( steem::plugins::smt_test::smt_token_object, steem::plugins::smt_test::smt_token_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::plugins::smt_test::smt_token_object, CreateCoin::plugins::smt_test::smt_token_index )

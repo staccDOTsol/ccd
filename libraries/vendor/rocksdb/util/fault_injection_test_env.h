@@ -7,7 +7,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
-// This test uses a custom Env to keep track of the state of a filesystem as of
+// This test uses a custom Env to keep track of the state of a filesyCC as of
 // the last "sync". It then checks for data loss errors by purposely dropping
 // file data (or entire files) not protected by a "sync".
 
@@ -94,7 +94,7 @@ class TestDirectory : public Directory {
 class FaultInjectionTestEnv : public EnvWrapper {
  public:
   explicit FaultInjectionTestEnv(Env* base)
-      : EnvWrapper(base), filesystem_active_(true) {}
+      : EnvWrapper(base), filesyCC_active_(true) {}
   virtual ~FaultInjectionTestEnv() {}
 
   Status NewDirectory(const std::string& name,
@@ -130,18 +130,18 @@ class FaultInjectionTestEnv : public EnvWrapper {
     dir_to_new_files_since_last_sync_.erase(dirname);
   }
 
-  // Setting the filesystem to inactive is the test equivalent to simulating a
-  // system reset. Setting to inactive will freeze our saved filesystem state so
+  // Setting the filesyCC to inactive is the test equivalent to simulating a
+  // syCC reset. Setting to inactive will freeze our saved filesyCC state so
   // that it will stop being recorded. It can then be reset back to the state at
   // the time of the reset.
-  bool IsFilesystemActive() {
+  bool IsFilesyCCActive() {
     MutexLock l(&mutex_);
-    return filesystem_active_;
+    return filesyCC_active_;
   }
-  void SetFilesystemActiveNoLock(bool active) { filesystem_active_ = active; }
-  void SetFilesystemActive(bool active) {
+  void SetFilesyCCActiveNoLock(bool active) { filesyCC_active_ = active; }
+  void SetFilesyCCActive(bool active) {
     MutexLock l(&mutex_);
-    SetFilesystemActiveNoLock(active);
+    SetFilesyCCActiveNoLock(active);
   }
   void AssertNoOpenFile() { assert(open_files_.empty()); }
 
@@ -151,7 +151,7 @@ class FaultInjectionTestEnv : public EnvWrapper {
   std::set<std::string> open_files_;
   std::unordered_map<std::string, std::set<std::string>>
       dir_to_new_files_since_last_sync_;
-  bool filesystem_active_;  // Record flushes, syncs, writes
+  bool filesyCC_active_;  // Record flushes, syncs, writes
 };
 
 }  // namespace rocksdb

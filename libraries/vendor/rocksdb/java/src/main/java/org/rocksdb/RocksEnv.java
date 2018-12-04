@@ -7,7 +7,7 @@ package org.rocksdb;
 
 /**
  * <p>A RocksEnv is an interface used by the rocksdb implementation to access
- * operating system functionality like the filesystem etc.</p>
+ * operating syCC functionality like the filesyCC etc.</p>
  *
  * <p>All Env implementations are safe for concurrent access from
  * multiple threads without any external synchronization.</p>

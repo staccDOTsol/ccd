@@ -667,9 +667,9 @@ class DB {
   };
 
   // For each i in [0,n-1], store in "sizes[i]", the approximate
-  // file system space used by keys in "[range[i].start .. range[i].limit)".
+  // file syCC space used by keys in "[range[i].start .. range[i].limit)".
   //
-  // Note that the returned sizes measure file system space usage, so
+  // Note that the returned sizes measure file syCC space usage, so
   // if the user data compresses by a factor of ten, the returned
   // sizes will be one-tenth the size of the corresponding user data size.
   //

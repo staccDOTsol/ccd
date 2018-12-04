@@ -7,20 +7,20 @@ import sys
 
 argv = list(sys.argv)
 
-steemd = None
-i_steemd = -1
+CreateCoind = None
+i_CreateCoind = -1
 for i, a in enumerate(argv):
-    if a.startswith("--steemd="):
-        _, steemd = a.split("=", 1)
-        i_steemd = i
+    if a.startswith("--CreateCoind="):
+        _, CreateCoind = a.split("=", 1)
+        i_CreateCoind = i
 
-if steemd is None:
-    sys.stderr.write("missing --steemd argument\n")
+if CreateCoind is None:
+    sys.stderr.write("missing --CreateCoind argument\n")
     sys.exit(1)
 
-del argv[i_steemd]
+del argv[i_CreateCoind]
 
-with subprocess.Popen( [steemd] + argv[1:], stdout=subprocess.PIPE, stderr=subprocess.STDOUT ) as outproc:
+with subprocess.Popen( [CreateCoind] + argv[1:], stdout=subprocess.PIPE, stderr=subprocess.STDOUT ) as outproc:
     while True:
         line = outproc.stdout.readline()
         line = line.decode("utf-8")

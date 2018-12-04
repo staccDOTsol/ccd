@@ -1,17 +1,17 @@
 #pragma once
-#include <steem/plugins/json_rpc/utility.hpp>
-#include <steem/plugins/reputation/reputation_objects.hpp>
-#include <steem/plugins/database_api/database_api_objects.hpp>
+#include <CreateCoin/plugins/json_rpc/utility.hpp>
+#include <CreateCoin/plugins/reputation/reputation_objects.hpp>
+#include <CreateCoin/plugins/database_api/database_api_objects.hpp>
 
-#include <steem/protocol/types.hpp>
+#include <CreateCoin/protocol/types.hpp>
 
 #include <fc/optional.hpp>
 #include <fc/variant.hpp>
 #include <fc/vector.hpp>
 
-namespace steem { namespace plugins { namespace reputation {
+namespace CreateCoin { namespace plugins { namespace reputation {
 
-using steem::protocol::account_name_type;
+using CreateCoin::protocol::account_name_type;
 
 namespace detail
 {
@@ -21,7 +21,7 @@ namespace detail
 struct account_reputation
 {
    account_name_type             account;
-   steem::protocol::share_type   reputation;
+   CreateCoin::protocol::share_type   reputation;
 };
 
 struct get_account_reputations_args
@@ -49,13 +49,13 @@ class reputation_api
       std::unique_ptr< detail::reputation_api_impl > my;
 };
 
-} } } // steem::plugins::reputation
+} } } // CreateCoin::plugins::reputation
 
-FC_REFLECT( steem::plugins::reputation::account_reputation,
+FC_REFLECT( CreateCoin::plugins::reputation::account_reputation,
             (account)(reputation) );
 
-FC_REFLECT( steem::plugins::reputation::get_account_reputations_args,
+FC_REFLECT( CreateCoin::plugins::reputation::get_account_reputations_args,
             (account_lower_bound)(limit) );
 
-FC_REFLECT( steem::plugins::reputation::get_account_reputations_return,
+FC_REFLECT( CreateCoin::plugins::reputation::get_account_reputations_return,
             (reputations) );

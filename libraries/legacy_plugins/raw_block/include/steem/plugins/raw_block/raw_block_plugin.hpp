@@ -1,13 +1,13 @@
 
 #pragma once
 
-#include <steem/app/plugin.hpp>
+#include <CreateCoin/app/plugin.hpp>
 
-namespace steem { namespace plugin { namespace raw_block {
+namespace CreateCoin { namespace plugin { namespace raw_block {
 
-using steem::app::application;
+using CreateCoin::app::application;
 
-class raw_block_plugin : public steem::app::plugin
+class raw_block_plugin : public CreateCoin::app::plugin
 {
    public:
       raw_block_plugin( application* app );

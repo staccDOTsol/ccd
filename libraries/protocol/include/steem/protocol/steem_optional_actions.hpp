@@ -1,8 +1,8 @@
 #pragma once
-#include <steem/protocol/types.hpp>
-#include <steem/protocol/base.hpp>
+#include <CreateCoin/protocol/types.hpp>
+#include <CreateCoin/protocol/base.hpp>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
 #ifdef IS_TEST_NET
    struct example_optional_action : public base_operation
@@ -14,8 +14,8 @@ namespace steem { namespace protocol {
    };
 #endif
 
-} } // steem::protocol
+} } // CreateCoin::protocol
 
 #ifdef IS_TEST_NET
-FC_REFLECT( steem::protocol::example_optional_action, (account) )
+FC_REFLECT( CreateCoin::protocol::example_optional_action, (account) )
 #endif

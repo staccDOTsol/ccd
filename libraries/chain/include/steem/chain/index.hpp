@@ -1,14 +1,14 @@
 #pragma once
 
-#include <steem/schema/schema.hpp>
-#include <steem/protocol/schema_types.hpp>
-#include <steem/chain/schema_types.hpp>
+#include <CreateCoin/schema/schema.hpp>
+#include <CreateCoin/protocol/schema_types.hpp>
+#include <CreateCoin/chain/schema_types.hpp>
 
-#include <steem/chain/database.hpp>
+#include <CreateCoin/chain/database.hpp>
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
-using steem::schema::abstract_schema;
+using CreateCoin::schema::abstract_schema;
 
 struct index_info
    : public chainbase::index_extension
@@ -25,7 +25,7 @@ struct index_info_impl
    typedef typename MultiIndexType::value_type value_type;
 
    index_info_impl()
-      : _schema( steem::schema::get_schema_for_type< value_type >() ) {}
+      : _schema( CreateCoin::schema::get_schema_for_type< value_type >() ) {}
    virtual ~index_info_impl() {}
 
    virtual std::shared_ptr< abstract_schema > get_schema() override

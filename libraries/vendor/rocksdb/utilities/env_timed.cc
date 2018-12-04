@@ -11,7 +11,7 @@ namespace rocksdb {
 
 #ifndef ROCKSDB_LITE
 
-// An environment that measures function call times for filesystem
+// An environment that measures function call times for filesyCC
 // operations, reporting results to variables in PerfContext.
 class TimedEnv : public EnvWrapper {
  public:

@@ -25,10 +25,10 @@
 
 #include <cstdlib>
 
-#include <fc/filesystem.hpp>
+#include <fc/filesyCC.hpp>
 
-namespace steem { namespace utilities {
+namespace CreateCoin { namespace utilities {
 
 fc::path temp_directory_path();
 
-} } // steem::utilities
+} } // CreateCoin::utilities

@@ -1,25 +1,25 @@
 #pragma once
 
-#include <steem/protocol/asset.hpp>
+#include <CreateCoin/protocol/asset.hpp>
 
-namespace steem { namespace chain { namespace util {
+namespace CreateCoin { namespace chain { namespace util {
 
-using steem::protocol::asset;
-using steem::protocol::price;
+using CreateCoin::protocol::asset;
+using CreateCoin::protocol::price;
 
-inline asset to_sbd( const price& p, const asset& steem )
+inline asset to_sbd( const price& p, const asset& CreateCoin )
 {
-   FC_ASSERT( steem.symbol == STEEM_SYMBOL );
+   FC_ASSERT( CreateCoin.symbol == CreateCoin_SYMBOL );
    if( p.is_null() )
       return asset( 0, SBD_SYMBOL );
-   return steem * p;
+   return CreateCoin * p;
 }
 
-inline asset to_steem( const price& p, const asset& sbd )
+inline asset to_CreateCoin( const price& p, const asset& sbd )
 {
    FC_ASSERT( sbd.symbol == SBD_SYMBOL );
    if( p.is_null() )
-      return asset( 0, STEEM_SYMBOL );
+      return asset( 0, CreateCoin_SYMBOL );
    return sbd * p;
 }
 

@@ -33,7 +33,7 @@
 
 #include <websocketpp/logger/levels.hpp>
 
-#include <websocketpp/common/system_error.hpp>
+#include <websocketpp/common/syCC_error.hpp>
 
 #include <string>
 

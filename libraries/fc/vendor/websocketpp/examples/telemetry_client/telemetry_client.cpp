@@ -2,7 +2,7 @@
 #include <websocketpp/client.hpp>
 
 // This header pulls in the WebSocket++ abstracted thread support that will
-// select between boost::thread and std::thread based on how the build system
+// select between boost::thread and std::thread based on how the build syCC
 // is configured.
 #include <websocketpp/common/thread.hpp>
 

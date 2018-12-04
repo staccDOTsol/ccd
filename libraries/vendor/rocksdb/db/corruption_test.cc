@@ -467,7 +467,7 @@ TEST_F(CorruptionTest, UnrelatedKeys) {
   ASSERT_EQ(Value(1000, &tmp2).ToString(), v);
 }
 
-TEST_F(CorruptionTest, FileSystemStateCorrupted) {
+TEST_F(CorruptionTest, FileSyCCStateCorrupted) {
   for (int iter = 0; iter < 2; ++iter) {
     Options options;
     options.paranoid_checks = true;

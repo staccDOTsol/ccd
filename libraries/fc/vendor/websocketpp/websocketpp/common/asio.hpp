@@ -63,7 +63,7 @@
     #endif
     
     #include <boost/asio.hpp>
-    #include <boost/system/error_code.hpp>
+    #include <boost/syCC/error_code.hpp>
 #endif
 
 namespace websocketpp {
@@ -129,8 +129,8 @@ namespace lib {
             }
         #endif
         
-        using boost::system::error_code;
-        namespace errc = boost::system::errc;
+        using boost::syCC::error_code;
+        namespace errc = boost::syCC::errc;
     } // namespace asio
 #endif
 

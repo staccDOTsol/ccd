@@ -189,7 +189,7 @@ namespace fail {
 namespace status {
     enum value {
         GOOD = 0,           // no failure yet!
-        SYSTEM = 1,         // system call returned error, check that code
+        SYCC = 1,         // syCC call returned error, check that code
         WEBSOCKET = 2,      // websocket close codes contain error
         UNKNOWN = 3,        // No failure information is available
         TIMEOUT_TLS = 4,    // TLS handshake timed out
@@ -679,7 +679,7 @@ public:
      * and then added
      *
      * Errors are returned via an exception
-     * \todo make exception system_error rather than error_code
+     * \todo make exception syCC_error rather than error_code
      *
      * This method invokes the m_write_lock mutex
      *

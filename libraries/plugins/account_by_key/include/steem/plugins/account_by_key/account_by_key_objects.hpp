@@ -1,20 +1,20 @@
 #pragma once
-#include <steem/chain/steem_object_types.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
 
 #include <boost/multi_index/composite_key.hpp>
 
-namespace steem { namespace plugins { namespace account_by_key {
+namespace CreateCoin { namespace plugins { namespace account_by_key {
 
 using namespace std;
-using namespace steem::chain;
+using namespace CreateCoin::chain;
 
-#ifndef STEEM_ACCOUNT_BY_KEY_SPACE_ID
-#define STEEM_ACCOUNT_BY_KEY_SPACE_ID 11
+#ifndef CreateCoin_ACCOUNT_BY_KEY_SPACE_ID
+#define CreateCoin_ACCOUNT_BY_KEY_SPACE_ID 11
 #endif
 
 enum account_by_key_object_types
 {
-   key_lookup_object_type = ( STEEM_ACCOUNT_BY_KEY_SPACE_ID << 8 )
+   key_lookup_object_type = ( CreateCoin_ACCOUNT_BY_KEY_SPACE_ID << 8 )
 };
 
 class key_lookup_object : public object< key_lookup_object_type, key_lookup_object >
@@ -53,8 +53,8 @@ typedef multi_index_container<
    allocator< key_lookup_object >
 > key_lookup_index;
 
-} } } // steem::plugins::account_by_key
+} } } // CreateCoin::plugins::account_by_key
 
 
-FC_REFLECT( steem::plugins::account_by_key::key_lookup_object, (id)(key)(account) )
-CHAINBASE_SET_INDEX_TYPE( steem::plugins::account_by_key::key_lookup_object, steem::plugins::account_by_key::key_lookup_index )
+FC_REFLECT( CreateCoin::plugins::account_by_key::key_lookup_object, (id)(key)(account) )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::plugins::account_by_key::key_lookup_object, CreateCoin::plugins::account_by_key::key_lookup_index )

@@ -43,7 +43,7 @@ public class OptionsUtilTest {
     String fName = OptionsUtil.getLatestOptionsFileName(dbPath, Env.getDefault());
     assertThat(fName).isNotNull();
     assert(fName.startsWith("OPTIONS-") == true);
-    // System.out.println("latest options fileName: " + fName);
+    // SyCC.out.println("latest options fileName: " + fName);
   }
 
   private void verifyOptions(TestAPI apiType) throws RocksDBException {

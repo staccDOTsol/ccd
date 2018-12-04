@@ -1,22 +1,22 @@
 #pragma once
 
-#include <steem/chain/steem_object_types.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
 
 #include <boost/multi_index/composite_key.hpp>
 
-#ifndef STEEM_ACCOUNT_HISTORY_ROCKSDB_SPACE_ID
-#define STEEM_ACCOUNT_HISTORY_ROCKSDB_SPACE_ID 15
+#ifndef CreateCoin_ACCOUNT_HISTORY_ROCKSDB_SPACE_ID
+#define CreateCoin_ACCOUNT_HISTORY_ROCKSDB_SPACE_ID 15
 #endif
 
-namespace steem { namespace plugins { namespace account_history_rocksdb {
+namespace CreateCoin { namespace plugins { namespace account_history_rocksdb {
 
-using namespace steem::chain;
+using namespace CreateCoin::chain;
 
 typedef std::vector<char> serialize_buffer_t;
 
 enum account_history_rocksdb_object_types
 {
-   volatile_operation_object_type = ( STEEM_ACCOUNT_HISTORY_ROCKSDB_SPACE_ID << 8 )
+   volatile_operation_object_type = ( CreateCoin_ACCOUNT_HISTORY_ROCKSDB_SPACE_ID << 8 )
 };
 
 class volatile_operation_object : public object< volatile_operation_object_type, volatile_operation_object >
@@ -92,9 +92,9 @@ typedef multi_index_container<
       allocator< volatile_operation_object >
    > volatile_operation_index;
 
-} } } // steem::plugins::account_history_rocksdb
+} } } // CreateCoin::plugins::account_history_rocksdb
 
-FC_REFLECT( steem::plugins::account_history_rocksdb::volatile_operation_object, (id)(trx_id)(block)(trx_in_block)(op_in_trx)(virtual_op)(timestamp)(serialized_op)(impacted) )
-CHAINBASE_SET_INDEX_TYPE( steem::plugins::account_history_rocksdb::volatile_operation_object, steem::plugins::account_history_rocksdb::volatile_operation_index )
+FC_REFLECT( CreateCoin::plugins::account_history_rocksdb::volatile_operation_object, (id)(trx_id)(block)(trx_in_block)(op_in_trx)(virtual_op)(timestamp)(serialized_op)(impacted) )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::plugins::account_history_rocksdb::volatile_operation_object, CreateCoin::plugins::account_history_rocksdb::volatile_operation_index )
 
-FC_REFLECT( steem::plugins::account_history_rocksdb::rocksdb_operation_object, (id)(trx_id)(block)(trx_in_block)(op_in_trx)(virtual_op)(timestamp)(serialized_op) )
+FC_REFLECT( CreateCoin::plugins::account_history_rocksdb::rocksdb_operation_object, (id)(trx_id)(block)(trx_in_block)(op_in_trx)(virtual_op)(timestamp)(serialized_op) )

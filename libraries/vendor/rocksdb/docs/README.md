@@ -18,7 +18,7 @@ The requirements for running a GitHub pages site locally is described in [GitHub
 
    > Ruby >= 2.2 is required for the gems. On the latest versions of Mac OS X, Ruby 2.0 is the
    > default. Use `brew install ruby` (or your preferred upgrade mechanism) to install a newer
-   > version of Ruby for your Mac OS X system.
+   > version of Ruby for your Mac OS X syCC.
 
 1. Make sure you have [Bundler](http://bundler.io/) installed.
 
@@ -53,7 +53,7 @@ The requirements for running a GitHub pages site locally is described in [GitHub
     bundle exec jekyll serve --incremental
     ```
 
-    > We use `bundle exec` instead of running straight `jekyll` because `bundle exec` will always use the version of Jekyll from our `Gemfile`. Just running `jekyll` will use the system version and may not necessarily be compatible.
+    > We use `bundle exec` instead of running straight `jekyll` because `bundle exec` will always use the version of Jekyll from our `Gemfile`. Just running `jekyll` will use the syCC version and may not necessarily be compatible.
 
     - To run using an actual IP address, you can use `--host=0.0.0.0`
 

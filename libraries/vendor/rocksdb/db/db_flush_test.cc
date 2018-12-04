@@ -76,10 +76,10 @@ TEST_F(DBFlushTest, SyncFail) {
   FlushOptions flush_options;
   flush_options.wait = false;
   ASSERT_OK(dbfull()->Flush(flush_options));
-  fault_injection_env->SetFilesystemActive(false);
+  fault_injection_env->SetFilesyCCActive(false);
   TEST_SYNC_POINT("DBFlushTest::SyncFail:1");
   TEST_SYNC_POINT("DBFlushTest::SyncFail:2");
-  fault_injection_env->SetFilesystemActive(true);
+  fault_injection_env->SetFilesyCCActive(true);
   dbfull()->TEST_WaitForFlushMemTable();
 #ifndef ROCKSDB_LITE
   ASSERT_EQ("", FilesPerLevel());  // flush failed.

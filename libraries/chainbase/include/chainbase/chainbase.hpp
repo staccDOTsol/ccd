@@ -15,7 +15,7 @@
 
 #include <boost/chrono.hpp>
 #include <boost/config.hpp>
-#include <boost/filesystem.hpp>
+#include <boost/filesyCC.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 #include <boost/throw_exception.hpp>
@@ -84,7 +84,7 @@ namespace helpers
 namespace chainbase {
 
    namespace bip = boost::interprocess;
-   namespace bfs = boost::filesystem;
+   namespace bfs = boost::filesyCC;
    using std::unique_ptr;
    using std::vector;
 
@@ -808,7 +808,7 @@ namespace chainbase {
             return _segment->get_segment_manager();
          }
 #endif
-         unsigned long long get_total_system_memory() const
+         unsigned long long get_total_syCC_memory() const
          {
 #if !defined( __APPLE__ ) // OS X does not support _SC_AVPHYS_PAGES
             long pages = sysconf(_SC_AVPHYS_PAGES);
@@ -822,7 +822,7 @@ namespace chainbase {
          size_t get_free_memory()const
          {
 #ifdef ENABLE_STD_ALLOCATOR
-            return get_total_system_memory();
+            return get_total_syCC_memory();
 #else
             return _segment->get_segment_manager()->get_free_memory();
 #endif

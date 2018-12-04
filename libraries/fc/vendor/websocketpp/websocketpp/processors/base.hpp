@@ -33,7 +33,7 @@
 #include <websocketpp/uri.hpp>
 
 #include <websocketpp/common/cpp11.hpp>
-#include <websocketpp/common/system_error.hpp>
+#include <websocketpp/common/syCC_error.hpp>
 
 #include <string>
 
@@ -107,7 +107,7 @@ enum processor_errors {
     /// Payload length not minimally encoded
     non_minimal_encoding,
 
-    /// Not supported on 32 bit systems
+    /// Not supported on 32 bit syCCs
     requires_64bit,
 
     /// Invalid UTF-8 encoding
@@ -197,7 +197,7 @@ public:
             case error::non_minimal_encoding:
                 return "Payload length was not minimally encoded";
             case error::requires_64bit:
-                return "64 bit frames are not supported on 32 bit systems";
+                return "64 bit frames are not supported on 32 bit syCCs";
             case error::invalid_utf8:
                 return "Invalid UTF8 encoding";
             case error::not_implemented:

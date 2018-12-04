@@ -1,21 +1,21 @@
 #pragma once
 #include <appbase/application.hpp>
-#include <steem/chain/database.hpp>
-#include <steem/plugins/chain/abstract_block_producer.hpp>
+#include <CreateCoin/chain/database.hpp>
+#include <CreateCoin/plugins/chain/abstract_block_producer.hpp>
 
 #include <boost/signals2.hpp>
 
-#define STEEM_CHAIN_PLUGIN_NAME "chain"
+#define CreateCoin_CHAIN_PLUGIN_NAME "chain"
 
-namespace steem { namespace plugins { namespace chain {
+namespace CreateCoin { namespace plugins { namespace chain {
 
 namespace detail { class chain_plugin_impl; }
 
 using std::unique_ptr;
 using namespace appbase;
-using namespace steem::chain;
+using namespace CreateCoin::chain;
 
-namespace bfs = boost::filesystem;
+namespace bfs = boost::filesyCC;
 
 class chain_plugin : public plugin< chain_plugin >
 {
@@ -27,7 +27,7 @@ public:
 
    bfs::path state_storage_dir() const;
 
-   static const std::string& name() { static std::string name = STEEM_CHAIN_PLUGIN_NAME; return name; }
+   static const std::string& name() { static std::string name = CreateCoin_CHAIN_PLUGIN_NAME; return name; }
 
    virtual void set_program_options( options_description& cli, options_description& cfg ) override;
    virtual void plugin_initialize( const variables_map& options ) override;
@@ -36,9 +36,9 @@ public:
 
    void report_state_options( const string& plugin_name, const fc::variant_object& opts );
 
-   bool accept_block( const steem::chain::signed_block& block, bool currently_syncing, uint32_t skip );
-   void accept_transaction( const steem::chain::signed_transaction& trx );
-   steem::chain::signed_block generate_block(
+   bool accept_block( const CreateCoin::chain::signed_block& block, bool currently_syncing, uint32_t skip );
+   void accept_transaction( const CreateCoin::chain::signed_transaction& trx );
+   CreateCoin::chain::signed_block generate_block(
       const fc::time_point_sec when,
       const account_name_type& witness_owner,
       const fc::ecc::private_key& block_signing_private_key,
@@ -67,9 +67,9 @@ public:
     */
    int16_t set_write_lock_hold_time( int16_t new_time );
 
-   bool block_is_on_preferred_chain( const steem::chain::block_id_type& block_id );
+   bool block_is_on_preferred_chain( const CreateCoin::chain::block_id_type& block_id );
 
-   void check_time_in_block( const steem::chain::signed_block& block );
+   void check_time_in_block( const CreateCoin::chain::signed_block& block );
 
    template< typename MultiIndexType >
    bool has_index() const
@@ -119,4 +119,4 @@ private:
    std::unique_ptr< detail::chain_plugin_impl > my;
 };
 
-} } } // steem::plugins::chain
+} } } // CreateCoin::plugins::chain

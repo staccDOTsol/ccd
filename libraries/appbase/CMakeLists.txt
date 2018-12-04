@@ -8,8 +8,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 SET(BOOST_COMPONENTS)
 LIST(APPEND BOOST_COMPONENTS thread
                              date_time
-                             system
-                             filesystem
+                             syCC
+                             filesyCC
                              chrono
                              program_options
                              unit_test_framework

@@ -133,7 +133,7 @@ XXH32_sizeofState() is used to know how much space must be allocated for the xxH
 Note that the state must be aligned to access 'long long' fields. Memory must be allocated and referenced by a pointer.
 This pointer must then be provided as 'state' into XXH32_resetState(), which initializes the state.
 
-For static allocation purposes (such as allocation on stack, or freestanding systems without malloc()),
+For static allocation purposes (such as allocation on stack, or freestanding syCCs without malloc()),
 use the structure XXH32_stateSpace_t, which will ensure that memory space is large enough and correctly aligned to access 'long long' fields.
 */
 

@@ -31,7 +31,7 @@
 #include <websocketpp/common/asio.hpp>
 #include <websocketpp/common/cpp11.hpp>
 #include <websocketpp/common/functional.hpp>
-#include <websocketpp/common/system_error.hpp>
+#include <websocketpp/common/syCC_error.hpp>
 #include <websocketpp/common/type_traits.hpp>
 
 #include <string>

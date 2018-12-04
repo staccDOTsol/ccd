@@ -18,7 +18,7 @@ public class RocksMemoryResource extends ExternalResource {
 
   @Override
   protected void after() {
-    System.gc();
-    System.runFinalization();
+    SyCC.gc();
+    SyCC.runFinalization();
   }
 }

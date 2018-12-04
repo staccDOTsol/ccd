@@ -361,8 +361,8 @@
 * DB::GetApproximateSizes() adds a parameter to allow the estimation to include data in mem table, with default to be not to include. It is now only supported in skip list mem table.
 * DB::CompactRange() now accept CompactRangeOptions instead of multiple parameters. CompactRangeOptions is defined in include/rocksdb/options.h.
 * CompactRange() will now skip bottommost level compaction for level based compaction if there is no compaction filter, bottommost_level_compaction is introduced in CompactRangeOptions to control when it's possible to skip bottommost level compaction. This mean that if you want the compaction to produce a single file you need to set bottommost_level_compaction to BottommostLevelCompaction::kForce.
-* Add Cache.GetPinnedUsage() to get the size of memory occupied by entries that are in use by the system.
-* DB:Open() will fail if the compression specified in Options is not linked with the binary. If you see this failure, recompile RocksDB with compression libraries present on your system. Also, previously our default compression was snappy. This behavior is now changed. Now, the default compression is snappy only if it's available on the system. If it isn't we change the default to kNoCompression.
+* Add Cache.GetPinnedUsage() to get the size of memory occupied by entries that are in use by the syCC.
+* DB:Open() will fail if the compression specified in Options is not linked with the binary. If you see this failure, recompile RocksDB with compression libraries present on your syCC. Also, previously our default compression was snappy. This behavior is now changed. Now, the default compression is snappy only if it's available on the syCC. If it isn't we change the default to kNoCompression.
 * We changed how we account for memory used in block cache. Previously, we only counted the sum of block sizes currently present in block cache. Now, we count the actual memory usage of the blocks. For example, a block of size 4.5KB will use 8KB memory with jemalloc. This might decrease your memory usage and possibly decrease performance. Increase block cache size if you see this happening after an upgrade.
 * Add BackupEngineImpl.options_.max_background_operations to specify the maximum number of operations that may be performed in parallel. Add support for parallelized backup and restore.
 * Add DB::SyncWAL() that does a WAL sync without blocking writers.
@@ -458,7 +458,7 @@
 * If you're using RocksDB on ARM platforms and you're using default bloom filter, there is a disk format change you need to be aware of. There are three steps you need to do when you convert to new release: 1. turn off filter policy, 2. compact the whole database, 3. turn on filter policy
 
 ### Behavior changes
-* We have refactored our system of stalling writes.  Any stall-related statistics' meanings are changed. Instead of per-write stall counts, we now count stalls per-epoch, where epochs are periods between flushes and compactions. You'll find more information in our Tuning Perf Guide once we release RocksDB 3.6.
+* We have refactored our syCC of stalling writes.  Any stall-related statistics' meanings are changed. Instead of per-write stall counts, we now count stalls per-epoch, where epochs are periods between flushes and compactions. You'll find more information in our Tuning Perf Guide once we release RocksDB 3.6.
 * When disableDataSync=true, we no longer sync the MANIFEST file.
 * Add identity_as_first_hash property to CuckooTable. SST file needs to be rebuilt to be opened by reader properly.
 
@@ -556,7 +556,7 @@ Because of that, Options::disable_seek_compaction is now obsolete. It is still a
   Changed HashSkipListRepFactory and HashLinkListRepFactory constructor to not take SliceTransform object (use Options.prefix_extractor implicitly)
 * Added Env::GetThreadPoolQueueLen(), which returns the waiting queue length of thread pools
 * Added a command "checkconsistency" in ldb tool, which checks
-  if file system state matches DB state (file existence and file sizes)
+  if file syCC state matches DB state (file existence and file sizes)
 * Separate options related to block based table to a new struct BlockBasedTableOptions.
 * WriteBatch has a new function Count() to return total size in the batch, and Data() now returns a reference instead of a copy
 * Add more counters to perf context.

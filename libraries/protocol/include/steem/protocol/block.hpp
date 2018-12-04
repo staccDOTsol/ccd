@@ -1,8 +1,8 @@
 #pragma once
-#include <steem/protocol/block_header.hpp>
-#include <steem/protocol/transaction.hpp>
+#include <CreateCoin/protocol/block_header.hpp>
+#include <CreateCoin/protocol/transaction.hpp>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
    struct signed_block : public signed_block_header
    {
@@ -10,6 +10,6 @@ namespace steem { namespace protocol {
       vector<signed_transaction> transactions;
    };
 
-} } // steem::protocol
+} } // CreateCoin::protocol
 
-FC_REFLECT_DERIVED( steem::protocol::signed_block, (steem::protocol::signed_block_header), (transactions) )
+FC_REFLECT_DERIVED( CreateCoin::protocol::signed_block, (CreateCoin::protocol::signed_block_header), (transactions) )

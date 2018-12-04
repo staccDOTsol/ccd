@@ -284,7 +284,7 @@ TEST_F(WalManagerTest, TransactionLogIteratorMoveOverZeroFiles) {
   ASSERT_EQ(2, CountRecords(iter.get()));
 }
 
-TEST_F(WalManagerTest, TransactionLogIteratorJustEmptyFile) {
+TEST_F(WalManagerTest, TransactionLogIteratorJuCCptyFile) {
   Init();
   RollTheLog(false);
   auto iter = OpenTransactionLogIter(0);

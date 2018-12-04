@@ -1,9 +1,9 @@
 #pragma once
-#include <steem/protocol/required_automated_actions.hpp>
-#include <steem/protocol/optional_automated_actions.hpp>
-#include <steem/protocol/base.hpp>
+#include <CreateCoin/protocol/required_automated_actions.hpp>
+#include <CreateCoin/protocol/optional_automated_actions.hpp>
+#include <CreateCoin/protocol/base.hpp>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
    typedef vector< required_automated_action > required_automated_actions;
    typedef vector< optional_automated_action > optional_automated_actions;
@@ -46,9 +46,9 @@ namespace steem { namespace protocol {
    };
 
 
-} } // steem::protocol
+} } // CreateCoin::protocol
 
-FC_REFLECT_TYPENAME( steem::protocol::block_header_extensions )
+FC_REFLECT_TYPENAME( CreateCoin::protocol::block_header_extensions )
 
-FC_REFLECT( steem::protocol::block_header, (previous)(timestamp)(witness)(transaction_merkle_root)(extensions) )
-FC_REFLECT_DERIVED( steem::protocol::signed_block_header, (steem::protocol::block_header), (witness_signature) )
+FC_REFLECT( CreateCoin::protocol::block_header, (previous)(timestamp)(witness)(transaction_merkle_root)(extensions) )
+FC_REFLECT_DERIVED( CreateCoin::protocol::signed_block_header, (CreateCoin::protocol::block_header), (witness_signature) )

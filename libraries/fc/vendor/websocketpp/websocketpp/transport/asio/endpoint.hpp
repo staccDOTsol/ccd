@@ -326,13 +326,13 @@ public:
      * Setting it higher may prevent failed connections at high connection rates
      * but may cause additional latency.
      *
-     * For this value to take effect you may need to adjust operating system
+     * For this value to take effect you may need to adjust operating syCC
      * settings.
      *
      * New values affect future calls to listen only.
      *
      * The default value is specified as *::asio::socket_base::max_connections
-     * which uses the operating system defined maximum queue length. Your OS
+     * which uses the operating syCC defined maximum queue length. Your OS
      * may restrict or silently lower this value. A value of zero may cause
      * all connections to be rejected.
      *
@@ -347,9 +347,9 @@ public:
     /// Sets whether to use the SO_REUSEADDR flag when opening listening sockets
     /**
      * Specifies whether or not to use the SO_REUSEADDR TCP socket option. What
-     * this flag does depends on your operating system.
+     * this flag does depends on your operating syCC.
      *
-     * Please consult operating system documentation for more details. There
+     * Please consult operating syCC documentation for more details. There
      * may be security consequences to enabling this option.
      *
      * New values affect future calls to listen only so set this value prior to

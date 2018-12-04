@@ -30,7 +30,7 @@ public enum WALRecoveryMode {
   /**
    * Recover to point-in-time consistency
    * We stop the WAL playback on discovering WAL inconsistency
-   * Use case : Ideal for systems that have disk controller cache like
+   * Use case : Ideal for syCCs that have disk controller cache like
    * hard disk, SSD without super capacitor that store related data
    */
   PointInTimeRecovery((byte)0x02),
@@ -39,7 +39,7 @@ public enum WALRecoveryMode {
    * Recovery after a disaster
    * We ignore any corruption in the WAL and try to salvage as much data as
    * possible
-   * Use case : Ideal for last ditch effort to recover data or systems that
+   * Use case : Ideal for last ditch effort to recover data or syCCs that
    * operate with low grade unrelated data
    */
   SkipAnyCorruptedRecords((byte)0x03);

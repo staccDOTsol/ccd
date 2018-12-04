@@ -1,13 +1,13 @@
 #pragma once
-#include <steem/plugins/database_api/database_api_objects.hpp>
+#include <CreateCoin/plugins/database_api/database_api_objects.hpp>
 
-#include <steem/protocol/types.hpp>
-#include <steem/protocol/transaction.hpp>
-#include <steem/protocol/block_header.hpp>
+#include <CreateCoin/protocol/types.hpp>
+#include <CreateCoin/protocol/transaction.hpp>
+#include <CreateCoin/protocol/block_header.hpp>
 
-#include <steem/plugins/json_rpc/utility.hpp>
+#include <CreateCoin/plugins/json_rpc/utility.hpp>
 
-namespace steem { namespace plugins { namespace database_api {
+namespace CreateCoin { namespace plugins { namespace database_api {
 
 using protocol::account_name_type;
 using protocol::signed_transaction;
@@ -68,10 +68,10 @@ struct get_version_return
 {
    get_version_return() {}
    get_version_return( fc::string bc_v, fc::string s_v, fc::string fc_v, chain_id_type c_id )
-      :blockchain_version( bc_v ), steem_revision( s_v ), fc_revision( fc_v ), chain_id( c_id ) {}
+      :blockchain_version( bc_v ), CreateCoin_revision( s_v ), fc_revision( fc_v ), chain_id( c_id ) {}
 
    fc::string     blockchain_version;
-   fc::string     steem_revision;
+   fc::string     CreateCoin_revision;
    fc::string     fc_revision;
    chain_id_type  chain_id;
 };
@@ -505,7 +505,7 @@ struct verify_signatures_return
    bool valid;
 };
 
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
 
 typedef void_type get_nai_pool_args;
 
@@ -547,12 +547,12 @@ typedef list_smt_token_emissions_return find_smt_token_emissions_return;
 
 #endif
 
-} } } // steem::database_api
+} } } // CreateCoin::database_api
 
-FC_REFLECT( steem::plugins::database_api::get_version_return,
-            (blockchain_version)(steem_revision)(fc_revision)(chain_id) )
+FC_REFLECT( CreateCoin::plugins::database_api::get_version_return,
+            (blockchain_version)(CreateCoin_revision)(fc_revision)(chain_id) )
 
-FC_REFLECT_ENUM( steem::plugins::database_api::sort_order_type,
+FC_REFLECT_ENUM( CreateCoin::plugins::database_api::sort_order_type,
    (by_name)
    (by_proxy)
    (by_next_vesting_withdrawal)
@@ -585,142 +585,142 @@ FC_REFLECT_ENUM( steem::plugins::database_api::sort_order_type,
    (by_control_account)
    (by_symbol_time) )
 
-FC_REFLECT( steem::plugins::database_api::list_object_args_type,
+FC_REFLECT( CreateCoin::plugins::database_api::list_object_args_type,
    (start)(limit)(order) )
 
-FC_REFLECT( steem::plugins::database_api::get_reward_funds_return,
+FC_REFLECT( CreateCoin::plugins::database_api::get_reward_funds_return,
    (funds) )
 
-FC_REFLECT( steem::plugins::database_api::list_witnesses_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_witnesses_return,
    (witnesses) )
 
-FC_REFLECT( steem::plugins::database_api::find_witnesses_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_witnesses_args,
    (owners) )
 
-FC_REFLECT( steem::plugins::database_api::list_witness_votes_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_witness_votes_return,
    (votes) )
 
-FC_REFLECT( steem::plugins::database_api::get_active_witnesses_return,
+FC_REFLECT( CreateCoin::plugins::database_api::get_active_witnesses_return,
    (witnesses) )
 
-FC_REFLECT( steem::plugins::database_api::list_accounts_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_accounts_return,
    (accounts) )
 
-FC_REFLECT( steem::plugins::database_api::find_accounts_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_accounts_args,
    (accounts) )
 
-FC_REFLECT( steem::plugins::database_api::list_owner_histories_args,
+FC_REFLECT( CreateCoin::plugins::database_api::list_owner_histories_args,
    (start)(limit) )
 
-FC_REFLECT( steem::plugins::database_api::list_owner_histories_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_owner_histories_return,
    (owner_auths) )
 
-FC_REFLECT( steem::plugins::database_api::find_owner_histories_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_owner_histories_args,
    (owner) )
 
-FC_REFLECT( steem::plugins::database_api::list_account_recovery_requests_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_account_recovery_requests_return,
    (requests) )
 
-FC_REFLECT( steem::plugins::database_api::find_account_recovery_requests_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_account_recovery_requests_args,
    (accounts) )
 
 FC_REFLECT(
-   steem::plugins::database_api::list_change_recovery_account_requests_return,
+   CreateCoin::plugins::database_api::list_change_recovery_account_requests_return,
    (requests) )
 
-FC_REFLECT( steem::plugins::database_api::find_change_recovery_account_requests_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_change_recovery_account_requests_args,
    (accounts) )
 
-FC_REFLECT( steem::plugins::database_api::list_escrows_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_escrows_return,
    (escrows) )
 
-FC_REFLECT( steem::plugins::database_api::find_escrows_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_escrows_args,
    (from) )
 
-FC_REFLECT( steem::plugins::database_api::list_withdraw_vesting_routes_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_withdraw_vesting_routes_return,
    (routes) )
 
-FC_REFLECT( steem::plugins::database_api::find_withdraw_vesting_routes_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_withdraw_vesting_routes_args,
    (account)(order) )
 
-FC_REFLECT( steem::plugins::database_api::list_savings_withdrawals_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_savings_withdrawals_return,
    (withdrawals) )
 
-FC_REFLECT( steem::plugins::database_api::find_savings_withdrawals_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_savings_withdrawals_args,
    (account) )
 
-FC_REFLECT( steem::plugins::database_api::list_vesting_delegations_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_vesting_delegations_return,
    (delegations) )
 
-FC_REFLECT( steem::plugins::database_api::find_vesting_delegations_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_vesting_delegations_args,
    (account) )
 
-FC_REFLECT( steem::plugins::database_api::list_vesting_delegation_expirations_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_vesting_delegation_expirations_return,
    (delegations) )
 
-FC_REFLECT( steem::plugins::database_api::find_vesting_delegation_expirations_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_vesting_delegation_expirations_args,
    (account) )
 
-FC_REFLECT( steem::plugins::database_api::list_sbd_conversion_requests_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_sbd_conversion_requests_return,
    (requests) )
 
-FC_REFLECT( steem::plugins::database_api::find_sbd_conversion_requests_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_sbd_conversion_requests_args,
    (account) )
 
-FC_REFLECT( steem::plugins::database_api::list_decline_voting_rights_requests_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_decline_voting_rights_requests_return,
    (requests) )
 
-FC_REFLECT( steem::plugins::database_api::find_decline_voting_rights_requests_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_decline_voting_rights_requests_args,
    (accounts) )
 
-FC_REFLECT( steem::plugins::database_api::list_comments_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_comments_return,
    (comments) )
 
-FC_REFLECT( steem::plugins::database_api::find_comments_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_comments_args,
    (comments) )
 
-FC_REFLECT( steem::plugins::database_api::list_votes_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_votes_return,
    (votes) )
 
-FC_REFLECT( steem::plugins::database_api::find_votes_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_votes_args,
    (author)(permlink) )
 
-FC_REFLECT( steem::plugins::database_api::list_limit_orders_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_limit_orders_return,
    (orders) )
 
-FC_REFLECT( steem::plugins::database_api::find_limit_orders_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_limit_orders_args,
    (account) )
 
-FC_REFLECT( steem::plugins::database_api::get_order_book_args,
+FC_REFLECT( CreateCoin::plugins::database_api::get_order_book_args,
    (limit) )
 
-FC_REFLECT( steem::plugins::database_api::get_transaction_hex_args,
+FC_REFLECT( CreateCoin::plugins::database_api::get_transaction_hex_args,
    (trx) )
 
-FC_REFLECT( steem::plugins::database_api::get_transaction_hex_return,
+FC_REFLECT( CreateCoin::plugins::database_api::get_transaction_hex_return,
    (hex) )
 
-FC_REFLECT( steem::plugins::database_api::get_required_signatures_args,
+FC_REFLECT( CreateCoin::plugins::database_api::get_required_signatures_args,
    (trx)
    (available_keys) )
 
-FC_REFLECT( steem::plugins::database_api::get_required_signatures_return,
+FC_REFLECT( CreateCoin::plugins::database_api::get_required_signatures_return,
    (keys) )
 
-FC_REFLECT( steem::plugins::database_api::get_potential_signatures_args,
+FC_REFLECT( CreateCoin::plugins::database_api::get_potential_signatures_args,
    (trx) )
 
-FC_REFLECT( steem::plugins::database_api::verify_authority_args,
+FC_REFLECT( CreateCoin::plugins::database_api::verify_authority_args,
    (trx) )
 
-FC_REFLECT( steem::plugins::database_api::verify_authority_return,
+FC_REFLECT( CreateCoin::plugins::database_api::verify_authority_return,
    (valid) )
 
-FC_REFLECT( steem::plugins::database_api::verify_account_authority_args,
+FC_REFLECT( CreateCoin::plugins::database_api::verify_account_authority_args,
    (account)
    (signers) )
 
-FC_REFLECT( steem::plugins::database_api::verify_signatures_args,
+FC_REFLECT( CreateCoin::plugins::database_api::verify_signatures_args,
    (hash)
    (signatures)
    (required_owner)
@@ -728,24 +728,24 @@ FC_REFLECT( steem::plugins::database_api::verify_signatures_args,
    (required_posting)
    (required_other) )
 
-FC_REFLECT( steem::plugins::database_api::verify_signatures_return,
+FC_REFLECT( CreateCoin::plugins::database_api::verify_signatures_return,
    (valid) )
 
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
 
-FC_REFLECT( steem::plugins::database_api::get_nai_pool_return,
+FC_REFLECT( CreateCoin::plugins::database_api::get_nai_pool_return,
    (nai_pool) )
 
-FC_REFLECT( steem::plugins::database_api::list_smt_tokens_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_smt_tokens_return,
    (tokens) )
 
-FC_REFLECT( steem::plugins::database_api::find_smt_tokens_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_smt_tokens_args,
    (symbols)(ignore_precision) )
 
-FC_REFLECT( steem::plugins::database_api::list_smt_token_emissions_return,
+FC_REFLECT( CreateCoin::plugins::database_api::list_smt_token_emissions_return,
    (token_emissions) )
 
-FC_REFLECT( steem::plugins::database_api::find_smt_token_emissions_args,
+FC_REFLECT( CreateCoin::plugins::database_api::find_smt_token_emissions_args,
    (asset_symbol) )
 
 #endif

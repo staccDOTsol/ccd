@@ -54,10 +54,10 @@ inline bool is_little_endian() {
 
 /// Convert 64 bit value to network byte order
 /**
- * This method is prefixed to avoid conflicts with operating system level
+ * This method is prefixed to avoid conflicts with operating syCC level
  * macros for this functionality.
  *
- * TODO: figure out if it would be beneficial to use operating system level
+ * TODO: figure out if it would be beneficial to use operating syCC level
  * macros for this.
  *
  * @param src The integer in host byte order
@@ -86,10 +86,10 @@ inline uint64_t _htonll(uint64_t src) {
 
 /// Convert 64 bit value to host byte order
 /**
- * This method is prefixed to avoid conflicts with operating system level
+ * This method is prefixed to avoid conflicts with operating syCC level
  * macros for this functionality.
  *
- * TODO: figure out if it would be beneficial to use operating system level
+ * TODO: figure out if it would be beneficial to use operating syCC level
  * macros for this.
  *
  * @param src The integer in network byte order

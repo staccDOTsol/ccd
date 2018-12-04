@@ -1,13 +1,13 @@
 #pragma once
 
-#include <steem/protocol/types.hpp>
+#include <CreateCoin/protocol/types.hpp>
 
-#include <steem/protocol/operation_util.hpp>
-#include <steem/protocol/steem_operations.hpp>
-#include <steem/protocol/steem_virtual_operations.hpp>
-#include <steem/protocol/smt_operations.hpp>
+#include <CreateCoin/protocol/operation_util.hpp>
+#include <CreateCoin/protocol/CreateCoin_operations.hpp>
+#include <CreateCoin/protocol/CreateCoin_virtual_operations.hpp>
+#include <CreateCoin/protocol/smt_operations.hpp>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
    /** NOTE: do not change the order of any operations prior to the virtual operations
     * or it will trigger a hardfork.
@@ -66,7 +66,7 @@ namespace steem { namespace protocol {
             account_create_with_delegation_operation,
             witness_set_properties_operation,
 
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
             /// SMT operations
             claim_reward_balance2_operation,
 
@@ -109,12 +109,12 @@ namespace steem { namespace protocol {
 
    bool is_virtual_operation( const operation& op );
 
-} } // steem::protocol
+} } // CreateCoin::protocol
 
 /*namespace fc {
-    void to_variant( const steem::protocol::operation& var,  fc::variant& vo );
-    void from_variant( const fc::variant& var,  steem::protocol::operation& vo );
+    void to_variant( const CreateCoin::protocol::operation& var,  fc::variant& vo );
+    void from_variant( const fc::variant& var,  CreateCoin::protocol::operation& vo );
 }*/
 
-STEEM_DECLARE_OPERATION_TYPE( steem::protocol::operation )
-FC_REFLECT_TYPENAME( steem::protocol::operation )
+CreateCoin_DECLARE_OPERATION_TYPE( CreateCoin::protocol::operation )
+FC_REFLECT_TYPENAME( CreateCoin::protocol::operation )

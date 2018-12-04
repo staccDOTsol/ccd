@@ -1,24 +1,24 @@
 
 #pragma once
 
-#include <steem/protocol/schema_types.hpp>
-#include <steem/chain/schema_types.hpp>
-#include <steem/schema/schema.hpp>
+#include <CreateCoin/protocol/schema_types.hpp>
+#include <CreateCoin/chain/schema_types.hpp>
+#include <CreateCoin/schema/schema.hpp>
 
-#include <steem/protocol/steem_operations.hpp>
-#include <steem/protocol/operation_util_impl.hpp>
-#include <steem/protocol/types.hpp>
+#include <CreateCoin/protocol/CreateCoin_operations.hpp>
+#include <CreateCoin/protocol/operation_util_impl.hpp>
+#include <CreateCoin/protocol/types.hpp>
 
-#include <steem/chain/evaluator.hpp>
-#include <steem/chain/evaluator_registry.hpp>
-#include <steem/chain/custom_operation_interpreter.hpp>
+#include <CreateCoin/chain/evaluator.hpp>
+#include <CreateCoin/chain/evaluator_registry.hpp>
+#include <CreateCoin/chain/custom_operation_interpreter.hpp>
 
 #include <fc/variant.hpp>
 
 #include <string>
 #include <vector>
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
 using protocol::operation;
 using protocol::authority;
@@ -220,9 +220,9 @@ class generic_custom_operation_interpreter
          FC_CAPTURE_AND_RETHROW( (outer_o) )
       }
 
-      virtual std::shared_ptr< steem::schema::abstract_schema > get_operation_schema() override
+      virtual std::shared_ptr< CreateCoin::schema::abstract_schema > get_operation_schema() override
       {
-         return steem::schema::get_schema_for_type< CustomOperationType >();
+         return CreateCoin::schema::get_schema_for_type< CustomOperationType >();
       }
 
       virtual custom_id_type get_custom_id() override

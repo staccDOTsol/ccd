@@ -1,28 +1,28 @@
 
-#include <steem/chain/steem_fwd.hpp>
+#include <CreateCoin/chain/CreateCoin_fwd.hpp>
 
-#include <steem/plugins/follow/follow_plugin.hpp>
-#include <steem/plugins/follow/follow_objects.hpp>
-#include <steem/plugins/follow/follow_operations.hpp>
-#include <steem/plugins/follow/inc_performance.hpp>
+#include <CreateCoin/plugins/follow/follow_plugin.hpp>
+#include <CreateCoin/plugins/follow/follow_objects.hpp>
+#include <CreateCoin/plugins/follow/follow_operations.hpp>
+#include <CreateCoin/plugins/follow/inc_performance.hpp>
 
-#include <steem/chain/util/impacted.hpp>
+#include <CreateCoin/chain/util/impacted.hpp>
 
-#include <steem/protocol/config.hpp>
+#include <CreateCoin/protocol/config.hpp>
 
-#include <steem/chain/database.hpp>
-#include <steem/chain/index.hpp>
-#include <steem/chain/account_object.hpp>
-#include <steem/chain/comment_object.hpp>
+#include <CreateCoin/chain/database.hpp>
+#include <CreateCoin/chain/index.hpp>
+#include <CreateCoin/chain/account_object.hpp>
+#include <CreateCoin/chain/comment_object.hpp>
 
 #include <fc/smart_ref_impl.hpp>
 #include <fc/thread/thread.hpp>
 
 #include <memory>
 
-namespace steem { namespace plugins { namespace follow {
+namespace CreateCoin { namespace plugins { namespace follow {
 
-using namespace steem::protocol;
+using namespace CreateCoin::protocol;
 
 namespace detail {
 
@@ -30,7 +30,7 @@ class follow_plugin_impl
 {
    public:
       follow_plugin_impl( follow_plugin& _plugin ) :
-         _db( appbase::app().get_plugin< steem::plugins::chain::chain_plugin >().db() ),
+         _db( appbase::app().get_plugin< CreateCoin::plugins::chain::chain_plugin >().db() ),
          _self( _plugin ) {}
       ~follow_plugin_impl() {}
 
@@ -152,7 +152,7 @@ struct post_operation_visitor
    {
       try
       {
-         if( op.id == STEEM_FOLLOW_PLUGIN_NAME )
+         if( op.id == CreateCoin_FOLLOW_PLUGIN_NAME )
          {
             custom_json_operation new_cop;
 
@@ -342,7 +342,7 @@ void follow_plugin::plugin_initialize( const boost::program_options::variables_m
       my = std::make_unique< detail::follow_plugin_impl >( *this );
 
       // Each plugin needs its own evaluator registry.
-      _custom_operation_interpreter = std::make_shared< generic_custom_operation_interpreter< steem::plugins::follow::follow_plugin_operation > >( my->_db, name() );
+      _custom_operation_interpreter = std::make_shared< generic_custom_operation_interpreter< CreateCoin::plugins::follow::follow_plugin_operation > >( my->_db, name() );
 
       // Add each operation evaluator to the registry
       _custom_operation_interpreter->register_evaluator< follow_evaluator >( this );
@@ -388,4 +388,4 @@ void follow_plugin::plugin_shutdown()
    chain::util::disconnect_signal( my->_post_apply_operation_conn );
 }
 
-} } } // steem::plugins::follow
+} } } // CreateCoin::plugins::follow

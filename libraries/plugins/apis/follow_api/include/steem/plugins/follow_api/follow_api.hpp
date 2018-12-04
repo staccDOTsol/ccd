@@ -1,19 +1,19 @@
 #pragma once
-#include <steem/plugins/json_rpc/utility.hpp>
-#include <steem/plugins/follow/follow_objects.hpp>
-#include <steem/plugins/database_api/database_api_objects.hpp>
-#include <steem/plugins/reputation_api/reputation_api.hpp>
+#include <CreateCoin/plugins/json_rpc/utility.hpp>
+#include <CreateCoin/plugins/follow/follow_objects.hpp>
+#include <CreateCoin/plugins/database_api/database_api_objects.hpp>
+#include <CreateCoin/plugins/reputation_api/reputation_api.hpp>
 
-#include <steem/protocol/types.hpp>
+#include <CreateCoin/protocol/types.hpp>
 
 #include <fc/optional.hpp>
 #include <fc/variant.hpp>
 #include <fc/vector.hpp>
 
-namespace steem { namespace plugins { namespace follow {
+namespace CreateCoin { namespace plugins { namespace follow {
 
-using steem::protocol::account_name_type;
-using steem::plugins::reputation::account_reputation;
+using CreateCoin::protocol::account_name_type;
+using CreateCoin::plugins::reputation::account_reputation;
 
 namespace detail
 {
@@ -188,64 +188,64 @@ class follow_api
       std::unique_ptr< detail::follow_api_impl > my;
 };
 
-} } } // steem::plugins::follow
+} } } // CreateCoin::plugins::follow
 
-FC_REFLECT( steem::plugins::follow::feed_entry,
+FC_REFLECT( CreateCoin::plugins::follow::feed_entry,
             (author)(permlink)(reblog_by)(reblog_on)(entry_id) );
 
-FC_REFLECT( steem::plugins::follow::comment_feed_entry,
+FC_REFLECT( CreateCoin::plugins::follow::comment_feed_entry,
             (comment)(reblog_by)(reblog_on)(entry_id) );
 
-FC_REFLECT( steem::plugins::follow::blog_entry,
+FC_REFLECT( CreateCoin::plugins::follow::blog_entry,
             (author)(permlink)(blog)(reblog_on)(entry_id) );
 
-FC_REFLECT( steem::plugins::follow::comment_blog_entry,
+FC_REFLECT( CreateCoin::plugins::follow::comment_blog_entry,
             (comment)(blog)(reblog_on)(entry_id) );
 
-FC_REFLECT( steem::plugins::follow::api_follow_object,
+FC_REFLECT( CreateCoin::plugins::follow::api_follow_object,
             (follower)(following)(what) );
 
-FC_REFLECT( steem::plugins::follow::reblog_count,
+FC_REFLECT( CreateCoin::plugins::follow::reblog_count,
             (author)(count) );
 
-FC_REFLECT( steem::plugins::follow::get_followers_args,
+FC_REFLECT( CreateCoin::plugins::follow::get_followers_args,
             (account)(start)(type)(limit) );
 
-FC_REFLECT( steem::plugins::follow::get_followers_return,
+FC_REFLECT( CreateCoin::plugins::follow::get_followers_return,
             (followers) );
 
-FC_REFLECT( steem::plugins::follow::get_following_return,
+FC_REFLECT( CreateCoin::plugins::follow::get_following_return,
             (following) );
 
-FC_REFLECT( steem::plugins::follow::get_follow_count_args,
+FC_REFLECT( CreateCoin::plugins::follow::get_follow_count_args,
             (account) );
 
-FC_REFLECT( steem::plugins::follow::get_follow_count_return,
+FC_REFLECT( CreateCoin::plugins::follow::get_follow_count_return,
             (account)(follower_count)(following_count) );
 
-FC_REFLECT( steem::plugins::follow::get_feed_entries_args,
+FC_REFLECT( CreateCoin::plugins::follow::get_feed_entries_args,
             (account)(start_entry_id)(limit) );
 
-FC_REFLECT( steem::plugins::follow::get_feed_entries_return,
+FC_REFLECT( CreateCoin::plugins::follow::get_feed_entries_return,
             (feed) );
 
-FC_REFLECT( steem::plugins::follow::get_feed_return,
+FC_REFLECT( CreateCoin::plugins::follow::get_feed_return,
             (feed) );
 
-FC_REFLECT( steem::plugins::follow::get_blog_entries_return,
+FC_REFLECT( CreateCoin::plugins::follow::get_blog_entries_return,
             (blog) );
 
-FC_REFLECT( steem::plugins::follow::get_blog_return,
+FC_REFLECT( CreateCoin::plugins::follow::get_blog_return,
             (blog) );
 
-FC_REFLECT( steem::plugins::follow::get_reblogged_by_args,
+FC_REFLECT( CreateCoin::plugins::follow::get_reblogged_by_args,
             (author)(permlink) );
 
-FC_REFLECT( steem::plugins::follow::get_reblogged_by_return,
+FC_REFLECT( CreateCoin::plugins::follow::get_reblogged_by_return,
             (accounts) );
 
-FC_REFLECT( steem::plugins::follow::get_blog_authors_args,
+FC_REFLECT( CreateCoin::plugins::follow::get_blog_authors_args,
             (blog_account) );
 
-FC_REFLECT( steem::plugins::follow::get_blog_authors_return,
+FC_REFLECT( CreateCoin::plugins::follow::get_blog_authors_return,
             (blog_authors) );

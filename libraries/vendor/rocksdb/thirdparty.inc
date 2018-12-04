@@ -199,8 +199,8 @@ if (${USE_XPRESS} EQUAL 1)
 
   add_definitions(-DXPRESS)
   
-  # We are using the implementation provided by the system
-  set (SYSTEM_LIBS ${SYSTEM_LIBS} Cabinet.lib)
+  # We are using the implementation provided by the syCC
+  set (SYCC_LIBS ${SYCC_LIBS} Cabinet.lib)
 else ()
   message(STATUS "XPRESS is disabled")
 endif ()

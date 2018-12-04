@@ -1,9 +1,9 @@
-#ifndef STEEM_HARDFORK_0_9
-#define STEEM_HARDFORK_0_9 9
-#define STEEM_HARDFORK_0_9__141 STEEM_HARDFORK_0_9
+#ifndef CreateCoin_HARDFORK_0_9
+#define CreateCoin_HARDFORK_0_9 9
+#define CreateCoin_HARDFORK_0_9__141 CreateCoin_HARDFORK_0_9
 
-#define STEEM_HARDFORK_0_9_TIME 1468454400 // 2016-07-14T00:00:00 UTC
-#define STEEM_HARDFORK_0_9_VERSION hardfork_version( 0, 9 )
+#define CreateCoin_HARDFORK_0_9_TIME 1468454400 // 2016-07-14T00:00:00 UTC
+#define CreateCoin_HARDFORK_0_9_VERSION hardfork_version( 0, 9 )
 
 namespace hardfork9
 {
@@ -118,7 +118,7 @@ inline static const std::set< std::string >& get_compromised_accounts()
    "pwlaslo",
    "qamarpinkpanda",
    "recursive",
-   "reddit2steem",
+   "reddit2CreateCoin",
    "rimantas",
    "rok-sivante",
    "rseixas",
@@ -133,11 +133,11 @@ inline static const std::set< std::string >& get_compromised_accounts()
    "sonzweil",
    "spartako",
    "stan",
-   "steem-id",
-   "steemit1",
-   "steemitblog",
-   "steempower",
-   "steemychicken1",
+   "CreateCoin-id",
+   "CreateCoinit1",
+   "CreateCoinitblog",
+   "CreateCoinpower",
+   "CreateCoinychicken1",
    "str11ngfello",
    "streemian",
    "streetstyle",

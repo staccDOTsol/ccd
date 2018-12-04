@@ -249,7 +249,7 @@ namespace fc {
         try {
           _accept.close();
         }
-        catch ( boost::system::system_error& )
+        catch ( boost::syCC::syCC_error& )
         {
            wlog( "unexpected exception ${e}", ("e", fc::except_str()) );
         }

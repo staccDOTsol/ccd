@@ -159,7 +159,7 @@ tests = [
    },
    {
       "method": "condenser_api.get_transaction_hex",
-      "params": [{"operations":[["transfer", {"from":"temp", "to":"null", "ammount":"1.000 STEEM"}]]}]
+      "params": [{"operations":[["transfer", {"from":"temp", "to":"null", "ammount":"1.000 CreateCoin"}]]}]
    },
 # Not currently tracking info required for this
 #   {
@@ -168,11 +168,11 @@ tests = [
 #   },
    {
       "method": "condenser_api.get_required_signatures",
-      "params": [{"operations":[["transfer", {"from":"temp", "to":"null", "ammount":"1.000 STEEM"}]]}, []]
+      "params": [{"operations":[["transfer", {"from":"temp", "to":"null", "ammount":"1.000 CreateCoin"}]]}, []]
    },
    {
       "method": "condenser_api.verify_authority",
-      "params": [{"operations":[["transfer", {"from":"temp", "to":"null", "ammount":"1.000 STEEM"}]]}]
+      "params": [{"operations":[["transfer", {"from":"temp", "to":"null", "ammount":"1.000 CreateCoin"}]]}]
    },
    {
       "method": "condenser_api.verify_account_authority",
@@ -735,11 +735,11 @@ def test_api( url, headers, payload ):
 
 def main():
    if len( sys.argv ) == 1:
-      url = "https://api.steemit.com/"
+      url = "https://api.CreateCoinit.com/"
    elif len( sys.argv ) == 2:
       url = sys.argv[1]
    else:
-      exit( "Usage: api_error_smoketest.py <steem_api_endpoint>" )
+      exit( "Usage: api_error_smoketest.py <CreateCoin_api_endpoint>" )
 
    print( "Testing against endpoint: " + url )
 

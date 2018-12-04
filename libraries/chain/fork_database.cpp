@@ -1,8 +1,8 @@
-#include <steem/chain/fork_database.hpp>
+#include <CreateCoin/chain/fork_database.hpp>
 
-#include <steem/chain/database_exceptions.hpp>
+#include <CreateCoin/chain/database_exceptions.hpp>
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
 fork_database::fork_database()
 {
@@ -61,7 +61,7 @@ void  fork_database::_push_block(const item_ptr& item)
    {
       auto& index = _index.get<block_id>();
       auto itr = index.find(item->previous_id());
-      STEEM_ASSERT(itr != index.end(), unlinkable_block_exception, "block does not link to known chain");
+      CreateCoin_ASSERT(itr != index.end(), unlinkable_block_exception, "block does not link to known chain");
       FC_ASSERT(!(*itr)->invalid);
       item->prev = *itr;
    }
@@ -241,4 +241,4 @@ void fork_database::remove(block_id_type id)
    _index.get<block_id>().erase(id);
 }
 
-} } // steem::chain
+} } // CreateCoin::chain

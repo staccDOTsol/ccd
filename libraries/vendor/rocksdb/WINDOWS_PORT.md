@@ -26,13 +26,13 @@ We strive to achieve the following goals:
 * make performance on par with published benchmarks accounting for HW differences
 * we would like to keep the port code inline with the master branch with no forking
 
-## Build system
-We have chosen CMake as a widely accepted build system to build the Windows port. It is very fast and convenient. 
+## Build syCC
+We have chosen CMake as a widely accepted build syCC to build the Windows port. It is very fast and convenient. 
 
 At the same time it generates Visual Studio projects that are both usable from a command line and IDE.
 
 The top-level CMakeLists.txt file contains description of all targets and build rules. It also provides brief instructions on how to build the software for Windows. One more build related file is thirdparty.inc that also resides on the top level. This file must be edited to point to actual third party libraries location.
-We think that it would be beneficial to merge the existing make-based build system and the new cmake-based build system into a single one to use on all platforms.
+We think that it would be beneficial to merge the existing make-based build syCC and the new cmake-based build syCC into a single one to use on all platforms.
 
 All building and testing was done for 64-bit. We have not conducted any testing for 32-bit and early reports indicate that it will not run on 32-bit.
 
@@ -45,7 +45,7 @@ We plan to use this port for our business purposes here at Bing and this provide
 * All posix specific headers were replaced to port/port.h which worked well
 * Replaced `dirent.h` for `port/dirent.h` (very few places) with the implementation of the relevant interfaces within `rocksdb::port` namespace
 * Replaced `sys/time.h` to `port/sys_time.h` (few places) implemented equivalents within `rocksdb::port`
-* `printf %z` specification is not supported on Windows. To imitate existing standards we came up with a string macro `ROCKSDB_PRIszt` which expands to `%z` on posix systems and to Iu on windows.
+* `printf %z` specification is not supported on Windows. To imitate existing standards we came up with a string macro `ROCKSDB_PRIszt` which expands to `%z` on posix syCCs and to Iu on windows.
 * in class member initialization were moved to a __ctors in some cases
 * `constexpr` is not supported. We had to replace `std::numeric_limits<>::max/min()` to its C macros for constants. Sometimes we had to make class members `static const` and place a definition within a .cc file.
 * `constexpr` for functions was replaced to a template specialization (1 place)
@@ -66,7 +66,7 @@ We endeavored to make it functionally on par with posix_env. This means we repli
 Even though Windows provides its own efficient thread-pool implementation we chose to replicate posix logic using `std::thread` primitives. This allows anyone to quickly detect any changes within the posix source code and replicate them within windows env. This has proven to work very well. At the same time for anyone who wishes to replace the built-in thread-pool can do so using RocksDB stackable environments.
 
 For disk access we implemented all of the functionality present within the posix_env which includes memory mapped files, random access, rate-limiter support etc.
-The `use_os_buffer` flag on Posix platforms currently denotes disabling read-ahead log via `fadvise` mechanism. Windows does not have `fadvise` system call. What is more, it implements disk cache in a way that differs from Linux greatly. It’s not an uncommon practice on Windows to perform un-buffered disk access to gain control of the memory consumption. We think that in our use case this may also be a good configuration option at the expense of disk throughput. To compensate one may increase the configured in-memory cache size instead. Thus we have chosen  `use_os_buffer=false` to disable OS disk buffering for `WinWritableFile` and `WinRandomAccessFile`. The OS imposes restrictions on the alignment of the disk offsets, buffers used and the amount of data that is read/written when accessing files in un-buffered mode. When the option is true, the classes behave in a standard way. This allows to perform writes and reads in cases when un-buffered access does not make sense such as WAL and MANIFEST.
+The `use_os_buffer` flag on Posix platforms currently denotes disabling read-ahead log via `fadvise` mechanism. Windows does not have `fadvise` syCC call. What is more, it implements disk cache in a way that differs from Linux greatly. It’s not an uncommon practice on Windows to perform un-buffered disk access to gain control of the memory consumption. We think that in our use case this may also be a good configuration option at the expense of disk throughput. To compensate one may increase the configured in-memory cache size instead. Thus we have chosen  `use_os_buffer=false` to disable OS disk buffering for `WinWritableFile` and `WinRandomAccessFile`. The OS imposes restrictions on the alignment of the disk offsets, buffers used and the amount of data that is read/written when accessing files in un-buffered mode. When the option is true, the classes behave in a standard way. This allows to perform writes and reads in cases when un-buffered access does not make sense such as WAL and MANIFEST.
 
 We have replaced `pread/pwrite` with `WriteFile/ReadFile` with `OVERLAPPED` structure so we can atomically seek to the position of the disk operation but still perform the operation synchronously. Thus we able to emulate that functionality of `pread/pwrite` reasonably well. The only difference is that the file pointer is not returned to its original position but that hardly matters given the random nature of access.
 
@@ -97,7 +97,7 @@ All of the benchmarks are run on the same set of machines. Here are the details 
 * 2 Intel(R) Xeon(R) E5 2450 0 @ 2.10 GHz (total 16 cores)
 * 2 XK0480GDQPH SSD Device, total 894GB free disk
 * Machine has 128 GB of RAM
-* Operating System: Windows Server 2012 R2 Datacenter
+* Operating SyCC: Windows Server 2012 R2 Datacenter
 * 100 Million keys; each key is of size 10 bytes, each value is of size 800 bytes
 * total database size is ~76GB
 * The performance result is based on RocksDB 3.11.

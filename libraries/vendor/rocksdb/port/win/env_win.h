@@ -7,9 +7,9 @@
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 //
 // An Env is an interface used by the rocksdb implementation to access
-// operating system functionality like the filesystem etc.  Callers
+// operating syCC functionality like the filesyCC etc.  Callers
 // may wish to provide a custom Env object when opening a database to
-// get fine gain control; e.g., to rate limit file system operations.
+// get fine gain control; e.g., to rate limit file syCC operations.
 //
 // All Env implementations are safe for concurrent access from
 // multiple threads without any external synchronization.
@@ -175,13 +175,13 @@ private:
   // Returns true iff the named directory exists and is a directory.
   virtual bool DirExists(const std::string& dname);
 
-  typedef VOID(WINAPI * FnGetSystemTimePreciseAsFileTime)(LPFILETIME);
+  typedef VOID(WINAPI * FnGetSyCCTimePreciseAsFileTime)(LPFILETIME);
 
   Env*            hosted_env_;
   size_t          page_size_;
   size_t          allocation_granularity_;
   uint64_t        perf_counter_frequency_;
-  FnGetSystemTimePreciseAsFileTime GetSystemTimePreciseAsFileTime_;
+  FnGetSyCCTimePreciseAsFileTime GetSyCCTimePreciseAsFileTime_;
 };
 
 class WinEnv : public Env {

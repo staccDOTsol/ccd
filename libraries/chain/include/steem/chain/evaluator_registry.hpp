@@ -1,8 +1,8 @@
 #pragma once
 
-#include <steem/chain/evaluator.hpp>
+#include <CreateCoin/chain/evaluator.hpp>
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
 template< typename OperationType >
 class evaluator_registry

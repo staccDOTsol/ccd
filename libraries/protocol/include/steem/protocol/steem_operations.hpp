@@ -1,13 +1,13 @@
 #pragma once
-#include <steem/protocol/base.hpp>
-#include <steem/protocol/block_header.hpp>
-#include <steem/protocol/asset.hpp>
-#include <steem/protocol/validation.hpp>
-#include <steem/protocol/legacy_asset.hpp>
+#include <CreateCoin/protocol/base.hpp>
+#include <CreateCoin/protocol/block_header.hpp>
+#include <CreateCoin/protocol/asset.hpp>
+#include <CreateCoin/protocol/validation.hpp>
+#include <CreateCoin/protocol/legacy_asset.hpp>
 
 #include <fc/crypto/equihash.hpp>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
    void validate_auth_size( const authority& a );
 
@@ -100,7 +100,7 @@ namespace steem { namespace protocol {
       void validate()const;
    };
 
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
    struct votable_asset_info_v1
    {
       votable_asset_info_v1() = default;
@@ -115,7 +115,7 @@ namespace steem { namespace protocol {
 
    /** Allows to store all SMT tokens being allowed to use during voting process.
     *  Maps asset symbol (SMT) to the vote info.
-    *  @see SMT spec for details: https://github.com/steemit/smt-whitepaper/blob/master/smt-manual/manual.md
+    *  @see SMT spec for details: https://github.com/CreateCoinit/smt-whitepaper/blob/master/smt-manual/manual.md
     */
    struct allowed_vote_assets
    {
@@ -163,19 +163,19 @@ namespace steem { namespace protocol {
       void validate() const
       {
          FC_ASSERT(votable_assets.size() <= SMT_MAX_VOTABLE_ASSETS, "Too much votable assets specified");
-         FC_ASSERT(is_allowed(STEEM_SYMBOL) == false,
-            "STEEM can not be explicitly specified as one of allowed_vote_assets");
+         FC_ASSERT(is_allowed(CreateCoin_SYMBOL) == false,
+            "CreateCoin can not be explicitly specified as one of allowed_vote_assets");
       }
 
       flat_map< asset_symbol_type, votable_asset_info > votable_assets;
    };
-#endif /// STEEM_ENABLE_SMT
+#endif /// CreateCoin_ENABLE_SMT
 
    typedef static_variant<
             comment_payout_beneficiaries
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
             ,allowed_vote_assets
-#endif /// STEEM_ENABLE_SMT
+#endif /// CreateCoin_ENABLE_SMT
            > comment_options_extension;
 
    typedef flat_set< comment_options_extension > comment_options_extensions_type;
@@ -185,7 +185,7 @@ namespace steem { namespace protocol {
     *  operation allows authors to update properties associated with their post.
     *
     *  The max_accepted_payout may be decreased, but never increased.
-    *  The percent_steem_dollars may be decreased, but never increased
+    *  The percent_CreateCoin_dollars may be decreased, but never increased
     *
     */
    struct comment_options_operation : public base_operation
@@ -194,7 +194,7 @@ namespace steem { namespace protocol {
       string            permlink;
 
       asset             max_accepted_payout    = asset( 1000000000, SBD_SYMBOL );       /// SBD value of the maximum payout this post will receive
-      uint16_t          percent_steem_dollars  = STEEM_100_PERCENT; /// the percent of Steem Dollars to key, unkept amounts will be received as Steem Power
+      uint16_t          percent_CreateCoin_dollars  = CreateCoin_100_PERCENT; /// the percent of CreateCoin Dollars to key, unkept amounts will be received as CreateCoin Power
       bool              allow_votes            = true;      /// allows a post to receive votes;
       bool              allow_curation_rewards = true; /// allows voters to recieve curation rewards. Rewards return to reward fund.
       comment_options_extensions_type extensions;
@@ -256,7 +256,7 @@ namespace steem { namespace protocol {
    /**
     * @ingroup operations
     *
-    * @brief Transfers STEEM from one account to another.
+    * @brief Transfers CreateCoin from one account to another.
     */
    struct transfer_operation : public base_operation
    {
@@ -301,7 +301,7 @@ namespace steem { namespace protocol {
       uint32_t          escrow_id = 30;
 
       asset             sbd_amount = asset( 0, SBD_SYMBOL );
-      asset             steem_amount = asset( 0, STEEM_SYMBOL );
+      asset             CreateCoin_amount = asset( 0, CreateCoin_SYMBOL );
       asset             fee;
 
       time_point_sec    ratification_deadline;
@@ -373,7 +373,7 @@ namespace steem { namespace protocol {
 
       uint32_t          escrow_id = 30;
       asset             sbd_amount = asset( 0, SBD_SYMBOL ); ///< the amount of sbd to release
-      asset             steem_amount = asset( 0, STEEM_SYMBOL ); ///< the amount of steem to release
+      asset             CreateCoin_amount = asset( 0, CreateCoin_SYMBOL ); ///< the amount of CreateCoin to release
 
       void validate()const;
       void get_required_active_authorities( flat_set<account_name_type>& a )const{ a.insert(who); }
@@ -381,7 +381,7 @@ namespace steem { namespace protocol {
 
 
    /**
-    *  This operation converts liquid token (STEEM or liquid SMT) into VFS (Vesting Fund Shares,
+    *  This operation converts liquid token (CreateCoin or liquid SMT) into VFS (Vesting Fund Shares,
     *  VESTS or vesting SMT) at the current exchange rate. With this operation it is possible to
     *  give another account vesting shares so that faucets can pre-fund new accounts with vesting shares.
     */
@@ -389,7 +389,7 @@ namespace steem { namespace protocol {
    {
       account_name_type from;
       account_name_type to;      ///< if null, then same as from
-      asset             amount;  ///< must be STEEM or liquid variant of SMT
+      asset             amount;  ///< must be CreateCoin or liquid variant of SMT
 
       void validate()const;
       void get_required_active_authorities( flat_set<account_name_type>& a )const{ a.insert(from); }
@@ -422,7 +422,7 @@ namespace steem { namespace protocol {
     * request for the funds to be transferred directly to another account's
     * balance rather than the withdrawing account. In addition, those funds
     * can be immediately vested again, circumventing the conversion from
-    * vests to steem and back, guaranteeing they maintain their value.
+    * vests to CreateCoin and back, guaranteeing they maintain their value.
     */
    struct set_withdraw_vesting_route_operation : public base_operation
    {
@@ -444,19 +444,19 @@ namespace steem { namespace protocol {
    struct legacy_chain_properties
    {
       /**
-       *  This fee, paid in STEEM, is converted into VESTING SHARES for the new account. Accounts
+       *  This fee, paid in CreateCoin, is converted into VESTING SHARES for the new account. Accounts
        *  without vesting shares cannot earn usage rations and therefore are powerless. This minimum
        *  fee requires all accounts to have some kind of commitment to the network that includes the
        *  ability to vote and make transactions.
        */
-      legacy_steem_asset account_creation_fee = legacy_steem_asset::from_amount( STEEM_MIN_ACCOUNT_CREATION_FEE );
+      legacy_CreateCoin_asset account_creation_fee = legacy_CreateCoin_asset::from_amount( CreateCoin_MIN_ACCOUNT_CREATION_FEE );
 
       /**
        *  This witnesses vote for the maximum_block_size which is used by the network
        *  to tune rate limiting and capacity
        */
-      uint32_t          maximum_block_size = STEEM_MIN_BLOCK_SIZE_LIMIT * 2;
-      uint16_t          sbd_interest_rate  = STEEM_DEFAULT_SBD_INTEREST_RATE;
+      uint32_t          maximum_block_size = CreateCoin_MIN_BLOCK_SIZE_LIMIT * 2;
+      uint16_t          sbd_interest_rate  = CreateCoin_DEFAULT_SBD_INTEREST_RATE;
 
       template< bool force_canon >
       void validate()const
@@ -465,10 +465,10 @@ namespace steem { namespace protocol {
          {
             FC_ASSERT( account_creation_fee.symbol.is_canon() );
          }
-         FC_ASSERT( account_creation_fee.amount >= STEEM_MIN_ACCOUNT_CREATION_FEE);
-         FC_ASSERT( maximum_block_size >= STEEM_MIN_BLOCK_SIZE_LIMIT);
+         FC_ASSERT( account_creation_fee.amount >= CreateCoin_MIN_ACCOUNT_CREATION_FEE);
+         FC_ASSERT( maximum_block_size >= CreateCoin_MIN_BLOCK_SIZE_LIMIT);
          FC_ASSERT( sbd_interest_rate >= 0 );
-         FC_ASSERT( sbd_interest_rate <= STEEM_100_PERCENT );
+         FC_ASSERT( sbd_interest_rate <= CreateCoin_100_PERCENT );
       }
    };
 
@@ -517,7 +517,7 @@ namespace steem { namespace protocol {
             a.push_back( authority( 1, signing_key, 1 ) );
          }
          else
-            a.push_back( authority( 1, STEEM_NULL_ACCOUNT, 1 ) ); // The null account auth is impossible to satisfy
+            a.push_back( authority( 1, CreateCoin_NULL_ACCOUNT, 1 ) ); // The null account auth is impossible to satisfy
       }
    };
 
@@ -600,7 +600,7 @@ namespace steem { namespace protocol {
 
    /**
     *  Feeds can only be published by the top N witnesses which are included in every round and are
-    *  used to define the exchange rate between steem and the dollar.
+    *  used to define the exchange rate between CreateCoin and the dollar.
     */
    struct feed_publish_operation : public base_operation
    {
@@ -613,8 +613,8 @@ namespace steem { namespace protocol {
 
 
    /**
-    *  This operation instructs the blockchain to start a conversion between STEEM and SBD,
-    *  The funds are deposited after STEEM_CONVERSION_DELAY
+    *  This operation instructs the blockchain to start a conversion between CreateCoin and SBD,
+    *  The funds are deposited after CreateCoin_CONVERSION_DELAY
     */
    struct convert_operation : public base_operation
    {
@@ -776,14 +776,14 @@ namespace steem { namespace protocol {
    /**
     * This operation is used to report a miner who signs two blocks
     * at the same time. To be valid, the violation must be reported within
-    * STEEM_MAX_WITNESSES blocks of the head block (1 round) and the
+    * CreateCoin_MAX_WITNESSES blocks of the head block (1 round) and the
     * producer must be in the ACTIVE witness set.
     *
     * Users not in the ACTIVE witness set should not have to worry about their
     * key getting compromised and being used to produced multiple blocks so
-    * the attacker can report it and steel their vesting steem.
+    * the attacker can report it and steel their vesting CreateCoin.
     *
-    * The result of the operation is to transfer the full VESTING STEEM balance
+    * The result of the operation is to transfer the full VESTING CreateCoin balance
     * of the block producer to the reporter.
     */
    struct report_over_production_operation : public base_operation
@@ -868,7 +868,7 @@ namespace steem { namespace protocol {
     * The two setp combination of the account recovery request and recover is
     * safe because the recovery account never has access to secrets of the account
     * to recover. They simply act as an on chain endorsement of off chain identity.
-    * In other systems, a fork would be required to enforce such off chain state.
+    * In other syCCs, a fork would be required to enforce such off chain state.
     * Additionally, an account cannot be permanently recovered to the wrong account.
     * While any owner authority from the past 30 days can be used, including a compromised
     * authority, the account can be continually recovered until the recovery account
@@ -1006,7 +1006,7 @@ namespace steem { namespace protocol {
    struct claim_reward_balance_operation : public base_operation
    {
       account_name_type account;
-      asset             reward_steem;
+      asset             reward_CreateCoin;
       asset             reward_sbd;
       asset             reward_vests;
 
@@ -1014,7 +1014,7 @@ namespace steem { namespace protocol {
       void validate() const;
    };
 
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
    /** Differs with original operation with extensions field and a container of tokens that will
     *  be rewarded to an account. See discussion in issue #1859
     */
@@ -1051,35 +1051,35 @@ namespace steem { namespace protocol {
       void get_required_active_authorities( flat_set< account_name_type >& a ) const { a.insert( delegator ); }
       void validate() const;
    };
-} } // steem::protocol
+} } // CreateCoin::protocol
 
 
-FC_REFLECT( steem::protocol::transfer_to_savings_operation, (from)(to)(amount)(memo) )
-FC_REFLECT( steem::protocol::transfer_from_savings_operation, (from)(request_id)(to)(amount)(memo) )
-FC_REFLECT( steem::protocol::cancel_transfer_from_savings_operation, (from)(request_id) )
+FC_REFLECT( CreateCoin::protocol::transfer_to_savings_operation, (from)(to)(amount)(memo) )
+FC_REFLECT( CreateCoin::protocol::transfer_from_savings_operation, (from)(request_id)(to)(amount)(memo) )
+FC_REFLECT( CreateCoin::protocol::cancel_transfer_from_savings_operation, (from)(request_id) )
 
-FC_REFLECT( steem::protocol::reset_account_operation, (reset_account)(account_to_reset)(new_owner_authority) )
-FC_REFLECT( steem::protocol::set_reset_account_operation, (account)(current_reset_account)(reset_account) )
+FC_REFLECT( CreateCoin::protocol::reset_account_operation, (reset_account)(account_to_reset)(new_owner_authority) )
+FC_REFLECT( CreateCoin::protocol::set_reset_account_operation, (account)(current_reset_account)(reset_account) )
 
 
-FC_REFLECT( steem::protocol::report_over_production_operation, (reporter)(first_block)(second_block) )
-FC_REFLECT( steem::protocol::convert_operation, (owner)(requestid)(amount) )
-FC_REFLECT( steem::protocol::feed_publish_operation, (publisher)(exchange_rate) )
-FC_REFLECT( steem::protocol::pow, (worker)(input)(signature)(work) )
-FC_REFLECT( steem::protocol::pow2, (input)(pow_summary) )
-FC_REFLECT( steem::protocol::pow2_input, (worker_account)(prev_block)(nonce) )
-FC_REFLECT( steem::protocol::equihash_pow, (input)(proof)(prev_block)(pow_summary) )
-FC_REFLECT( steem::protocol::legacy_chain_properties,
+FC_REFLECT( CreateCoin::protocol::report_over_production_operation, (reporter)(first_block)(second_block) )
+FC_REFLECT( CreateCoin::protocol::convert_operation, (owner)(requestid)(amount) )
+FC_REFLECT( CreateCoin::protocol::feed_publish_operation, (publisher)(exchange_rate) )
+FC_REFLECT( CreateCoin::protocol::pow, (worker)(input)(signature)(work) )
+FC_REFLECT( CreateCoin::protocol::pow2, (input)(pow_summary) )
+FC_REFLECT( CreateCoin::protocol::pow2_input, (worker_account)(prev_block)(nonce) )
+FC_REFLECT( CreateCoin::protocol::equihash_pow, (input)(proof)(prev_block)(pow_summary) )
+FC_REFLECT( CreateCoin::protocol::legacy_chain_properties,
             (account_creation_fee)
             (maximum_block_size)
             (sbd_interest_rate)
           )
 
-FC_REFLECT_TYPENAME( steem::protocol::pow2_work )
-FC_REFLECT( steem::protocol::pow_operation, (worker_account)(block_id)(nonce)(work)(props) )
-FC_REFLECT( steem::protocol::pow2_operation, (work)(new_owner_key)(props) )
+FC_REFLECT_TYPENAME( CreateCoin::protocol::pow2_work )
+FC_REFLECT( CreateCoin::protocol::pow_operation, (worker_account)(block_id)(nonce)(work)(props) )
+FC_REFLECT( CreateCoin::protocol::pow2_operation, (work)(new_owner_key)(props) )
 
-FC_REFLECT( steem::protocol::account_create_operation,
+FC_REFLECT( CreateCoin::protocol::account_create_operation,
             (fee)
             (creator)
             (new_account_name)
@@ -1089,7 +1089,7 @@ FC_REFLECT( steem::protocol::account_create_operation,
             (memo_key)
             (json_metadata) )
 
-FC_REFLECT( steem::protocol::account_create_with_delegation_operation,
+FC_REFLECT( CreateCoin::protocol::account_create_with_delegation_operation,
             (fee)
             (delegation)
             (creator)
@@ -1101,7 +1101,7 @@ FC_REFLECT( steem::protocol::account_create_with_delegation_operation,
             (json_metadata)
             (extensions) )
 
-FC_REFLECT( steem::protocol::account_update_operation,
+FC_REFLECT( CreateCoin::protocol::account_update_operation,
             (account)
             (owner)
             (active)
@@ -1109,48 +1109,48 @@ FC_REFLECT( steem::protocol::account_update_operation,
             (memo_key)
             (json_metadata) )
 
-FC_REFLECT( steem::protocol::transfer_operation, (from)(to)(amount)(memo) )
-FC_REFLECT( steem::protocol::transfer_to_vesting_operation, (from)(to)(amount) )
-FC_REFLECT( steem::protocol::withdraw_vesting_operation, (account)(vesting_shares) )
-FC_REFLECT( steem::protocol::set_withdraw_vesting_route_operation, (from_account)(to_account)(percent)(auto_vest) )
-FC_REFLECT( steem::protocol::witness_update_operation, (owner)(url)(block_signing_key)(props)(fee) )
-FC_REFLECT( steem::protocol::witness_set_properties_operation, (owner)(props)(extensions) )
-FC_REFLECT( steem::protocol::account_witness_vote_operation, (account)(witness)(approve) )
-FC_REFLECT( steem::protocol::account_witness_proxy_operation, (account)(proxy) )
-FC_REFLECT( steem::protocol::comment_operation, (parent_author)(parent_permlink)(author)(permlink)(title)(body)(json_metadata) )
-FC_REFLECT( steem::protocol::vote_operation, (voter)(author)(permlink)(weight) )
-FC_REFLECT( steem::protocol::custom_operation, (required_auths)(id)(data) )
-FC_REFLECT( steem::protocol::custom_json_operation, (required_auths)(required_posting_auths)(id)(json) )
-FC_REFLECT( steem::protocol::custom_binary_operation, (required_owner_auths)(required_active_auths)(required_posting_auths)(required_auths)(id)(data) )
-FC_REFLECT( steem::protocol::limit_order_create_operation, (owner)(orderid)(amount_to_sell)(min_to_receive)(fill_or_kill)(expiration) )
-FC_REFLECT( steem::protocol::limit_order_create2_operation, (owner)(orderid)(amount_to_sell)(exchange_rate)(fill_or_kill)(expiration) )
-FC_REFLECT( steem::protocol::limit_order_cancel_operation, (owner)(orderid) )
+FC_REFLECT( CreateCoin::protocol::transfer_operation, (from)(to)(amount)(memo) )
+FC_REFLECT( CreateCoin::protocol::transfer_to_vesting_operation, (from)(to)(amount) )
+FC_REFLECT( CreateCoin::protocol::withdraw_vesting_operation, (account)(vesting_shares) )
+FC_REFLECT( CreateCoin::protocol::set_withdraw_vesting_route_operation, (from_account)(to_account)(percent)(auto_vest) )
+FC_REFLECT( CreateCoin::protocol::witness_update_operation, (owner)(url)(block_signing_key)(props)(fee) )
+FC_REFLECT( CreateCoin::protocol::witness_set_properties_operation, (owner)(props)(extensions) )
+FC_REFLECT( CreateCoin::protocol::account_witness_vote_operation, (account)(witness)(approve) )
+FC_REFLECT( CreateCoin::protocol::account_witness_proxy_operation, (account)(proxy) )
+FC_REFLECT( CreateCoin::protocol::comment_operation, (parent_author)(parent_permlink)(author)(permlink)(title)(body)(json_metadata) )
+FC_REFLECT( CreateCoin::protocol::vote_operation, (voter)(author)(permlink)(weight) )
+FC_REFLECT( CreateCoin::protocol::custom_operation, (required_auths)(id)(data) )
+FC_REFLECT( CreateCoin::protocol::custom_json_operation, (required_auths)(required_posting_auths)(id)(json) )
+FC_REFLECT( CreateCoin::protocol::custom_binary_operation, (required_owner_auths)(required_active_auths)(required_posting_auths)(required_auths)(id)(data) )
+FC_REFLECT( CreateCoin::protocol::limit_order_create_operation, (owner)(orderid)(amount_to_sell)(min_to_receive)(fill_or_kill)(expiration) )
+FC_REFLECT( CreateCoin::protocol::limit_order_create2_operation, (owner)(orderid)(amount_to_sell)(exchange_rate)(fill_or_kill)(expiration) )
+FC_REFLECT( CreateCoin::protocol::limit_order_cancel_operation, (owner)(orderid) )
 
-FC_REFLECT( steem::protocol::delete_comment_operation, (author)(permlink) );
+FC_REFLECT( CreateCoin::protocol::delete_comment_operation, (author)(permlink) );
 
-FC_REFLECT( steem::protocol::beneficiary_route_type, (account)(weight) )
-FC_REFLECT( steem::protocol::comment_payout_beneficiaries, (beneficiaries) )
+FC_REFLECT( CreateCoin::protocol::beneficiary_route_type, (account)(weight) )
+FC_REFLECT( CreateCoin::protocol::comment_payout_beneficiaries, (beneficiaries) )
 
-#ifdef STEEM_ENABLE_SMT
-FC_REFLECT( steem::protocol::votable_asset_info_v1, (max_accepted_payout)(allow_curation_rewards) )
-FC_REFLECT( steem::protocol::allowed_vote_assets, (votable_assets) )
+#ifdef CreateCoin_ENABLE_SMT
+FC_REFLECT( CreateCoin::protocol::votable_asset_info_v1, (max_accepted_payout)(allow_curation_rewards) )
+FC_REFLECT( CreateCoin::protocol::allowed_vote_assets, (votable_assets) )
 #endif
 
-FC_REFLECT_TYPENAME( steem::protocol::comment_options_extension )
-FC_REFLECT( steem::protocol::comment_options_operation, (author)(permlink)(max_accepted_payout)(percent_steem_dollars)(allow_votes)(allow_curation_rewards)(extensions) )
+FC_REFLECT_TYPENAME( CreateCoin::protocol::comment_options_extension )
+FC_REFLECT( CreateCoin::protocol::comment_options_operation, (author)(permlink)(max_accepted_payout)(percent_CreateCoin_dollars)(allow_votes)(allow_curation_rewards)(extensions) )
 
-FC_REFLECT( steem::protocol::escrow_transfer_operation, (from)(to)(sbd_amount)(steem_amount)(escrow_id)(agent)(fee)(json_meta)(ratification_deadline)(escrow_expiration) );
-FC_REFLECT( steem::protocol::escrow_approve_operation, (from)(to)(agent)(who)(escrow_id)(approve) );
-FC_REFLECT( steem::protocol::escrow_dispute_operation, (from)(to)(agent)(who)(escrow_id) );
-FC_REFLECT( steem::protocol::escrow_release_operation, (from)(to)(agent)(who)(receiver)(escrow_id)(sbd_amount)(steem_amount) );
-FC_REFLECT( steem::protocol::claim_account_operation, (creator)(fee)(extensions) );
-FC_REFLECT( steem::protocol::create_claimed_account_operation, (creator)(new_account_name)(owner)(active)(posting)(memo_key)(json_metadata)(extensions) );
-FC_REFLECT( steem::protocol::request_account_recovery_operation, (recovery_account)(account_to_recover)(new_owner_authority)(extensions) );
-FC_REFLECT( steem::protocol::recover_account_operation, (account_to_recover)(new_owner_authority)(recent_owner_authority)(extensions) );
-FC_REFLECT( steem::protocol::change_recovery_account_operation, (account_to_recover)(new_recovery_account)(extensions) );
-FC_REFLECT( steem::protocol::decline_voting_rights_operation, (account)(decline) );
-FC_REFLECT( steem::protocol::claim_reward_balance_operation, (account)(reward_steem)(reward_sbd)(reward_vests) )
-#ifdef STEEM_ENABLE_SMT
-FC_REFLECT( steem::protocol::claim_reward_balance2_operation, (account)(extensions)(reward_tokens) )
+FC_REFLECT( CreateCoin::protocol::escrow_transfer_operation, (from)(to)(sbd_amount)(CreateCoin_amount)(escrow_id)(agent)(fee)(json_meta)(ratification_deadline)(escrow_expiration) );
+FC_REFLECT( CreateCoin::protocol::escrow_approve_operation, (from)(to)(agent)(who)(escrow_id)(approve) );
+FC_REFLECT( CreateCoin::protocol::escrow_dispute_operation, (from)(to)(agent)(who)(escrow_id) );
+FC_REFLECT( CreateCoin::protocol::escrow_release_operation, (from)(to)(agent)(who)(receiver)(escrow_id)(sbd_amount)(CreateCoin_amount) );
+FC_REFLECT( CreateCoin::protocol::claim_account_operation, (creator)(fee)(extensions) );
+FC_REFLECT( CreateCoin::protocol::create_claimed_account_operation, (creator)(new_account_name)(owner)(active)(posting)(memo_key)(json_metadata)(extensions) );
+FC_REFLECT( CreateCoin::protocol::request_account_recovery_operation, (recovery_account)(account_to_recover)(new_owner_authority)(extensions) );
+FC_REFLECT( CreateCoin::protocol::recover_account_operation, (account_to_recover)(new_owner_authority)(recent_owner_authority)(extensions) );
+FC_REFLECT( CreateCoin::protocol::change_recovery_account_operation, (account_to_recover)(new_recovery_account)(extensions) );
+FC_REFLECT( CreateCoin::protocol::decline_voting_rights_operation, (account)(decline) );
+FC_REFLECT( CreateCoin::protocol::claim_reward_balance_operation, (account)(reward_CreateCoin)(reward_sbd)(reward_vests) )
+#ifdef CreateCoin_ENABLE_SMT
+FC_REFLECT( CreateCoin::protocol::claim_reward_balance2_operation, (account)(extensions)(reward_tokens) )
 #endif
-FC_REFLECT( steem::protocol::delegate_vesting_shares_operation, (delegator)(delegatee)(vesting_shares) );
+FC_REFLECT( CreateCoin::protocol::delegate_vesting_shares_operation, (delegator)(delegatee)(vesting_shares) );

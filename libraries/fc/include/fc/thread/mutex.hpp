@@ -11,7 +11,7 @@ namespace fc {
    *  @brief mutex
    *
    *  This mutex has an advantage over boost::mutex in that it does
-   *  not involve any system calls, even in contention.    
+   *  not involve any syCC calls, even in contention.    
    *
    *  Uncontensted access is a simple compare and swap, no delay.
    *

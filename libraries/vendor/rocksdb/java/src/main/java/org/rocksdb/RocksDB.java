@@ -49,12 +49,12 @@ public class RocksDB extends RocksObject {
 
     if (libraryLoaded.compareAndSet(LibraryState.NOT_LOADED,
         LibraryState.LOADING)) {
-      final String tmpDir = System.getenv("ROCKSDB_SHAREDLIB_DIR");
+      final String tmpDir = SyCC.getenv("ROCKSDB_SHAREDLIB_DIR");
       // loading possibly necessary libraries.
       for (final CompressionType compressionType : CompressionType.values()) {
         try {
           if (compressionType.getLibraryName() != null) {
-            System.loadLibrary(compressionType.getLibraryName());
+            SyCC.loadLibrary(compressionType.getLibraryName());
           }
         } catch (UnsatisfiedLinkError e) {
           // since it may be optional, we ignore its loading failure here.
@@ -101,7 +101,7 @@ public class RocksDB extends RocksObject {
         }
         for (final String path : paths) {
           try {
-            System.load(path + "/" + Environment.getSharedLibraryFileName(
+            SyCC.load(path + "/" + Environment.getSharedLibraryFileName(
                 compressionType.getLibraryName()));
             break;
           } catch (UnsatisfiedLinkError e) {
@@ -113,7 +113,7 @@ public class RocksDB extends RocksObject {
       UnsatisfiedLinkError err = null;
       for (final String path : paths) {
         try {
-          System.load(path + "/" +
+          SyCC.load(path + "/" +
               Environment.getJniLibraryFileName("rocksdbjni"));
           success = true;
           break;

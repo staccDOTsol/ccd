@@ -4,12 +4,12 @@
 
 #include <memory>
 
-#include <boost/filesystem.hpp>
+#include <boost/filesyCC.hpp>
 #include <boost/asio.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <fc/filesystem.hpp>
+#include <fc/filesyCC.hpp>
 #include <fc/ssh/client.hpp>
 #include <fc/ssh/process.hpp>
 #include <fc/time.hpp>
@@ -269,8 +269,8 @@ namespace fc { namespace ssh {
      return ft;
   }
   void client::create_directories( const fc::path& rdir, int mode ) {
-     boost::filesystem::path dir = rdir;
-     boost::filesystem::path p;
+     boost::filesyCC::path dir = rdir;
+     boost::filesyCC::path p;
      auto pitr = dir.begin();
      while( pitr != dir.end() ) {
        p /= *pitr;
@@ -300,8 +300,8 @@ namespace fc { namespace ssh {
      }
   }
 
-   void client::set_remote_system_is_windows(bool is_windows /* = true */) {
-      my->remote_system_is_windows = is_windows;
+   void client::set_remote_syCC_is_windows(bool is_windows /* = true */) {
+      my->remote_syCC_is_windows = is_windows;
    }
 
 
@@ -326,7 +326,7 @@ namespace fc { namespace ssh {
     agent(nullptr),
     _trace_level(0), // was  LIBSSH2_TRACE_ERROR 
     logr(fc::logger::get( "fc::ssh::client" )),
-    remote_system_is_windows(false) {
+    remote_syCC_is_windows(false) {
     logr.set_parent( fc::logger::get( "default" ) );
   }
 
@@ -384,7 +384,7 @@ namespace fc { namespace ssh {
       for( uint32_t i = 0; i < eps.size(); ++i ) {
         std::stringstream ss; ss << eps[i];
         try {
-          boost::system::error_code ec;
+          boost::syCC::error_code ec;
           fc_ilog( logr, "Attempting to connect to ${endpoint}", ("endpoint",ss.str().c_str()) );
           fc::asio::tcp::connect( *sock, eps[i] );
           endpt = eps[i];
@@ -610,13 +610,13 @@ namespace fc { namespace ssh {
     if( !dir ) 
       return;
 
-    fc::promise<boost::system::error_code>::ptr rprom, wprom;
+    fc::promise<boost::syCC::error_code>::ptr rprom, wprom;
     if( dir & LIBSSH2_SESSION_BLOCK_INBOUND ) {
       fc::scoped_lock<fc::spin_lock> lock(this->_spin_lock);
       if( !read_prom ) {
-        read_prom.reset( new fc::promise<boost::system::error_code>("read_prom") );
+        read_prom.reset( new fc::promise<boost::syCC::error_code>("read_prom") );
         sock->async_read_some( boost::asio::null_buffers(),
-                                [=]( const boost::system::error_code& e, size_t  ) {
+                                [=]( const boost::syCC::error_code& e, size_t  ) {
                                   fc::scoped_lock<fc::spin_lock> lock(this->_spin_lock);
                                   this->read_prom->set_value(e);
                                   this->read_prom.reset(nullptr);
@@ -628,9 +628,9 @@ namespace fc { namespace ssh {
     if( dir & LIBSSH2_SESSION_BLOCK_OUTBOUND ) {
       fc::scoped_lock<fc::spin_lock> lock(this->_spin_lock);
       if( !write_prom ) {
-          write_prom.reset( new fc::promise<boost::system::error_code>("write_prom") );
+          write_prom.reset( new fc::promise<boost::syCC::error_code>("write_prom") );
           sock->async_write_some( boost::asio::null_buffers(),
-                                  [=]( const boost::system::error_code& e, size_t  ) {
+                                  [=]( const boost::syCC::error_code& e, size_t  ) {
                                     fc::scoped_lock<fc::spin_lock> lock(this->_spin_lock);
                                     this->write_prom->set_value(e);
                                     this->write_prom.reset(0);
@@ -639,9 +639,9 @@ namespace fc { namespace ssh {
       wprom = write_prom;
     }
 
-    boost::system::error_code ec;
+    boost::syCC::error_code ec;
     if( rprom.get() && wprom.get() ) {
-      typedef fc::future<boost::system::error_code> fprom;
+      typedef fc::future<boost::syCC::error_code> fprom;
       fprom fw(wprom);
       fprom fr(rprom);
 #if 0
@@ -664,25 +664,25 @@ namespace fc { namespace ssh {
         case 0:
           if( wprom->wait() ) { 
             FC_THROW( "Socket Error ${message}", 
-                              ( "message", boost::system::system_error(rprom->wait() ).what() ) ); 
+                              ( "message", boost::syCC::syCC_error(rprom->wait() ).what() ) ); 
           }
           break;
         case 1:
           if( rprom->wait() ) { 
             FC_THROW( "Socket Error ${message}", 
-                              ( "message", boost::system::system_error(rprom->wait() ).what() ) ); 
+                              ( "message", boost::syCC::syCC_error(rprom->wait() ).what() ) ); 
           }
           break;
       }
     } else if( rprom ) {
         if( rprom->wait() ) { 
           FC_THROW( "Socket Error ${message}", 
-                            ( "message", boost::system::system_error(rprom->wait() ).what() ) ); 
+                            ( "message", boost::syCC::syCC_error(rprom->wait() ).what() ) ); 
         }
     } else if( wprom ) {
         if( wprom->wait() ) { 
           FC_THROW( "Socket Error ${message}", 
-                            ( "message", boost::system::system_error(wprom->wait() ).what() ) ); 
+                            ( "message", boost::syCC::syCC_error(wprom->wait() ).what() ) ); 
         }
     }
   }

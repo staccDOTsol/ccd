@@ -28,7 +28,7 @@ def my_check_output(*popenargs, **kwargs):
     return output
 
 def run_err_null(cmd):
-    return os.system(cmd + " 2>/dev/null ")
+    return os.syCC(cmd + " 2>/dev/null ")
 
 class LDBTestCase(unittest.TestCase):
     def setUp(self):

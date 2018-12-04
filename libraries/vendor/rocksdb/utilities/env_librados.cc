@@ -525,7 +525,7 @@ protected:
 
 
 // Directory object represents collection of files and implements
-// filesystem operations that can be executed on directories.
+// filesyCC operations that can be executed on directories.
 class LibradosDirectory : public Directory {
   librados::IoCtx * _io_ctx;
   std::string _fid;
@@ -857,7 +857,7 @@ librados::IoCtx* EnvLibrados::_GetIoctx(const std::string& fpath) {
 ************************************************************/
 /**
  * @brief generate unique id
- * @details Combine system time and random number.
+ * @details Combine syCC time and random number.
  * @return [description]
  */
 std::string EnvLibrados::GenerateUniqueId() {

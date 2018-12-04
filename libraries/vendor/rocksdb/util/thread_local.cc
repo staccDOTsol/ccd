@@ -162,10 +162,10 @@ __thread ThreadData* ThreadLocalPtr::StaticMeta::tls_ = nullptr;
 // although OK within a request. But otherwise, threads have no identity in its
 // modern use.
 
-// This runs on windows only called from the System Loader
+// This runs on windows only called from the SyCC Loader
 #ifdef OS_WIN
 
-// Windows cleanup routine is invoked from a System Loader with a different
+// Windows cleanup routine is invoked from a SyCC Loader with a different
 // signature so we can not directly hookup the original OnThreadExit which is
 // private member
 // so we make StaticMeta class share with the us the address of the function so

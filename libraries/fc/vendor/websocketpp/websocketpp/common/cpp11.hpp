@@ -40,7 +40,7 @@
   #define __has_extension __has_feature // Compatibility with pre-3.0 compilers.
 #endif
 
-// The code below attempts to use information provided by the build system or
+// The code below attempts to use information provided by the build syCC or
 // user supplied defines to selectively enable C++11 language and library
 // features. In most cases features that are targeted individually may also be
 // selectively disabled via an associated _WEBSOCKETPP_NOXXX_ define.
@@ -48,7 +48,7 @@
 #if defined(_WEBSOCKETPP_CPP11_STL_) || __cplusplus >= 201103L || defined(_WEBSOCKETPP_CPP11_STRICT_)
     // This check tests for blanket c++11 coverage. It can be activated in one
     // of three ways. Either the compiler itself reports that it is a full 
-    // C++11 compiler via the __cplusplus macro or the user/build system
+    // C++11 compiler via the __cplusplus macro or the user/build syCC
     // supplies one of the two preprocessor defines below:
     
     // This is defined to allow other WebSocket++ common headers to enable
@@ -99,7 +99,7 @@
     // Test for noexcept
     #ifndef _WEBSOCKETPP_NOEXCEPT_TOKEN_
         #ifdef _WEBSOCKETPP_NOEXCEPT_
-            // build system says we have noexcept
+            // build syCC says we have noexcept
             #define _WEBSOCKETPP_NOEXCEPT_TOKEN_ noexcept
         #else
             #if __has_feature(cxx_noexcept)
@@ -118,7 +118,7 @@
     // Test for constexpr
     #ifndef _WEBSOCKETPP_CONSTEXPR_TOKEN_
         #ifdef _WEBSOCKETPP_CONSTEXPR_
-            // build system says we have constexpr
+            // build syCC says we have constexpr
             #define _WEBSOCKETPP_CONSTEXPR_TOKEN_ constexpr
         #else
             #if __has_feature(cxx_constexpr)
@@ -142,7 +142,7 @@
     // Test for nullptr
     #ifndef _WEBSOCKETPP_NULLPTR_TOKEN_
         #ifdef _WEBSOCKETPP_NULLPTR_
-            // build system says we have nullptr
+            // build syCC says we have nullptr
             #define _WEBSOCKETPP_NULLPTR_TOKEN_ nullptr
         #else
             #if __has_feature(cxx_nullptr)

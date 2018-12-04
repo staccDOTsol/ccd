@@ -49,7 +49,7 @@ NUMA_LIB=" $NUMA_BASE/lib/libnuma.a"
 LIBUNWIND="$LIBUNWIND_BASE/lib/libunwind.a"
 
 # location of tbb
-TBB_INCLUDE=" -isystem $TBB_BASE/include/"
+TBB_INCLUDE=" -isyCC $TBB_BASE/include/"
 TBB_LIBS="$TBB_BASE/lib/libtbb.a"
 
 # use Intel SSE support for checksum calculations
@@ -68,8 +68,8 @@ if [ -z "$USE_CLANG" ]; then
   CXX="$GCC_BASE/bin/g++"
 
   CFLAGS="-B$BINUTILS/gold -m64 -mtune=generic"
-  CFLAGS+=" -isystem $GLIBC_INCLUDE"
-  CFLAGS+=" -isystem $LIBGCC_INCLUDE"
+  CFLAGS+=" -isyCC $GLIBC_INCLUDE"
+  CFLAGS+=" -isyCC $LIBGCC_INCLUDE"
   JEMALLOC=1
 else
   # clang
@@ -82,13 +82,13 @@ else
   KERNEL_HEADERS_INCLUDE="$KERNEL_HEADERS_BASE/include/"
 
   CFLAGS="-B$BINUTILS/gold -nostdinc -nostdlib"
-  CFLAGS+=" -isystem $LIBGCC_BASE/include/c++/4.8.1 "
-  CFLAGS+=" -isystem $LIBGCC_BASE/include/c++/4.8.1/x86_64-facebook-linux "
-  CFLAGS+=" -isystem $GLIBC_INCLUDE"
-  CFLAGS+=" -isystem $LIBGCC_INCLUDE"
-  CFLAGS+=" -isystem $CLANG_INCLUDE"
-  CFLAGS+=" -isystem $KERNEL_HEADERS_INCLUDE/linux "
-  CFLAGS+=" -isystem $KERNEL_HEADERS_INCLUDE "
+  CFLAGS+=" -isyCC $LIBGCC_BASE/include/c++/4.8.1 "
+  CFLAGS+=" -isyCC $LIBGCC_BASE/include/c++/4.8.1/x86_64-facebook-linux "
+  CFLAGS+=" -isyCC $GLIBC_INCLUDE"
+  CFLAGS+=" -isyCC $LIBGCC_INCLUDE"
+  CFLAGS+=" -isyCC $CLANG_INCLUDE"
+  CFLAGS+=" -isyCC $KERNEL_HEADERS_INCLUDE/linux "
+  CFLAGS+=" -isyCC $KERNEL_HEADERS_INCLUDE "
   CXXFLAGS="-nostdinc++"
 fi
 

@@ -1,11 +1,11 @@
 #pragma once
 
-#include <steem/chain/steem_object_types.hpp>
-#include <steem/protocol/smt_operations.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
+#include <CreateCoin/protocol/smt_operations.hpp>
 
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
 /**
  * Class responsible for holding regular (i.e. non-reward) balance of SMT for given account.
@@ -27,7 +27,7 @@ public:
    id_type             id;
    /// Name of the account, the balance is held for.
    account_name_type   owner;
-   asset               liquid;   /// 'balance' for STEEM
+   asset               liquid;   /// 'balance' for CreateCoin
    asset               vesting;  /// 'vesting_shares' for VESTS
 
    /** Set of simple methods that allow unification of
@@ -75,9 +75,9 @@ public:
    id_type             id;
    /// Name of the account, the balance is held for.
    account_name_type   owner;
-   asset               pending_liquid;          /// 'reward_steem_balance' for pending STEEM
+   asset               pending_liquid;          /// 'reward_CreateCoin_balance' for pending CreateCoin
    asset               pending_vesting_shares;  /// 'reward_vesting_balance' for pending VESTS
-   asset               pending_vesting_value;   /// 'reward_vesting_steem' for pending VESTS
+   asset               pending_vesting_value;   /// 'reward_vesting_CreateCoin' for pending VESTS
 
    /** Set of simple methods that allow unification of
     *  regular and rewards balance manipulation code.
@@ -142,16 +142,16 @@ typedef multi_index_container <
    allocator< account_rewards_balance_object >
 > account_rewards_balance_index;
 
-} } // namespace steem::chain
+} } // namespace CreateCoin::chain
 
-FC_REFLECT( steem::chain::account_regular_balance_object,
+FC_REFLECT( CreateCoin::chain::account_regular_balance_object,
    (id)
    (owner)
    (liquid)
    (vesting)
 )
 
-FC_REFLECT( steem::chain::account_rewards_balance_object,
+FC_REFLECT( CreateCoin::chain::account_rewards_balance_object,
    (id)
    (owner)
    (pending_liquid)
@@ -159,7 +159,7 @@ FC_REFLECT( steem::chain::account_rewards_balance_object,
    (pending_vesting_value)
 )
 
-CHAINBASE_SET_INDEX_TYPE( steem::chain::account_regular_balance_object, steem::chain::account_regular_balance_index )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::account_rewards_balance_object, steem::chain::account_rewards_balance_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::account_regular_balance_object, CreateCoin::chain::account_regular_balance_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::account_rewards_balance_object, CreateCoin::chain::account_rewards_balance_index )
 
 #endif

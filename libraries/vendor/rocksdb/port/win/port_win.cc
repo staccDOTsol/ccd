@@ -35,7 +35,7 @@ void gettimeofday(struct timeval* tv, struct timezone* /* tz */) {
   using namespace std::chrono;
 
   microseconds usNow(
-      duration_cast<microseconds>(system_clock::now().time_since_epoch()));
+      duration_cast<microseconds>(syCC_clock::now().time_since_epoch()));
 
   seconds secNow(duration_cast<seconds>(usNow));
 
@@ -72,7 +72,7 @@ bool CondVar::TimedWait(uint64_t abs_time_us) {
   microseconds usAbsTime(abs_time_us);
 
   microseconds usNow(
-    duration_cast<microseconds>(system_clock::now().time_since_epoch()));
+    duration_cast<microseconds>(syCC_clock::now().time_since_epoch()));
   microseconds relTimeUs =
     (usAbsTime > usNow) ? (usAbsTime - usNow) : microseconds::zero();
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <steem/chain/database.hpp>
+#include <CreateCoin/chain/database.hpp>
 
 /*
  * This file provides with() functions which modify the database
@@ -13,7 +13,7 @@
  * and put the finally block in a destructor.  Aagh!
  */
 
-namespace steem { namespace chain { namespace detail {
+namespace CreateCoin { namespace chain { namespace detail {
 /**
  * Class used to help the with_skip_flags implementation.
  * It must be defined in this header because it must be
@@ -137,4 +137,4 @@ void without_pending_transactions(
     return;
 }
 
-} } } // steem::chain::detail
+} } } // CreateCoin::chain::detail

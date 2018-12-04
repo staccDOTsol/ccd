@@ -1,5 +1,5 @@
 #pragma once
-#include <steem/protocol/block.hpp>
+#include <CreateCoin/protocol/block.hpp>
 
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/member.hpp>
@@ -8,12 +8,12 @@
 #include <boost/multi_index/mem_fun.hpp>
 
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
    using boost::multi_index_container;
    using namespace boost::multi_index;
 
-   using steem::protocol::signed_block;
-   using steem::protocol::block_id_type;
+   using CreateCoin::protocol::signed_block;
+   using CreateCoin::protocol::block_id_type;
 
    struct fork_item
    {
@@ -107,4 +107,4 @@ namespace steem { namespace chain {
          shared_ptr<fork_item>    _head;
    };
 
-} } // steem::chain
+} } // CreateCoin::chain

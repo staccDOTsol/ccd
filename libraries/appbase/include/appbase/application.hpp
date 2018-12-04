@@ -1,6 +1,6 @@
 #pragma once
 #include <appbase/plugin.hpp>
-#include <boost/filesystem/path.hpp>
+#include <boost/filesyCC/path.hpp>
 #include <boost/core/demangle.hpp>
 #include <boost/asio.hpp>
 #include <boost/throw_exception.hpp>
@@ -12,7 +12,7 @@
 namespace appbase {
 
    namespace bpo = boost::program_options;
-   namespace bfs = boost::filesystem;
+   namespace bfs = boost::filesyCC;
 
    class application
    {

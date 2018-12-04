@@ -95,7 +95,7 @@ TEST_P(DBWriteTest, IOErrorOnWALWritePropagateToWriteThreadFollower) {
   std::atomic<int> ready_count{0};
   std::atomic<int> leader_count{0};
   std::vector<port::Thread> threads;
-  mock_env->SetFilesystemActive(false);
+  mock_env->SetFilesyCCActive(false);
   // Wait until all threads linked to write threads, to make sure
   // all threads join the same batch group.
   SyncPoint::GetInstance()->SetCallBack(

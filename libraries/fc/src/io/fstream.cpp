@@ -2,22 +2,22 @@
 #include <fstream>
 #include <sstream>
 
-#include <fc/filesystem.hpp>
+#include <fc/filesyCC.hpp>
 #include <fc/exception/exception.hpp>
 #include <fc/io/fstream.hpp>
 #include <fc/log/logger.hpp>
 
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/fstream.hpp>
+#include <boost/filesyCC/path.hpp>
+#include <boost/filesyCC/fstream.hpp>
 
 namespace fc {
    class ofstream::impl : public fc::retainable {
       public:
-         boost::filesystem::ofstream ofs;
+         boost::filesyCC::ofstream ofs;
    };
    class ifstream::impl : public fc::retainable {
       public:
-         boost::filesystem::ifstream ifs;
+         boost::filesyCC::ifstream ifs;
    };
 
    ofstream::ofstream()
@@ -28,7 +28,7 @@ namespace fc {
    ofstream::~ofstream(){}
 
    void ofstream::open( const fc::path& file, int m ) {
-     const boost::filesystem::path& bfp = file; 
+     const boost::filesyCC::path& bfp = file; 
      my->ofs.open( bfp, std::ios::binary );
    }
    size_t ofstream::writesome( const char* buf, size_t len ) {
@@ -60,7 +60,7 @@ namespace fc {
    ifstream::~ifstream(){}
 
    void ifstream::open( const fc::path& file, int m ) {
-     const boost::filesystem::path& bfp = file; 
+     const boost::filesyCC::path& bfp = file; 
       my->ifs.open( bfp, std::ios::binary );
    }
    size_t ifstream::readsome( char* buf, size_t len ) {
@@ -98,8 +98,8 @@ namespace fc {
 
    void read_file_contents( const fc::path& filename, std::string& result )
    {
-      const boost::filesystem::path& bfp = filename;
-      boost::filesystem::ifstream f( bfp, std::ios::in | std::ios::binary );
+      const boost::filesyCC::path& bfp = filename;
+      boost::filesyCC::ifstream f( bfp, std::ios::in | std::ios::binary );
       // don't use fc::stringstream here as we need something with override for << rdbuf()
       std::stringstream ss;
       ss << f.rdbuf();

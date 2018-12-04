@@ -1,21 +1,21 @@
 #pragma once
-#include <steem/protocol/transaction.hpp>
-#include <steem/chain/steem_object_types.hpp>
+#include <CreateCoin/protocol/transaction.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
 #include <boost/multi_index/composite_key.hpp>
 #include <boost/multi_index/hashed_index.hpp>
 
-namespace steem { namespace plugins { namespace transaction_status {
+namespace CreateCoin { namespace plugins { namespace transaction_status {
 
-using namespace steem::chain;
+using namespace CreateCoin::chain;
 using namespace boost::multi_index;
 
-#ifndef STEEM_TRANSACTION_STATUS_SPACE_ID
-#define STEEM_TRANSACTION_STATUS_SPACE_ID 18
+#ifndef CreateCoin_TRANSACTION_STATUS_SPACE_ID
+#define CreateCoin_TRANSACTION_STATUS_SPACE_ID 18
 #endif
 
 enum transaction_status_object_type
 {
-   transaction_status_object_type = ( STEEM_TRANSACTION_STATUS_SPACE_ID << 8 )
+   transaction_status_object_type = ( CreateCoin_TRANSACTION_STATUS_SPACE_ID << 8 )
 };
 
 enum transaction_status
@@ -69,9 +69,9 @@ typedef multi_index_container<
 
 
 
-} } } // steem::plugins::transaction_status
+} } } // CreateCoin::plugins::transaction_status
 
-FC_REFLECT_ENUM( steem::plugins::transaction_status::transaction_status,
+FC_REFLECT_ENUM( CreateCoin::plugins::transaction_status::transaction_status,
                 (unknown)
                 (within_mempool)
                 (within_reversible_block)
@@ -80,5 +80,5 @@ FC_REFLECT_ENUM( steem::plugins::transaction_status::transaction_status,
                 (expired_irreversible)
                 (too_old) )
 
-FC_REFLECT( steem::plugins::transaction_status::transaction_status_object, (id)(transaction_id)(block_num) )
-CHAINBASE_SET_INDEX_TYPE( steem::plugins::transaction_status::transaction_status_object, steem::plugins::transaction_status::transaction_status_index )
+FC_REFLECT( CreateCoin::plugins::transaction_status::transaction_status_object, (id)(transaction_id)(block_num) )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::plugins::transaction_status::transaction_status_object, CreateCoin::plugins::transaction_status::transaction_status_index )

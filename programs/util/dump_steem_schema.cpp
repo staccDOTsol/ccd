@@ -1,12 +1,12 @@
-#include <steem/protocol/types_fwd.hpp>
+#include <CreateCoin/protocol/types_fwd.hpp>
 
-#include <steem/schema/schema.hpp>
-#include <steem/schema/schema_impl.hpp>
-#include <steem/schema/schema_types.hpp>
+#include <CreateCoin/schema/schema.hpp>
+#include <CreateCoin/schema/schema_impl.hpp>
+#include <CreateCoin/schema/schema_types.hpp>
 
-#include <steem/chain/schema_types/oid.hpp>
-#include <steem/protocol/schema_types/account_name_type.hpp>
-#include <steem/protocol/schema_types/asset_symbol_type.hpp>
+#include <CreateCoin/chain/schema_types/oid.hpp>
+#include <CreateCoin/protocol/schema_types/account_name_type.hpp>
+#include <CreateCoin/protocol/schema_types/asset_symbol_type.hpp>
 
 #include <iostream>
 #include <map>
@@ -14,12 +14,12 @@
 #include <string>
 #include <vector>
 
-#include <steem/chain/account_object.hpp>
-#include <steem/chain/steem_objects.hpp>
-#include <steem/chain/database.hpp>
-#include <steem/chain/index.hpp>
+#include <CreateCoin/chain/account_object.hpp>
+#include <CreateCoin/chain/CreateCoin_objects.hpp>
+#include <CreateCoin/chain/database.hpp>
+#include <CreateCoin/chain/index.hpp>
 
-using steem::schema::abstract_schema;
+using CreateCoin::schema::abstract_schema;
 
 struct schema_info
 {
@@ -63,19 +63,19 @@ void add_to_schema_map(
       add_to_schema_map( m, ds, follow_deps );
 }
 
-struct steem_schema
+struct CreateCoin_schema
 {
    std::map< std::string, schema_info >     schema_map;
    std::vector< std::string >               chain_object_types;
 };
 
 FC_REFLECT( schema_info, (deps)(schema) )
-FC_REFLECT( steem_schema, (schema_map)(chain_object_types) )
+FC_REFLECT( CreateCoin_schema, (schema_map)(chain_object_types) )
 
 int main( int argc, char** argv, char** envp )
 {
-   steem::chain::database db;
-   steem::chain::database::open_args db_args;
+   CreateCoin::chain::database db;
+   CreateCoin::chain::database::open_args db_args;
 
    db_args.data_dir = "tempdata";
    db_args.shared_mem_dir = "tempdata/blockchain";
@@ -85,12 +85,12 @@ int main( int argc, char** argv, char** envp )
 
    db.open( db_args );
 
-   steem_schema ss;
+   CreateCoin_schema ss;
 
    std::vector< std::string > chain_objects;
    /*
-   db.for_each_index_extension< steem::chain::index_info >(
-      [&]( std::shared_ptr< steem::chain::index_info > info )
+   db.for_each_index_extension< CreateCoin::chain::index_info >(
+      [&]( std::shared_ptr< CreateCoin::chain::index_info > info )
       {
          std::string name;
          info->get_schema()->get_name( name );
@@ -100,7 +100,7 @@ int main( int argc, char** argv, char** envp )
          ss.chain_object_types.push_back( name );
       } );
    */
-   add_to_schema_map( ss.schema_map, steem::schema::get_schema_for_type< steem::protocol::signed_block >() );
+   add_to_schema_map( ss.schema_map, CreateCoin::schema::get_schema_for_type< CreateCoin::protocol::signed_block >() );
 
    std::cout << fc::json::to_string( ss ) << std::endl;
 

@@ -10,7 +10,7 @@
 
 #include <utility>
 
-namespace steem { namespace chain { namespace util {
+namespace CreateCoin { namespace chain { namespace util {
 
 template <typename TCntr>
 struct emplace_ret_value
@@ -107,11 +107,11 @@ class advanced_benchmark_dumper
       void dump();
 };
 
-} } } // steem::chain::util
+} } } // CreateCoin::chain::util
 
-FC_REFLECT( steem::chain::util::advanced_benchmark_dumper::item, (op_name)(time) )
-FC_REFLECT( steem::chain::util::advanced_benchmark_dumper::ritem, (op_name)(time) )
+FC_REFLECT( CreateCoin::chain::util::advanced_benchmark_dumper::item, (op_name)(time) )
+FC_REFLECT( CreateCoin::chain::util::advanced_benchmark_dumper::ritem, (op_name)(time) )
 
-FC_REFLECT( steem::chain::util::advanced_benchmark_dumper::total_info< std::set< steem::chain::util::advanced_benchmark_dumper::item > >, (total_time)(items) )
-FC_REFLECT( steem::chain::util::advanced_benchmark_dumper::total_info< std::multiset< steem::chain::util::advanced_benchmark_dumper::ritem > >, (total_time)(items) )
+FC_REFLECT( CreateCoin::chain::util::advanced_benchmark_dumper::total_info< std::set< CreateCoin::chain::util::advanced_benchmark_dumper::item > >, (total_time)(items) )
+FC_REFLECT( CreateCoin::chain::util::advanced_benchmark_dumper::total_info< std::multiset< CreateCoin::chain::util::advanced_benchmark_dumper::ritem > >, (total_time)(items) )
 

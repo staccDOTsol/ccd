@@ -1,20 +1,20 @@
 #pragma once
-#include <steem/plugins/follow/follow_operations.hpp>
+#include <CreateCoin/plugins/follow/follow_operations.hpp>
 
-#include <steem/plugins/chain/chain_plugin.hpp>
+#include <CreateCoin/plugins/chain/chain_plugin.hpp>
 
-#include <steem/chain/generic_custom_operation_interpreter.hpp>
-
-
-#define STEEM_FOLLOW_PLUGIN_NAME "follow"
+#include <CreateCoin/chain/generic_custom_operation_interpreter.hpp>
 
 
-namespace steem { namespace plugins{ namespace follow {
+#define CreateCoin_FOLLOW_PLUGIN_NAME "follow"
+
+
+namespace CreateCoin { namespace plugins{ namespace follow {
 
 namespace detail { class follow_plugin_impl; }
 
 using namespace appbase;
-using steem::chain::generic_custom_operation_interpreter;
+using CreateCoin::chain::generic_custom_operation_interpreter;
 
 class follow_plugin : public appbase::plugin< follow_plugin >
 {
@@ -22,9 +22,9 @@ class follow_plugin : public appbase::plugin< follow_plugin >
       follow_plugin();
       virtual ~follow_plugin();
 
-      APPBASE_PLUGIN_REQUIRES( (steem::plugins::chain::chain_plugin) )
+      APPBASE_PLUGIN_REQUIRES( (CreateCoin::plugins::chain::chain_plugin) )
 
-      static const std::string& name() { static std::string name = STEEM_FOLLOW_PLUGIN_NAME; return name; }
+      static const std::string& name() { static std::string name = CreateCoin_FOLLOW_PLUGIN_NAME; return name; }
 
       virtual void set_program_options(
          options_description& cli,
@@ -42,4 +42,4 @@ class follow_plugin : public appbase::plugin< follow_plugin >
       std::unique_ptr< detail::follow_plugin_impl > my;
 };
 
-} } } //steem::follow
+} } } //CreateCoin::follow

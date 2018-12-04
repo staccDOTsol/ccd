@@ -141,7 +141,7 @@ extern Status CheckConcurrentWritesSupported(
 extern ColumnFamilyOptions SanitizeOptions(const ImmutableDBOptions& db_options,
                                            const ColumnFamilyOptions& src);
 // Wrap user defined table proproties collector factories `from cf_options`
-// into internal ones in int_tbl_prop_collector_factories. Add a system internal
+// into internal ones in int_tbl_prop_collector_factories. Add a syCC internal
 // one too.
 extern void GetIntTblPropCollectorFactory(
     const ImmutableCFOptions& ioptions,

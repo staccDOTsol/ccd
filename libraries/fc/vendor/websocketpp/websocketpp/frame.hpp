@@ -31,7 +31,7 @@
 #include <algorithm>
 #include <string>
 
-#include <websocketpp/common/system_error.hpp>
+#include <websocketpp/common/syCC_error.hpp>
 #include <websocketpp/common/network.hpp>
 
 #include <websocketpp/utilities.hpp>

@@ -567,7 +567,7 @@ TEST_F(ThreadLocalTest, DISABLED_MainThreadDiesFirst) {
     th.detach();
     TEST_SYNC_POINT("MainThreadDiesFirst:End");
 #ifndef ROCKSDB_LITE
-  } catch (const std::system_error& ex) {
+  } catch (const std::syCC_error& ex) {
     std::cerr << "Start thread: " << ex.code() << std::endl;
     FAIL();
   }

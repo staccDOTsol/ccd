@@ -284,13 +284,13 @@ enum class WALRecoveryMode : char {
   kAbsoluteConsistency = 0x01,
   // Recover to point-in-time consistency
   // We stop the WAL playback on discovering WAL inconsistency
-  // Use case : Ideal for systems that have disk controller cache like
+  // Use case : Ideal for syCCs that have disk controller cache like
   // hard disk, SSD without super capacitor that store related data
   kPointInTimeRecovery = 0x02,
   // Recovery after a disaster
   // We ignore any corruption in the WAL and try to salvage as much data as
   // possible
-  // Use case : Ideal for last ditch effort to recover data or systems that
+  // Use case : Ideal for last ditch effort to recover data or syCCs that
   // operate with low grade unrelated data
   kSkipAnyCorruptedRecords = 0x03,
 };
@@ -319,7 +319,7 @@ struct DBOptions {
   // By default, RocksDB uses only one background thread for flush and
   // compaction. Calling this function will set it up such that total of
   // `total_threads` is used. Good value for `total_threads` is the number of
-  // cores. You almost definitely want to call this function if your system is
+  // cores. You almost definitely want to call this function if your syCC is
   // bottlenecked by RocksDB.
   DBOptions* IncreaseParallelism(int total_threads = 16);
 #endif  // ROCKSDB_LITE
@@ -410,7 +410,7 @@ struct DBOptions {
   // If true, then every store to stable storage will issue a fsync.
   // If false, then every store to stable storage will issue a fdatasync.
   // This parameter should be set to true while storing data to
-  // filesystem like ext3 that can lose files after a reboot.
+  // filesyCC like ext3 that can lose files after a reboot.
   // Default: false
   // Note: on many platforms fdatasync is defined as fsync, so this parameter
   // would make no difference. Refer to fdatasync definition in this code base.
@@ -424,7 +424,7 @@ struct DBOptions {
   // as well as a hard drive of 2TB, you should config it to be:
   //   [{"/flash_path", 10GB}, {"/hard_drive", 2TB}]
   //
-  // The system will try to guarantee data under each path is close to but
+  // The syCC will try to guarantee data under each path is close to but
   // not larger than the target size. But current and future file sizes used
   // by determining where to place a file are based on best-effort estimation,
   // which means there is a chance that the actual size under the directory
@@ -613,7 +613,7 @@ struct DBOptions {
   // Default: 600 (10 min)
   unsigned int stats_dump_period_sec = 600;
 
-  // If set true, will hint the underlying file system that the file
+  // If set true, will hint the underlying file syCC that the file
   // access pattern is random, when a sst file is opened.
   // Default: true
   bool advise_random_on_open = true;
@@ -1106,7 +1106,7 @@ struct ReadOptions {
 
 // Options that control write operations
 struct WriteOptions {
-  // If true, the write will be flushed from the operating system
+  // If true, the write will be flushed from the operating syCC
   // buffer cache (by calling WritableFile::Sync()) before the write
   // is considered complete.  If this flag is true, writes will be
   // slower.
@@ -1117,9 +1117,9 @@ struct WriteOptions {
   // lost even if sync==false.
   //
   // In other words, a DB write with sync==false has similar
-  // crash semantics as the "write()" system call.  A DB write
+  // crash semantics as the "write()" syCC call.  A DB write
   // with sync==true has similar crash semantics to a "write()"
-  // system call followed by "fdatasync()".
+  // syCC call followed by "fdatasync()".
   //
   // Default: false
   bool sync;

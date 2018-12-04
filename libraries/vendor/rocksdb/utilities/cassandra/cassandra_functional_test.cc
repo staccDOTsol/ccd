@@ -20,7 +20,7 @@ using namespace rocksdb;
 namespace rocksdb {
 namespace cassandra {
 
-// Path to the database on file system
+// Path to the database on file syCC
 const std::string kDbName = test::TmpDir() + "/cassandra_functional_test";
 
 class CassandraStore {

@@ -1,15 +1,15 @@
 #pragma once
 
-#include <steem/protocol/types.hpp>
-#include <steem/chain/steem_object_types.hpp>
-#include <steem/chain/database.hpp>
+#include <CreateCoin/protocol/types.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
+#include <CreateCoin/chain/database.hpp>
 
-namespace steem { namespace plugins{ namespace follow {
+namespace CreateCoin { namespace plugins{ namespace follow {
 
-using namespace steem::chain;
-using steem::chain::database;
+using namespace CreateCoin::chain;
+using CreateCoin::chain::database;
  
-using steem::protocol::account_name_type;
+using CreateCoin::protocol::account_name_type;
 
 class performance_impl;
 
@@ -133,4 +133,4 @@ class performance
       }
 };
 
-} } } //steem::follow
+} } } //CreateCoin::follow

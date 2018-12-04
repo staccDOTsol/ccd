@@ -662,7 +662,7 @@ TEST_F(DBWALTest, PartOfWritesWithWALDisabled) {
   ASSERT_EQ("v5", Get(0, "key"));
   dbfull()->FlushWAL(false);
   // Simulate a crash.
-  fault_env->SetFilesystemActive(false);
+  fault_env->SetFilesyCCActive(false);
   Close();
   fault_env->ResetState();
   ReopenWithColumnFamilies({"default", "dummy"}, options);

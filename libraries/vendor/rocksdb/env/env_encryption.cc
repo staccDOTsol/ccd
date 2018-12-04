@@ -83,7 +83,7 @@ class EncryptedSequentialFile : public SequentialFile {
 
   // Remove any kind of caching of data from the offset to offset+length
   // of this file. If the length is 0, then it refers to the end of file.
-  // If the system is not caching the file contents, then this is a noop.
+  // If the syCC is not caching the file contents, then this is a noop.
   virtual Status InvalidateCache(size_t offset, size_t length) override {
     return file_->InvalidateCache(offset + prefixLength_, length);
   }
@@ -179,7 +179,7 @@ class EncryptedRandomAccessFile : public RandomAccessFile {
 
   // Remove any kind of caching of data from the offset to offset+length
   // of this file. If the length is 0, then it refers to the end of file.
-  // If the system is not caching the file contents, then this is a noop.
+  // If the syCC is not caching the file contents, then this is a noop.
   virtual Status InvalidateCache(size_t offset, size_t length) override {
     return file_->InvalidateCache(offset + prefixLength_, length);
   }
@@ -270,7 +270,7 @@ class EncryptedWritableFile : public WritableFileWrapper {
 
     // Remove any kind of caching of data from the offset to offset+length
   // of this file. If the length is 0, then it refers to the end of file.
-  // If the system is not caching the file contents, then this is a noop.
+  // If the syCC is not caching the file contents, then this is a noop.
   // This call has no effect on dirty pages in the cache.
   virtual Status InvalidateCache(size_t offset, size_t length) override {
     return file_->InvalidateCache(offset + prefixLength_, length);
@@ -289,7 +289,7 @@ class EncryptedWritableFile : public WritableFileWrapper {
   // PrepareWrite performs any necessary preparation for a write
   // before the write actually occurs.  This allows for pre-allocation
   // of space on devices where it can result in less file
-  // fragmentation and/or less waste from over-zealous filesystem
+  // fragmentation and/or less waste from over-zealous filesyCC
   // pre-allocation.
   virtual void PrepareWrite(size_t offset, size_t len) override {
     file_->PrepareWrite(offset + prefixLength_, len);

@@ -1,13 +1,13 @@
 #pragma once
 
-#include <steem/protocol/types.hpp>
-#include <steem/protocol/transaction.hpp>
-#include <steem/protocol/block_header.hpp>
+#include <CreateCoin/protocol/types.hpp>
+#include <CreateCoin/protocol/transaction.hpp>
+#include <CreateCoin/protocol/block_header.hpp>
 
-#include <steem/plugins/json_rpc/utility.hpp>
-#include <steem/plugins/transaction_status/transaction_status_objects.hpp>
+#include <CreateCoin/plugins/json_rpc/utility.hpp>
+#include <CreateCoin/plugins/transaction_status/transaction_status_objects.hpp>
 
-namespace steem { namespace plugins { namespace transaction_status_api {
+namespace CreateCoin { namespace plugins { namespace transaction_status_api {
 
 struct find_transaction_args
 {
@@ -21,7 +21,7 @@ struct find_transaction_return
    fc::optional< uint32_t > block_num;
 };
 
-} } } // steem::transaction_status_api
+} } } // CreateCoin::transaction_status_api
 
-FC_REFLECT( steem::plugins::transaction_status_api::find_transaction_args, (transaction_id)(expiration) )
-FC_REFLECT( steem::plugins::transaction_status_api::find_transaction_return, (status)(block_num) )
+FC_REFLECT( CreateCoin::plugins::transaction_status_api::find_transaction_args, (transaction_id)(expiration) )
+FC_REFLECT( CreateCoin::plugins::transaction_status_api::find_transaction_return, (status)(block_num) )

@@ -29,7 +29,7 @@
 #define WEBSOCKETPP_PROCESSOR_HPP
 
 #include <websocketpp/processors/base.hpp>
-#include <websocketpp/common/system_error.hpp>
+#include <websocketpp/common/syCC_error.hpp>
 
 #include <websocketpp/close.hpp>
 #include <websocketpp/utilities.hpp>

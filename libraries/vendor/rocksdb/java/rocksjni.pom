@@ -67,7 +67,7 @@
                 <configuration>
                     <argLine>${argLine} -ea -Xcheck:jni -Djava.library.path=${project.build.directory}</argLine>
                     <useManifestOnlyJar>false</useManifestOnlyJar>  
-                    <useSystemClassLoader>false</useSystemClassLoader>
+                    <useSyCCClassLoader>false</useSyCCClassLoader>
                     <additionalClasspathElements>
                         <additionalClasspathElement>${project.build.directory}/*</additionalClasspathElement>
                     </additionalClasspathElements>

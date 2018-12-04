@@ -7,7 +7,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
-// This test uses a custom Env to keep track of the state of a filesystem as of
+// This test uses a custom Env to keep track of the state of a filesyCC as of
 // the last "sync". It then checks for data loss errors by purposely dropping
 // file data (or entire files) not protected by a "sync".
 
@@ -120,7 +120,7 @@ TestWritableFile::~TestWritableFile() {
 }
 
 Status TestWritableFile::Append(const Slice& data) {
-  if (!env_->IsFilesystemActive()) {
+  if (!env_->IsFilesyCCActive()) {
     return Status::Corruption("Not Active");
   }
   Status s = target_->Append(data);
@@ -141,14 +141,14 @@ Status TestWritableFile::Close() {
 
 Status TestWritableFile::Flush() {
   Status s = target_->Flush();
-  if (s.ok() && env_->IsFilesystemActive()) {
+  if (s.ok() && env_->IsFilesyCCActive()) {
     state_.pos_at_last_flush_ = state_.pos_;
   }
   return s;
 }
 
 Status TestWritableFile::Sync() {
-  if (!env_->IsFilesystemActive()) {
+  if (!env_->IsFilesyCCActive()) {
     return Status::IOError("FaultInjectionTestEnv: not active");
   }
   // No need to actual sync.
@@ -171,7 +171,7 @@ Status FaultInjectionTestEnv::NewDirectory(const std::string& name,
 Status FaultInjectionTestEnv::NewWritableFile(const std::string& fname,
                                               unique_ptr<WritableFile>* result,
                                               const EnvOptions& soptions) {
-  if (!IsFilesystemActive()) {
+  if (!IsFilesyCCActive()) {
     return Status::Corruption("Not Active");
   }
   // Not allow overwriting files
@@ -198,7 +198,7 @@ Status FaultInjectionTestEnv::NewWritableFile(const std::string& fname,
 }
 
 Status FaultInjectionTestEnv::DeleteFile(const std::string& f) {
-  if (!IsFilesystemActive()) {
+  if (!IsFilesyCCActive()) {
     return Status::Corruption("Not Active");
   }
   Status s = EnvWrapper::DeleteFile(f);
@@ -215,7 +215,7 @@ Status FaultInjectionTestEnv::DeleteFile(const std::string& f) {
 
 Status FaultInjectionTestEnv::RenameFile(const std::string& s,
                                          const std::string& t) {
-  if (!IsFilesystemActive()) {
+  if (!IsFilesyCCActive()) {
     return Status::Corruption("Not Active");
   }
   Status ret = EnvWrapper::RenameFile(s, t);
@@ -299,7 +299,7 @@ void FaultInjectionTestEnv::ResetState() {
   MutexLock l(&mutex_);
   db_file_state_.clear();
   dir_to_new_files_since_last_sync_.clear();
-  SetFilesystemActiveNoLock(true);
+  SetFilesyCCActiveNoLock(true);
 }
 
 void FaultInjectionTestEnv::UntrackFile(const std::string& f) {

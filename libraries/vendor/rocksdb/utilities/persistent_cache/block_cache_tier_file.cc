@@ -560,7 +560,7 @@ void ThreadedWriter::ThreadMain() {
 
     // Reserve space for writing the buffer
     while (!cache_->Reserve(io.buf_->Used())) {
-      // We can fail to reserve space if every file in the system
+      // We can fail to reserve space if every file in the syCC
       // is being currently accessed
       /* sleep override */
       Env::Default()->SleepForMicroseconds(1000000);

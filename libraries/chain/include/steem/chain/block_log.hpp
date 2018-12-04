@@ -1,10 +1,10 @@
 #pragma once
-#include <fc/filesystem.hpp>
-#include <steem/protocol/block.hpp>
+#include <fc/filesyCC.hpp>
+#include <CreateCoin/protocol/block.hpp>
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
-   using namespace steem::protocol;
+   using namespace CreateCoin::protocol;
 
    namespace detail { class block_log_impl; }
 

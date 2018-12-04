@@ -2,7 +2,7 @@
 #include <libssh2.h>
 #include <libssh2_sftp.h>
 
-#include <boost/filesystem.hpp>
+#include <boost/filesyCC.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -322,7 +322,7 @@ namespace fc { namespace ssh {
 
         try {
           fc::scoped_lock<fc::mutex> process_startup_lock(sshc->my->process_startup_mutex);
-          fc::string command_line = sshc->my->remote_system_is_windows ? windows_shell_escape_command(exe, args) : unix_shell_escape_command(exe, args);
+          fc::string command_line = sshc->my->remote_syCC_is_windows ? windows_shell_escape_command(exe, args) : unix_shell_escape_command(exe, args);
           sshc->my->call_ssh2_function_throw(boost::bind(libssh2_channel_process_startup, chan, "exec", sizeof("exec") - 1, command_line.c_str(), command_line.size()),
 					    "exec failed: ${message}"); // equiv to libssh2_channel_exec(chan, cmd) macro
         } catch (fc::exception& er) {

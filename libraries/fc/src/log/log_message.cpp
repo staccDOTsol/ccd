@@ -4,7 +4,7 @@
 #include <fc/time.hpp>
 #include <fc/thread/thread.hpp>
 #include <fc/thread/task.hpp>
-#include <fc/filesystem.hpp>
+#include <fc/filesyCC.hpp>
 #include <fc/io/stdio.hpp>
 #include <fc/io/json.hpp>
 

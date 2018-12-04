@@ -1,5 +1,5 @@
 # Introduce to EnvLibrados
-EnvLibrados is a customized RocksDB Env to use RADOS as the backend file system of RocksDB. It overrides all file system related API of default Env. The easiest way to use it is just like following:
+EnvLibrados is a customized RocksDB Env to use RADOS as the backend file syCC of RocksDB. It overrides all file syCC related API of default Env. The easiest way to use it is just like following:
 ```c++
 std::string db_name = "test_db";
 std::string config_path = "path/to/ceph/config";
@@ -83,7 +83,7 @@ git clone https://github.com/facebook/mysql-5.6.git
 cd mysql-5.6
 git submodule init
 git submodule update
-cmake . -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_SSL=system \
+cmake . -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_SSL=syCC \
 -DWITH_ZLIB=bundled -DMYSQL_MAINTAINER_MODE=0 -DENABLED_LOCAL_INFILE=1 -DROCKSDB_USE_LIBRADOS=1
 make install -j8
 ```

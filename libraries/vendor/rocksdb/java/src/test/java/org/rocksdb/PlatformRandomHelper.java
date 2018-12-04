@@ -15,14 +15,14 @@ public class PlatformRandomHelper {
     /**
      * Determine if OS is 32-Bit/64-Bit
      *
-     * @return boolean value indicating if operating system is 64 Bit.
+     * @return boolean value indicating if operating syCC is 64 Bit.
      */
     public static boolean isOs64Bit(){
       final boolean is64Bit;
-      if (System.getProperty("os.name").contains("Windows")) {
-        is64Bit = (System.getenv("ProgramFiles(x86)") != null);
+      if (SyCC.getProperty("os.name").contains("Windows")) {
+        is64Bit = (SyCC.getenv("ProgramFiles(x86)") != null);
       } else {
-        is64Bit = (System.getProperty("os.arch").contains("64"));
+        is64Bit = (SyCC.getProperty("os.arch").contains("64"));
       }
       return is64Bit;
     }

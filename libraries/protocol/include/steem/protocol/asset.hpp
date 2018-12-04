@@ -1,9 +1,9 @@
 #pragma once
-#include <steem/protocol/types.hpp>
-#include <steem/protocol/config.hpp>
-#include <steem/protocol/asset_symbol.hpp>
+#include <CreateCoin/protocol/types.hpp>
+#include <CreateCoin/protocol/config.hpp>
+#include <CreateCoin/protocol/asset_symbol.hpp>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
    struct asset
    {
@@ -14,7 +14,7 @@ namespace steem { namespace protocol {
          :amount(a),symbol(id){}
 
       asset()
-         :amount(0),symbol(STEEM_SYMBOL){}
+         :amount(0),symbol(CreateCoin_SYMBOL){}
 
       share_type        amount;
       asset_symbol_type symbol;
@@ -148,12 +148,12 @@ namespace steem { namespace protocol {
    bool  operator != ( const price& a, const price& b );
    asset operator *  ( const asset& a, const price& b );
 
-} } // steem::protocol
+} } // CreateCoin::protocol
 
 namespace fc {
-    void to_variant( const steem::protocol::asset& var,  fc::variant& vo );
-    void from_variant( const fc::variant& var,  steem::protocol::asset& vo );
+    void to_variant( const CreateCoin::protocol::asset& var,  fc::variant& vo );
+    void from_variant( const fc::variant& var,  CreateCoin::protocol::asset& vo );
 }
 
-FC_REFLECT( steem::protocol::asset, (amount)(symbol) )
-FC_REFLECT( steem::protocol::price, (base)(quote) )
+FC_REFLECT( CreateCoin::protocol::asset, (amount)(symbol) )
+FC_REFLECT( CreateCoin::protocol::price, (base)(quote) )

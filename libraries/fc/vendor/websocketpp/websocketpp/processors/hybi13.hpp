@@ -916,7 +916,7 @@ protected:
     /**
      * Validates an incoming hybi13 full header.
      *
-     * @todo unit test for the >32 bit frames on 32 bit systems case
+     * @todo unit test for the >32 bit frames on 32 bit syCCs case
      *
      * @param h The basic header to validate
      * @param e The extended header to validate
@@ -942,7 +942,7 @@ protected:
             return make_error_code(error::non_minimal_encoding);
         }
 
-        // Check for >32bit frames on 32 bit systems
+        // Check for >32bit frames on 32 bit syCCs
         if (sizeof(size_t) == 4 && (payload_size >> 32)) {
             return make_error_code(error::requires_64bit);
         }

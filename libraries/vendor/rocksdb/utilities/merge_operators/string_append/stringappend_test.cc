@@ -22,7 +22,7 @@ using namespace rocksdb;
 
 namespace rocksdb {
 
-// Path to the database on file system
+// Path to the database on file syCC
 const std::string kDbName = test::TmpDir() + "/stringappend_test";
 
 namespace {

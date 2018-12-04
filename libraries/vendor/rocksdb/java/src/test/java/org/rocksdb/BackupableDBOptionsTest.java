@@ -17,7 +17,7 @@ import org.junit.rules.ExpectedException;
 public class BackupableDBOptionsTest {
 
   private final static String ARBITRARY_PATH =
-      System.getProperty("java.io.tmpdir");
+      SyCC.getProperty("java.io.tmpdir");
 
   @ClassRule
   public static final RocksMemoryResource rocksMemoryResource =

@@ -1,10 +1,10 @@
-#include <steem/chain/database_exceptions.hpp>
+#include <CreateCoin/chain/database_exceptions.hpp>
 
-#include <steem/plugins/chain/abstract_block_producer.hpp>
-#include <steem/plugins/chain/chain_plugin.hpp>
-#include <steem/plugins/statsd/utility.hpp>
+#include <CreateCoin/plugins/chain/abstract_block_producer.hpp>
+#include <CreateCoin/plugins/chain/chain_plugin.hpp>
+#include <CreateCoin/plugins/statsd/utility.hpp>
 
-#include <steem/utilities/benchmark_dumper.hpp>
+#include <CreateCoin/utilities/benchmark_dumper.hpp>
 
 #include <fc/string.hpp>
 
@@ -19,11 +19,11 @@
 #include <memory>
 #include <iostream>
 
-namespace steem { namespace plugins { namespace chain {
+namespace CreateCoin { namespace plugins { namespace chain {
 
-using namespace steem;
+using namespace CreateCoin;
 using fc::flat_map;
-using steem::chain::block_id_type;
+using CreateCoin::chain::block_id_type;
 namespace asio = boost::asio;
 
 #define NUM_THREADS 1
@@ -227,14 +227,14 @@ void chain_plugin_impl::start_write_processing()
        * The loop has two modes, sync mode and live mode. In sync mode we want to process writes
        * as quickly as possible with minimal overhead. The outer loop busy waits on the queue
        * and the inner loop drains the queue as quickly as possible. We exit sync mode when the
-       * head block is within 1 minute of system time.
+       * head block is within 1 minute of syCC time.
        *
        * Live mode needs to balance between processing pending writes and allowing readers access
        * to the database. It will batch writes together as much as possible to minimize lock
        * overhead but will willingly give up the write lock after 500ms. The thread then sleeps for
        * 10ms. This allows time for readers to access the database as well as more writes to come
        * in. When the node is live the rate at which writes come in is slower and busy waiting is
-       * not an optimal use of system resources when we could give CPU time to read threads.
+       * not an optimal use of syCC resources when we could give CPU time to read threads.
        */
       while( running )
       {
@@ -295,7 +295,7 @@ chain_plugin::chain_plugin() : my( new detail::chain_plugin_impl() ) {}
 chain_plugin::~chain_plugin(){}
 
 database& chain_plugin::db() { return my->db; }
-const steem::chain::database& chain_plugin::db() const { return my->db; }
+const CreateCoin::chain::database& chain_plugin::db() const { return my->db; }
 
 bfs::path chain_plugin::state_storage_dir() const
 {
@@ -307,7 +307,7 @@ void chain_plugin::set_program_options(options_description& cli, options_descrip
    cfg.add_options()
          ("shared-file-dir", bpo::value<bfs::path>()->default_value("blockchain"),
             "the location of the chain shared memory files (absolute path or relative to application data dir)")
-         ("shared-file-size", bpo::value<string>()->default_value("54G"), "Size of the shared memory file. Default: 54G. If running a full node, increase this value to 200G.")
+         ("shared-file-size", bpo::value<string>()->default_value("8G"), "Size of the shared memory file. Default: 54G. If running a full node, increase this value to 200G.")
          ("shared-file-full-threshold", bpo::value<uint16_t>()->default_value(0),
             "A 2 precision percentage (0-10000) that defines the threshold for when to autoscale the shared memory file. Setting this to 0 disables autoscaling. Recommended value for consensus node is 9500 (95%). Full node is 9900 (99%)" )
          ("shared-file-scale-rate", bpo::value<uint16_t>()->default_value(0),
@@ -326,7 +326,7 @@ void chain_plugin::set_program_options(options_description& cli, options_descrip
          ("check-locks", bpo::bool_switch()->default_value(false), "Check correctness of chainbase locking" )
          ("validate-database-invariants", bpo::bool_switch()->default_value(false), "Validate all supply invariants check out" )
 #ifdef IS_TEST_NET
-         ("chain-id", bpo::value< std::string >()->default_value( STEEM_CHAIN_ID ), "chain ID to connect to")
+         ("chain-id", bpo::value< std::string >()->default_value( CreateCoin_CHAIN_ID ), "chain ID to connect to")
 #endif
          ;
 }
@@ -406,7 +406,7 @@ void chain_plugin::plugin_startup()
 {
    if( my->statsd_on_replay )
    {
-      auto statsd = appbase::app().find_plugin< steem::plugins::statsd::statsd_plugin >();
+      auto statsd = appbase::app().find_plugin< CreateCoin::plugins::statsd::statsd_plugin >();
       if( statsd != nullptr )
       {
          statsd->start_logging();
@@ -426,11 +426,11 @@ void chain_plugin::plugin_startup()
    my->db.set_require_locking( my->check_locks );
 
    bool dump_memory_details = my->dump_memory_details;
-   steem::utilities::benchmark_dumper dumper;
+   CreateCoin::utilities::benchmark_dumper dumper;
 
    const auto& abstract_index_cntr = my->db.get_abstract_index_cntr();
 
-   typedef steem::utilities::benchmark_dumper::index_memory_details_cntr_t index_memory_details_cntr_t;
+   typedef CreateCoin::utilities::benchmark_dumper::index_memory_details_cntr_t index_memory_details_cntr_t;
    auto get_indexes_memory_details = [dump_memory_details, &abstract_index_cntr]
       (index_memory_details_cntr_t& index_memory_details_cntr, bool onlyStaticInfo)
    {
@@ -448,7 +448,7 @@ void chain_plugin::plugin_startup()
    database::open_args db_open_args;
    db_open_args.data_dir = app().data_dir() / "blockchain";
    db_open_args.shared_mem_dir = my->shared_memory_dir;
-   db_open_args.initial_supply = STEEM_INIT_SUPPLY;
+   db_open_args.initial_supply = CreateCoin_INIT_SUPPLY;
    db_open_args.shared_file_size = my->shared_memory_size;
    db_open_args.shared_file_full_threshold = my->shared_file_full_threshold;
    db_open_args.shared_file_scale_rate = my->shared_file_scale_rate;
@@ -461,7 +461,7 @@ void chain_plugin::plugin_startup()
    {
       if( current_block_number == 0 ) // initial call
       {
-         typedef steem::utilities::benchmark_dumper::database_object_sizeof_cntr_t database_object_sizeof_cntr_t;
+         typedef CreateCoin::utilities::benchmark_dumper::database_object_sizeof_cntr_t database_object_sizeof_cntr_t;
          auto get_database_objects_sizeofs = [dump_memory_details, &abstract_index_cntr]
             (database_object_sizeof_cntr_t& database_object_sizeof_cntr)
          {
@@ -479,7 +479,7 @@ void chain_plugin::plugin_startup()
          return;
       }
 
-      const steem::utilities::benchmark_dumper::measurement& measure =
+      const CreateCoin::utilities::benchmark_dumper::measurement& measure =
          dumper.measure(current_block_number, get_indexes_memory_details);
       ilog( "Performance report at block ${n}. Elapsed time: ${rt} ms (real), ${ct} ms (cpu). Memory usage: ${cm} (current), ${pm} (peak) kilobytes.",
          ("n", current_block_number)
@@ -493,12 +493,12 @@ void chain_plugin::plugin_startup()
    {
       ilog("Replaying blockchain on user request.");
       uint32_t last_block_number = 0;
-      db_open_args.benchmark = steem::chain::database::TBenchmark(my->benchmark_interval, benchmark_lambda);
+      db_open_args.benchmark = CreateCoin::chain::database::TBenchmark(my->benchmark_interval, benchmark_lambda);
       last_block_number = my->db.reindex( db_open_args );
 
       if( my->benchmark_interval > 0 )
       {
-         const steem::utilities::benchmark_dumper::measurement& total_data = dumper.dump(true, get_indexes_memory_details);
+         const CreateCoin::utilities::benchmark_dumper::measurement& total_data = dumper.dump(true, get_indexes_memory_details);
          ilog( "Performance report (total). Blocks: ${b}. Elapsed time: ${rt} ms (real), ${ct} ms (cpu). Memory usage: ${cm} (current), ${pm} (peak) kilobytes.",
                ("b", total_data.block_number)
                ("rt", total_data.real_ms)
@@ -515,7 +515,7 @@ void chain_plugin::plugin_startup()
    }
    else
    {
-      db_open_args.benchmark = steem::chain::database::TBenchmark(dump_memory_details, benchmark_lambda);
+      db_open_args.benchmark = CreateCoin::chain::database::TBenchmark(dump_memory_details, benchmark_lambda);
 
       try
       {
@@ -553,7 +553,7 @@ void chain_plugin::report_state_options( const string& plugin_name, const fc::va
    my->plugin_state_opts( opts );
 }
 
-bool chain_plugin::accept_block( const steem::chain::signed_block& block, bool currently_syncing, uint32_t skip )
+bool chain_plugin::accept_block( const CreateCoin::chain::signed_block& block, bool currently_syncing, uint32_t skip )
 {
    if (currently_syncing && block.block_num() % 10000 == 0) {
       ilog("Syncing Blockchain --- Got block: #${n} time: ${t} producer: ${p}",
@@ -579,7 +579,7 @@ bool chain_plugin::accept_block( const steem::chain::signed_block& block, bool c
    return cxt.success;
 }
 
-void chain_plugin::accept_transaction( const steem::chain::signed_transaction& trx )
+void chain_plugin::accept_transaction( const CreateCoin::chain::signed_transaction& trx )
 {
    boost::promise< void > prom;
    write_context cxt;
@@ -595,7 +595,7 @@ void chain_plugin::accept_transaction( const steem::chain::signed_transaction& t
    return;
 }
 
-steem::chain::signed_block chain_plugin::generate_block(
+CreateCoin::chain::signed_block chain_plugin::generate_block(
    const fc::time_point_sec when,
    const account_name_type& witness_owner,
    const fc::ecc::private_key& block_signing_private_key,
@@ -628,17 +628,17 @@ int16_t chain_plugin::set_write_lock_hold_time( int16_t new_time )
    return old_time;
 }
 
-bool chain_plugin::block_is_on_preferred_chain(const steem::chain::block_id_type& block_id )
+bool chain_plugin::block_is_on_preferred_chain(const CreateCoin::chain::block_id_type& block_id )
 {
    // If it's not known, it's not preferred.
    if( !db().is_known_block(block_id) ) return false;
 
    // Extract the block number from block_id, and fetch that block number's ID from the database.
    // If the database's block ID matches block_id, then block_id is on the preferred chain. Otherwise, it's on a fork.
-   return db().get_block_id_for_num( steem::chain::block_header::num_from_id( block_id ) ) == block_id;
+   return db().get_block_id_for_num( CreateCoin::chain::block_header::num_from_id( block_id ) ) == block_id;
 }
 
-void chain_plugin::check_time_in_block( const steem::chain::signed_block& block )
+void chain_plugin::check_time_in_block( const CreateCoin::chain::signed_block& block )
 {
    time_point_sec now = fc::time_point::now();
 
@@ -658,4 +658,4 @@ void chain_plugin::register_block_generator( const std::string& plugin_name, std
    my->block_generator = block_producer;
 }
 
-} } } // namespace steem::plugis::chain::chain_apis
+} } } // namespace CreateCoin::plugis::chain::chain_apis

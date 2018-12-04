@@ -1,25 +1,25 @@
 #include <fc/macros.hpp>
 
-#if defined IS_TEST_NET && defined STEEM_ENABLE_SMT
+#if defined IS_TEST_NET && defined CreateCoin_ENABLE_SMT
 
 FC_TODO(Extend testing scenarios to support multiple NAIs per account)
 
 #include <boost/test/unit_test.hpp>
 
-#include <steem/protocol/exceptions.hpp>
-#include <steem/protocol/hardfork.hpp>
+#include <CreateCoin/protocol/exceptions.hpp>
+#include <CreateCoin/protocol/hardfork.hpp>
 
-#include <steem/chain/database.hpp>
-#include <steem/chain/database_exceptions.hpp>
-#include <steem/chain/steem_objects.hpp>
-#include <steem/chain/smt_objects.hpp>
+#include <CreateCoin/chain/database.hpp>
+#include <CreateCoin/chain/database_exceptions.hpp>
+#include <CreateCoin/chain/CreateCoin_objects.hpp>
+#include <CreateCoin/chain/smt_objects.hpp>
 
-#include <steem/chain/util/smt_token.hpp>
+#include <CreateCoin/chain/util/smt_token.hpp>
 
 #include "../db_fixture/database_fixture.hpp"
 
-using namespace steem::chain;
-using namespace steem::protocol;
+using namespace CreateCoin::chain;
+using namespace CreateCoin::protocol;
 using fc::string;
 using boost::container::flat_set;
 using boost::container::flat_map;
@@ -43,19 +43,19 @@ BOOST_AUTO_TEST_CASE( smt_refund_validate )
       op.validate();
 
       op.executor = "@@@@@";
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.executor = "executor";
 
       op.contributor = "@@@@@";
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.contributor = "contributor";
 
       op.symbol = op.amount.symbol;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.symbol = creator_symbol;
 
       op.amount = asset( 1, creator_symbol );
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.amount = ASSET( "1.000 TESTS" );
    }
    FC_LOG_AND_RETHROW()
@@ -206,7 +206,7 @@ BOOST_AUTO_TEST_CASE( comment_votable_assers_validate )
          }
 
          op.extensions.insert( ava );
-         STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+         CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       }
 
       {
@@ -215,13 +215,13 @@ BOOST_AUTO_TEST_CASE( comment_votable_assers_validate )
          op.author = "alice";
          op.permlink = "test";
 
-         BOOST_TEST_MESSAGE( "--- Testing invalid configuration of votable_assets - STEEM added to container" );
+         BOOST_TEST_MESSAGE( "--- Testing invalid configuration of votable_assets - CreateCoin added to container" );
          allowed_vote_assets ava;
          const auto& smt = smts.front();
          ava.add_votable_asset(smt, share_type(20), false);
-         ava.add_votable_asset(STEEM_SYMBOL, share_type(20), true);
+         ava.add_votable_asset(CreateCoin_SYMBOL, share_type(20), true);
          op.extensions.insert( ava );
-         STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+         CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       }
    }
    FC_LOG_AND_RETHROW()
@@ -235,7 +235,7 @@ BOOST_AUTO_TEST_CASE( cap_commit_reveal_validate )
       reveal0.amount = 0;
       reveal0.nonce = 0;
       smt_revealed_cap revealMaxPlus;
-      revealMaxPlus.amount = STEEM_MAX_SHARE_SUPPLY + 1;
+      revealMaxPlus.amount = CreateCoin_MAX_SHARE_SUPPLY + 1;
       revealMaxPlus.nonce = 0;
       smt_revealed_cap reveal1M;
       reveal1M.amount = 1000000;
@@ -258,12 +258,12 @@ BOOST_AUTO_TEST_CASE( cap_commit_reveal_validate )
       smt_cap_commitment public_cap0;
       public_cap0.lower_bound = public_cap0.upper_bound = 0;
       public_cap0.hash = fc::sha256::hash( reveal0 );
-      STEEM_REQUIRE_THROW( public_cap0.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( public_cap0.validate(), fc::assert_exception );
       // Test cap value too big
       smt_cap_commitment public_capMaxPlus;
-      public_capMaxPlus.lower_bound = public_capMaxPlus.upper_bound = STEEM_MAX_SHARE_SUPPLY + 1;
+      public_capMaxPlus.lower_bound = public_capMaxPlus.upper_bound = CreateCoin_MAX_SHARE_SUPPLY + 1;
       public_capMaxPlus.hash = fc::sha256::hash( revealMaxPlus );
-      STEEM_REQUIRE_THROW( public_capMaxPlus.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( public_capMaxPlus.validate(), fc::assert_exception );
       // Test valid commitment cap ...
       smt_cap_commitment public_cap1M;
       public_cap1M.lower_bound = public_cap1M.upper_bound = 1000000;
@@ -279,11 +279,11 @@ BOOST_AUTO_TEST_CASE( cap_commit_reveal_validate )
       hidden_cap1M1234.hash = fc::sha256::hash( reveal1M1234 );
       hidden_cap1M1234.validate();
       // Test reveal too low
-      STEEM_REQUIRE_THROW( reveal1K1234.validate(hidden_cap1M1234), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( reveal1K1234.validate(hidden_cap1M1234), fc::assert_exception );
       // Test reveal too big
-      STEEM_REQUIRE_THROW( reveal1G1234.validate(hidden_cap1M1234), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( reveal1G1234.validate(hidden_cap1M1234), fc::assert_exception );
       // Test wrong nonce
-      STEEM_REQUIRE_THROW( reveal1M4321.validate(hidden_cap1M1234), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( reveal1M4321.validate(hidden_cap1M1234), fc::assert_exception );
       // Test valid commitment cap matching reveal
       reveal1M1234.validate( hidden_cap1M1234 );
    }
@@ -296,13 +296,13 @@ BOOST_AUTO_TEST_CASE( asset_symbol_vesting_methods )
    {
       BOOST_TEST_MESSAGE( "Test asset_symbol vesting methods" );
 
-      asset_symbol_type Steem = STEEM_SYMBOL;
-      FC_ASSERT( Steem.is_vesting() == false );
-      FC_ASSERT( Steem.get_paired_symbol() == VESTS_SYMBOL );
+      asset_symbol_type CreateCoin = CreateCoin_SYMBOL;
+      FC_ASSERT( CreateCoin.is_vesting() == false );
+      FC_ASSERT( CreateCoin.get_paired_symbol() == VESTS_SYMBOL );
 
       asset_symbol_type Vests = VESTS_SYMBOL;
       FC_ASSERT( Vests.is_vesting() );
-      FC_ASSERT( Vests.get_paired_symbol() == STEEM_SYMBOL );
+      FC_ASSERT( Vests.get_paired_symbol() == CreateCoin_SYMBOL );
 
       asset_symbol_type Sbd = SBD_SYMBOL;
       FC_ASSERT( Sbd.is_vesting() == false );
@@ -361,31 +361,31 @@ BOOST_AUTO_TEST_CASE( setup_validate )
       asset_symbol_type alice_symbol = create_smt("alice", alice_private_key, 4);
 
       op.control_account = "";
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       //Invalid account
       op.control_account = "&&&&&&";
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       //FC_ASSERT( max_supply > 0 )
       op.control_account = "abcd";
       op.max_supply = -1;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       op.symbol = alice_symbol;
 
       //FC_ASSERT( max_supply > 0 )
       op.max_supply = 0;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      //FC_ASSERT( max_supply <= STEEM_MAX_SHARE_SUPPLY )
-      op.max_supply = STEEM_MAX_SHARE_SUPPLY + 1;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      //FC_ASSERT( max_supply <= CreateCoin_MAX_SHARE_SUPPLY )
+      op.max_supply = CreateCoin_MAX_SHARE_SUPPLY + 1;
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      //FC_ASSERT( generation_begin_time > STEEM_GENESIS_TIME )
-      op.max_supply = STEEM_MAX_SHARE_SUPPLY / 1000;
-      op.generation_begin_time = STEEM_GENESIS_TIME;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      //FC_ASSERT( generation_begin_time > CreateCoin_GENESIS_TIME )
+      op.max_supply = CreateCoin_MAX_SHARE_SUPPLY / 1000;
+      op.generation_begin_time = CreateCoin_GENESIS_TIME;
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       fc::time_point_sec start_time = fc::variant( "2018-03-07T00:00:00" ).as< fc::time_point_sec >();
       fc::time_point_sec t50 = start_time + fc::seconds( 50 );
@@ -396,23 +396,23 @@ BOOST_AUTO_TEST_CASE( setup_validate )
       //FC_ASSERT( generation_end_time > generation_begin_time )
       op.generation_begin_time = t100;
       op.generation_end_time = t50;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       //FC_ASSERT( generation_end_time > generation_begin_time )
       op.generation_end_time = t100;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       //FC_ASSERT( announced_launch_time >= generation_end_time )
       op.announced_launch_time = t200;
       op.generation_end_time = t300;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       //FC_ASSERT( launch_expiration_time >= announced_launch_time )
       op.generation_begin_time = t50;
       op.generation_end_time = t100;
       op.announced_launch_time = t300;
       op.launch_expiration_time = t200;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       op.announced_launch_time = t200;
       op.launch_expiration_time = t300;
@@ -420,9 +420,9 @@ BOOST_AUTO_TEST_CASE( setup_validate )
       (
          get_generation_unit( { { "xyz", 1 } }, { { "xyz2", 2 } } )/*pre_soft_cap_unit*/,
          get_generation_unit()/*post_soft_cap_unit*/,
-         get_cap_commitment( 1 )/*min_steem_units_commitment*/,
-         get_cap_commitment( SMT_MIN_HARD_CAP_STEEM_UNITS + 1 )/*hard_cap_steem_units_commitment*/,
-         STEEM_100_PERCENT/*soft_cap_percent*/,
+         get_cap_commitment( 1 )/*min_CreateCoin_units_commitment*/,
+         get_cap_commitment( SMT_MIN_HARD_CAP_CreateCoin_UNITS + 1 )/*hard_cap_CreateCoin_units_commitment*/,
+         CreateCoin_100_PERCENT/*soft_cap_percent*/,
          1/*min_unit_ratio*/,
          2/*max_unit_ratio*/
       );
@@ -431,7 +431,7 @@ BOOST_AUTO_TEST_CASE( setup_validate )
 
       //FC_ASSERT(decimal_places <= SMT_MAX_DECIMAL_PLACES)
       op.decimal_places = SMT_MAX_DECIMAL_PLACES + 1;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       op.decimal_places = 3;
 
@@ -439,191 +439,191 @@ BOOST_AUTO_TEST_CASE( setup_validate )
       for( uint32_t i = 0; i < SMT_MAX_UNIT_ROUTES + 1; ++i )
          to_many_units.emplace( "alice" + std::to_string( i ), 1 );
 
-      //FC_ASSERT( steem_unit.size() <= SMT_MAX_UNIT_ROUTES )
-      gp.pre_soft_cap_unit.steem_unit = to_many_units;
+      //FC_ASSERT( CreateCoin_unit.size() <= SMT_MAX_UNIT_ROUTES )
+      gp.pre_soft_cap_unit.CreateCoin_unit = to_many_units;
       gp.pre_soft_cap_unit.token_unit = { { "bob",3 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      gp.pre_soft_cap_unit.steem_unit = { { "bob2", 33 } };
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "bob2", 33 } };
       gp.pre_soft_cap_unit.token_unit = to_many_units;
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       //Invalid account
-      gp.pre_soft_cap_unit.steem_unit = { { "{}{}", 12 } };
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "{}{}", 12 } };
       gp.pre_soft_cap_unit.token_unit = { { "xyz", 13 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      gp.pre_soft_cap_unit.steem_unit = { { "xyz2", 14 } };
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "xyz2", 14 } };
       gp.pre_soft_cap_unit.token_unit = { { "{}", 15 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       //Invalid account -> valid is '$from'
-      gp.pre_soft_cap_unit.steem_unit = { { "$fromx", 1 } };
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "$fromx", 1 } };
       gp.pre_soft_cap_unit.token_unit = { { "$from", 2 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      gp.pre_soft_cap_unit.steem_unit = { { "$from", 3 } };
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "$from", 3 } };
       gp.pre_soft_cap_unit.token_unit = { { "$from_", 4 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       //Invalid account -> valid is '$from.vesting'
-      gp.pre_soft_cap_unit.steem_unit = { { "$from.vestingx", 2 } };
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "$from.vestingx", 2 } };
       gp.pre_soft_cap_unit.token_unit = { { "$from.vesting", 222 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      gp.pre_soft_cap_unit.steem_unit = { { "$from.vesting", 13 } };
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "$from.vesting", 13 } };
       gp.pre_soft_cap_unit.token_unit = { { "$from.vesting.vesting", 3 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      //FC_ASSERT( steem_unit.value > 0 );
-      gp.pre_soft_cap_unit.steem_unit = { { "$from.vesting", 0 } };
+      //FC_ASSERT( CreateCoin_unit.value > 0 );
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "$from.vesting", 0 } };
       gp.pre_soft_cap_unit.token_unit = { { "$from.vesting", 2 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      gp.pre_soft_cap_unit.steem_unit = { { "$from.vesting", 10 } };
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "$from.vesting", 10 } };
       gp.pre_soft_cap_unit.token_unit = { { "$from.vesting", 0 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      //FC_ASSERT( steem_unit.value > 0 );
-      gp.pre_soft_cap_unit.steem_unit = { { "$from", 0 } };
+      //FC_ASSERT( CreateCoin_unit.value > 0 );
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "$from", 0 } };
       gp.pre_soft_cap_unit.token_unit = { { "$from", 100 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      gp.pre_soft_cap_unit.steem_unit = { { "$from", 33 } };
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "$from", 33 } };
       gp.pre_soft_cap_unit.token_unit = { { "$from", 0 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      //FC_ASSERT( steem_unit.value > 0 );
-      gp.pre_soft_cap_unit.steem_unit = { { "qprst", 0 } };
+      //FC_ASSERT( CreateCoin_unit.value > 0 );
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "qprst", 0 } };
       gp.pre_soft_cap_unit.token_unit = { { "qprst", 67 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      gp.pre_soft_cap_unit.steem_unit = { { "my_account2", 55 } };
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "my_account2", 55 } };
       gp.pre_soft_cap_unit.token_unit = { { "my_account", 0 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      gp.pre_soft_cap_unit.steem_unit = { { "bob", 2 }, { "$from.vesting", 3 }, { "$from", 4 } };
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "bob", 2 }, { "$from.vesting", 3 }, { "$from", 4 } };
       gp.pre_soft_cap_unit.token_unit = { { "alice", 5 }, { "$from", 3 } };
       op.initial_generation_policy = gp;
       op.validate();
 
       //FC_ASSERT( lower_bound > 0 )
-      gp.min_steem_units_commitment.lower_bound = 0;
+      gp.min_CreateCoin_units_commitment.lower_bound = 0;
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      //FC_ASSERT( lower_bound >= SMT_MIN_HARD_CAP_STEEM_UNITS )
-      gp.min_steem_units_commitment.lower_bound = SMT_MIN_HARD_CAP_STEEM_UNITS - 1;
+      //FC_ASSERT( lower_bound >= SMT_MIN_HARD_CAP_CreateCoin_UNITS )
+      gp.min_CreateCoin_units_commitment.lower_bound = SMT_MIN_HARD_CAP_CreateCoin_UNITS - 1;
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      //FC_ASSERT( upper_bound <= STEEM_MAX_SHARE_SUPPLY )
-      gp.min_steem_units_commitment.upper_bound = STEEM_MAX_SHARE_SUPPLY + 1;
+      //FC_ASSERT( upper_bound <= CreateCoin_MAX_SHARE_SUPPLY )
+      gp.min_CreateCoin_units_commitment.upper_bound = CreateCoin_MAX_SHARE_SUPPLY + 1;
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       //FC_ASSERT( lower_bound <= upper_bound )
-      gp.min_steem_units_commitment.lower_bound = STEEM_MAX_SHARE_SUPPLY - 1;
-      gp.min_steem_units_commitment.upper_bound = gp.min_steem_units_commitment.lower_bound - 1;
+      gp.min_CreateCoin_units_commitment.lower_bound = CreateCoin_MAX_SHARE_SUPPLY - 1;
+      gp.min_CreateCoin_units_commitment.upper_bound = gp.min_CreateCoin_units_commitment.lower_bound - 1;
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      gp.min_steem_units_commitment.lower_bound = 1 * SMT_MIN_HARD_CAP_STEEM_UNITS;
-      gp.min_steem_units_commitment.upper_bound = 2 * SMT_MIN_HARD_CAP_STEEM_UNITS;
-      gp.hard_cap_steem_units_commitment.lower_bound = 1 * SMT_MIN_HARD_CAP_STEEM_UNITS;
-      gp.hard_cap_steem_units_commitment.upper_bound = 2 * SMT_MIN_HARD_CAP_STEEM_UNITS;
+      gp.min_CreateCoin_units_commitment.lower_bound = 1 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
+      gp.min_CreateCoin_units_commitment.upper_bound = 2 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
+      gp.hard_cap_CreateCoin_units_commitment.lower_bound = 1 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
+      gp.hard_cap_CreateCoin_units_commitment.upper_bound = 2 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
       op.initial_generation_policy = gp;
       gp.validate();
 
       //FC_ASSERT( soft_cap_percent > 0 )
       gp.soft_cap_percent = 0;
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      //FC_ASSERT( soft_cap_percent <= STEEM_100_PERCENT )
-      gp.soft_cap_percent = STEEM_100_PERCENT + 1;
+      //FC_ASSERT( soft_cap_percent <= CreateCoin_100_PERCENT )
+      gp.soft_cap_percent = CreateCoin_100_PERCENT + 1;
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      //FC_ASSERT( soft_cap_percent == STEEM_100_PERCENT && post_soft_cap_unit.steem_unit.size() == 0 )
-      gp.soft_cap_percent = STEEM_100_PERCENT;
-      gp.post_soft_cap_unit.steem_unit = { { "bob", 2 } };
+      //FC_ASSERT( soft_cap_percent == CreateCoin_100_PERCENT && post_soft_cap_unit.CreateCoin_unit.size() == 0 )
+      gp.soft_cap_percent = CreateCoin_100_PERCENT;
+      gp.post_soft_cap_unit.CreateCoin_unit = { { "bob", 2 } };
       gp.post_soft_cap_unit.token_unit = {};
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      //FC_ASSERT( soft_cap_percent == STEEM_100_PERCENT && post_soft_cap_unit.token_unit.size() == 0 )
-      gp.soft_cap_percent = STEEM_100_PERCENT;
-      gp.post_soft_cap_unit.steem_unit = {};
+      //FC_ASSERT( soft_cap_percent == CreateCoin_100_PERCENT && post_soft_cap_unit.token_unit.size() == 0 )
+      gp.soft_cap_percent = CreateCoin_100_PERCENT;
+      gp.post_soft_cap_unit.CreateCoin_unit = {};
       gp.post_soft_cap_unit.token_unit = { { "alice", 3 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      //FC_ASSERT( soft_cap_percent != STEEM_100_PERCENT && post_soft_cap_unit.steem_unit.size() > 0 )
-      gp.soft_cap_percent = STEEM_100_PERCENT / 2;
-      gp.post_soft_cap_unit.steem_unit = {};
+      //FC_ASSERT( soft_cap_percent != CreateCoin_100_PERCENT && post_soft_cap_unit.CreateCoin_unit.size() > 0 )
+      gp.soft_cap_percent = CreateCoin_100_PERCENT / 2;
+      gp.post_soft_cap_unit.CreateCoin_unit = {};
       gp.post_soft_cap_unit.token_unit = {};
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      gp.soft_cap_percent = STEEM_100_PERCENT;
-      gp.post_soft_cap_unit.steem_unit = {};
+      gp.soft_cap_percent = CreateCoin_100_PERCENT;
+      gp.post_soft_cap_unit.CreateCoin_unit = {};
       gp.post_soft_cap_unit.token_unit = {};
       op.initial_generation_policy = gp;
       op.validate();
 
-      //FC_ASSERT( min_steem_units_commitment.lower_bound <= hard_cap_steem_units_commitment.lower_bound )
-      gp.min_steem_units_commitment.lower_bound = 10 * SMT_MIN_HARD_CAP_STEEM_UNITS;
-      gp.min_steem_units_commitment.upper_bound = 20 * SMT_MIN_HARD_CAP_STEEM_UNITS;
-      gp.hard_cap_steem_units_commitment.lower_bound = 9 * SMT_MIN_HARD_CAP_STEEM_UNITS;
-      gp.hard_cap_steem_units_commitment.upper_bound = 20 * SMT_MIN_HARD_CAP_STEEM_UNITS;
+      //FC_ASSERT( min_CreateCoin_units_commitment.lower_bound <= hard_cap_CreateCoin_units_commitment.lower_bound )
+      gp.min_CreateCoin_units_commitment.lower_bound = 10 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
+      gp.min_CreateCoin_units_commitment.upper_bound = 20 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
+      gp.hard_cap_CreateCoin_units_commitment.lower_bound = 9 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
+      gp.hard_cap_CreateCoin_units_commitment.upper_bound = 20 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      //FC_ASSERT( min_steem_units_commitment.upper_bound <= hard_cap_steem_units_commitment.upper_bound )
-      gp.hard_cap_steem_units_commitment.lower_bound = 11 * SMT_MIN_HARD_CAP_STEEM_UNITS;
-      gp.hard_cap_steem_units_commitment.upper_bound = 19 * SMT_MIN_HARD_CAP_STEEM_UNITS;
+      //FC_ASSERT( min_CreateCoin_units_commitment.upper_bound <= hard_cap_CreateCoin_units_commitment.upper_bound )
+      gp.hard_cap_CreateCoin_units_commitment.lower_bound = 11 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
+      gp.hard_cap_CreateCoin_units_commitment.upper_bound = 19 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      //FC_ASSERT( hard_cap_steem_units_commitment.lower_bound >= SMT_MIN_SATURATION_STEEM_UNITS * uint64_t( max_unit_ratio ) )
-      gp.hard_cap_steem_units_commitment.lower_bound = 11 * SMT_MIN_HARD_CAP_STEEM_UNITS;
-      gp.hard_cap_steem_units_commitment.upper_bound = 21 * SMT_MIN_HARD_CAP_STEEM_UNITS;
-      gp.max_unit_ratio = ( ( 11 * SMT_MIN_HARD_CAP_STEEM_UNITS ) / SMT_MIN_SATURATION_STEEM_UNITS ) * 2;
+      //FC_ASSERT( hard_cap_CreateCoin_units_commitment.lower_bound >= SMT_MIN_SATURATION_CreateCoin_UNITS * uint64_t( max_unit_ratio ) )
+      gp.hard_cap_CreateCoin_units_commitment.lower_bound = 11 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
+      gp.hard_cap_CreateCoin_units_commitment.upper_bound = 21 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
+      gp.max_unit_ratio = ( ( 11 * SMT_MIN_HARD_CAP_CreateCoin_UNITS ) / SMT_MIN_SATURATION_CreateCoin_UNITS ) * 2;
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      gp.hard_cap_steem_units_commitment.lower_bound = 11 * SMT_MIN_HARD_CAP_STEEM_UNITS;
-      gp.hard_cap_steem_units_commitment.upper_bound = 21 * SMT_MIN_HARD_CAP_STEEM_UNITS;
+      gp.hard_cap_CreateCoin_units_commitment.lower_bound = 11 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
+      gp.hard_cap_CreateCoin_units_commitment.upper_bound = 21 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
       gp.max_unit_ratio = 2;
       op.initial_generation_policy = gp;
       op.validate();
 
       smt_capped_generation_policy gp_valid = gp;
 
-      //FC_ASSERT( min_soft_cap >= SMT_MIN_SOFT_CAP_STEEM_UNITS )
+      //FC_ASSERT( min_soft_cap >= SMT_MIN_SOFT_CAP_CreateCoin_UNITS )
       gp.soft_cap_percent = 1;
-      gp.min_steem_units_commitment.lower_bound = 1 * SMT_MIN_HARD_CAP_STEEM_UNITS;
-      gp.min_steem_units_commitment.upper_bound = 2 * SMT_MIN_HARD_CAP_STEEM_UNITS;
-      gp.hard_cap_steem_units_commitment.lower_bound = 1 * SMT_MIN_HARD_CAP_STEEM_UNITS;
-      gp.hard_cap_steem_units_commitment.upper_bound = 2 * SMT_MIN_HARD_CAP_STEEM_UNITS;
-      gp.post_soft_cap_unit.steem_unit = { { "bob", 2 } };
+      gp.min_CreateCoin_units_commitment.lower_bound = 1 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
+      gp.min_CreateCoin_units_commitment.upper_bound = 2 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
+      gp.hard_cap_CreateCoin_units_commitment.lower_bound = 1 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
+      gp.hard_cap_CreateCoin_units_commitment.upper_bound = 2 * SMT_MIN_HARD_CAP_CreateCoin_UNITS;
+      gp.post_soft_cap_unit.CreateCoin_unit = { { "bob", 2 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       gp = gp_valid;
       op.initial_generation_policy = gp;
@@ -633,24 +633,24 @@ BOOST_AUTO_TEST_CASE( setup_validate )
       uint32_t max_val_32 = std::numeric_limits<uint32_t>::max();
 
       //FC_ASSERT( max_tokens_created <= max_share_supply_u128 )
-      gp.soft_cap_percent = STEEM_100_PERCENT - 1;
+      gp.soft_cap_percent = CreateCoin_100_PERCENT - 1;
       gp.min_unit_ratio = max_val_32;
-      gp.post_soft_cap_unit.steem_unit = { { "abc", 1 } };
+      gp.post_soft_cap_unit.CreateCoin_unit = { { "abc", 1 } };
       gp.post_soft_cap_unit.token_unit = { { "abc1", max_val_16 } };
       gp.pre_soft_cap_unit.token_unit = { { "abc2", max_val_16 } };
-      gp.min_steem_units_commitment.upper_bound = STEEM_MAX_SHARE_SUPPLY;
-      gp.hard_cap_steem_units_commitment.upper_bound = STEEM_MAX_SHARE_SUPPLY;
+      gp.min_CreateCoin_units_commitment.upper_bound = CreateCoin_MAX_SHARE_SUPPLY;
+      gp.hard_cap_CreateCoin_units_commitment.upper_bound = CreateCoin_MAX_SHARE_SUPPLY;
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
-      //FC_ASSERT( max_steem_accepted <= max_share_supply_u128 )
+      //FC_ASSERT( max_CreateCoin_accepted <= max_share_supply_u128 )
       gp.min_unit_ratio = 1;
       gp.post_soft_cap_unit.token_unit = { { "abc1", 1 } };
       gp.pre_soft_cap_unit.token_unit = { { "abc2", 1 } };
-      gp.post_soft_cap_unit.steem_unit = { { "abc3", max_val_16 } };
-      gp.pre_soft_cap_unit.steem_unit = { { "abc34", max_val_16 } };
+      gp.post_soft_cap_unit.CreateCoin_unit = { { "abc3", max_val_16 } };
+      gp.pre_soft_cap_unit.CreateCoin_unit = { { "abc34", max_val_16 } };
       op.initial_generation_policy = gp;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
    }
    FC_LOG_AND_RETHROW()
 }
@@ -698,9 +698,9 @@ BOOST_AUTO_TEST_CASE( setup_apply )
       (
          get_generation_unit( { { "xyz", 1 } }, { { "xyz2", 2 } } )/*pre_soft_cap_unit*/,
          get_generation_unit()/*post_soft_cap_unit*/,
-         get_cap_commitment( 1 )/*min_steem_units_commitment*/,
-         get_cap_commitment( SMT_MIN_HARD_CAP_STEEM_UNITS + 1 )/*hard_cap_steem_units_commitment*/,
-         STEEM_100_PERCENT/*soft_cap_percent*/,
+         get_cap_commitment( 1 )/*min_CreateCoin_units_commitment*/,
+         get_cap_commitment( SMT_MIN_HARD_CAP_CreateCoin_UNITS + 1 )/*hard_cap_CreateCoin_units_commitment*/,
+         CreateCoin_100_PERCENT/*soft_cap_percent*/,
          1/*min_unit_ratio*/,
          2/*max_unit_ratio*/
       );
@@ -716,9 +716,9 @@ BOOST_AUTO_TEST_CASE( setup_apply )
 
       //SMT doesn't exist
       tx.operations.push_back( op );
-      tx.set_expiration( db->head_block_time() + STEEM_MAX_TIME_UNTIL_EXPIRATION );
+      tx.set_expiration( db->head_block_time() + CreateCoin_MAX_TIME_UNTIL_EXPIRATION );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
       tx.operations.clear();
       tx.signatures.clear();
 
@@ -731,7 +731,7 @@ BOOST_AUTO_TEST_CASE( setup_apply )
       op.symbol = alice_symbol;
       op.decimal_places = 3;
       tx.operations.push_back( op );
-      tx.set_expiration( db->head_block_time() + STEEM_MAX_TIME_UNTIL_EXPIRATION );
+      tx.set_expiration( db->head_block_time() + CreateCoin_MAX_TIME_UNTIL_EXPIRATION );
       sign( tx, alice_private_key );
       db->push_transaction( tx, 0 );
       tx.operations.clear();
@@ -751,11 +751,11 @@ BOOST_AUTO_TEST_CASE( smt_cap_reveal_validate )
    op.validate();
    // Check invalid control account name.
    op.control_account = "@@@@@";
-   STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+   CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
    op.control_account = "alice";
    // Check invalid SMT symbol.
    op.symbol = op.symbol.get_paired_symbol();
-   STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+   CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
    op.symbol = op.symbol.get_paired_symbol();
    }
    FC_LOG_AND_RETHROW()
@@ -808,9 +808,9 @@ void setup_smt_and_reveal_caps( const account_name_type& control_account, const 
       (
          dbf.get_generation_unit( { { "xyz", 1 } }, { { "xyz2", 2 } } )/*pre_soft_cap_unit*/,
          dbf.get_generation_unit()/*post_soft_cap_unit*/,
-         dbf.get_cap_commitment( min_cap_val, nonce )/*min_steem_units_commitment*/,
-         dbf.get_cap_commitment( max_cap_val, nonce )/*hard_cap_steem_units_commitment*/,
-         STEEM_100_PERCENT/*soft_cap_percent*/,
+         dbf.get_cap_commitment( min_cap_val, nonce )/*min_CreateCoin_units_commitment*/,
+         dbf.get_cap_commitment( max_cap_val, nonce )/*hard_cap_CreateCoin_units_commitment*/,
+         CreateCoin_100_PERCENT/*soft_cap_percent*/,
          1/*min_unit_ratio*/,
          2/*max_unit_ratio*/
       );
@@ -825,31 +825,31 @@ void setup_smt_and_reveal_caps( const account_name_type& control_account, const 
    }
 
    const auto& smt_object = db->get< smt_token_object, by_symbol >( smt_symbol );
-   FC_ASSERT( smt_object.steem_units_min_cap < 0 && smt_object.steem_units_hard_cap < 0 );
+   FC_ASSERT( smt_object.CreateCoin_units_min_cap < 0 && smt_object.CreateCoin_units_hard_cap < 0 );
    // Try to reveal correct value with invalid nonce.
    op.cap.nonce = invalid_val;
    op.cap.amount = max_cap_val;
    FAIL_WITH_OP( op, private_key, fc::assert_exception );
-   FC_ASSERT( smt_object.steem_units_min_cap < 0 && smt_object.steem_units_hard_cap < 0 );
+   FC_ASSERT( smt_object.CreateCoin_units_min_cap < 0 && smt_object.CreateCoin_units_hard_cap < 0 );
    // Try to reveal invalid amount with correct nonce. Note that the value will be tested against both cap's commitments.
    op.cap.nonce = nonce;
    op.cap.amount = invalid_val.to_uint64();
    FAIL_WITH_OP( op, private_key, fc::assert_exception );
-   FC_ASSERT( smt_object.steem_units_min_cap < 0 && smt_object.steem_units_hard_cap < 0 );
+   FC_ASSERT( smt_object.CreateCoin_units_min_cap < 0 && smt_object.CreateCoin_units_hard_cap < 0 );
    // Reveal max hard cap.
    op.cap.amount = max_cap_val;
    PUSH_OP( op, private_key );
-   FC_ASSERT( smt_object.steem_units_min_cap < 0 && smt_object.steem_units_hard_cap == max_cap_val );
+   FC_ASSERT( smt_object.CreateCoin_units_min_cap < 0 && smt_object.CreateCoin_units_hard_cap == max_cap_val );
    // Try to reveal max hard cap again.
    FAIL_WITH_OP( op, private_key, fc::assert_exception );
    // Try to reveal invalid amount again. Note that this time it will be tested against min cap only (as max hard cap has been already revealed).
    op.cap.amount = invalid_val.to_uint64();
    FAIL_WITH_OP( op, private_key, fc::assert_exception );
-   FC_ASSERT( smt_object.steem_units_min_cap < 0 && smt_object.steem_units_hard_cap == max_cap_val );
+   FC_ASSERT( smt_object.CreateCoin_units_min_cap < 0 && smt_object.CreateCoin_units_hard_cap == max_cap_val );
    // Reveal min cap.
    op.cap.amount = min_cap_val;
    PUSH_OP( op, private_key );
-   FC_ASSERT( smt_object.steem_units_min_cap == min_cap_val && smt_object.steem_units_hard_cap == max_cap_val );
+   FC_ASSERT( smt_object.CreateCoin_units_min_cap == min_cap_val && smt_object.CreateCoin_units_hard_cap == max_cap_val );
    // Try to reveal min cap again.
    FAIL_WITH_OP( op, private_key, fc::assert_exception );
 }
@@ -864,9 +864,9 @@ BOOST_AUTO_TEST_CASE( smt_cap_reveal_apply )
 
       auto smts = create_smt_3("alice", alice_private_key);
       // Test non-hidden caps (zero nonce).
-      setup_smt_and_reveal_caps("alice", alice_private_key, smts[0], 1, SMT_MIN_HARD_CAP_STEEM_UNITS + 1, 20000, 0, db, *this);
+      setup_smt_and_reveal_caps("alice", alice_private_key, smts[0], 1, SMT_MIN_HARD_CAP_CreateCoin_UNITS + 1, 20000, 0, db, *this);
       // Test hidden caps (1234 nonce).
-      setup_smt_and_reveal_caps("alice", alice_private_key, smts[1], 10000, SMT_MIN_HARD_CAP_STEEM_UNITS + 1, 20000, 1234, db, *this);
+      setup_smt_and_reveal_caps("alice", alice_private_key, smts[1], 10000, SMT_MIN_HARD_CAP_CreateCoin_UNITS + 1, 20000, 1234, db, *this);
    }
    FC_LOG_AND_RETHROW()
 }
@@ -899,19 +899,19 @@ BOOST_AUTO_TEST_CASE( smt_create_apply )
       op.precision = op.symbol.decimals();
 
       BOOST_TEST_MESSAGE( " -- SMT create with insufficient SBD balance" );
-      // Fund with STEEM, and set fee with SBD.
+      // Fund with CreateCoin, and set fee with SBD.
       FUND( "alice", test_amount );
       // Declare fee in SBD/TBD though alice has none.
       op.smt_creation_fee = asset( test_amount, SBD_SYMBOL );
       // Throw due to insufficient balance of SBD/TBD.
       FAIL_WITH_OP(op, alice_private_key, fc::assert_exception);
 
-      BOOST_TEST_MESSAGE( " -- SMT create with insufficient STEEM balance" );
-      // Now fund with SBD, and set fee with STEEM.
-      convert( "alice", asset( test_amount, STEEM_SYMBOL ) );
-      // Declare fee in STEEM though alice has none.
-      op.smt_creation_fee = asset( test_amount, STEEM_SYMBOL );
-      // Throw due to insufficient balance of STEEM.
+      BOOST_TEST_MESSAGE( " -- SMT create with insufficient CreateCoin balance" );
+      // Now fund with SBD, and set fee with CreateCoin.
+      convert( "alice", asset( test_amount, CreateCoin_SYMBOL ) );
+      // Declare fee in CreateCoin though alice has none.
+      op.smt_creation_fee = asset( test_amount, CreateCoin_SYMBOL );
+      // Throw due to insufficient balance of CreateCoin.
       FAIL_WITH_OP(op, alice_private_key, fc::assert_exception);
 
       BOOST_TEST_MESSAGE( " -- SMT create with available funds" );
@@ -926,7 +926,7 @@ BOOST_AUTO_TEST_CASE( smt_create_apply )
       // Check that another user/account can't be used to create duplicating SMT even with different precision.
       create_conflicting_smt(op.symbol, "bob", bob_private_key);
 
-      BOOST_TEST_MESSAGE( " -- Check that an SMT cannot be created with decimals greater than STEEM_MAX_DECIMALS" );
+      BOOST_TEST_MESSAGE( " -- Check that an SMT cannot be created with decimals greater than CreateCoin_MAX_DECIMALS" );
       // Check that invalid SMT can't be created
       create_invalid_smt("alice", alice_private_key);
 
@@ -941,15 +941,15 @@ BOOST_AUTO_TEST_CASE( smt_create_apply )
       op.symbol = bob_symbol;
       op.precision = op.symbol.decimals();
 
-      BOOST_TEST_MESSAGE( " -- Check that we cannot create an SMT with an insufficent STEEM creation fee" );
-      // Check too low fee in STEEM.
+      BOOST_TEST_MESSAGE( " -- Check that we cannot create an SMT with an insufficent CreateCoin creation fee" );
+      // Check too low fee in CreateCoin.
       FUND( "bob", too_low_fee_amount );
-      op.smt_creation_fee = asset( too_low_fee_amount, STEEM_SYMBOL );
+      op.smt_creation_fee = asset( too_low_fee_amount, CreateCoin_SYMBOL );
       FAIL_WITH_OP(op, bob_private_key, fc::assert_exception);
 
       BOOST_TEST_MESSAGE( " -- Check that we cannot create an SMT with an insufficent SBD creation fee" );
       // Check too low fee in SBD.
-      convert( "bob", asset( too_low_fee_amount, STEEM_SYMBOL ) );
+      convert( "bob", asset( too_low_fee_amount, CreateCoin_SYMBOL ) );
       op.smt_creation_fee = asset( too_low_fee_amount, SBD_SYMBOL );
       FAIL_WITH_OP(op, bob_private_key, fc::assert_exception);
 

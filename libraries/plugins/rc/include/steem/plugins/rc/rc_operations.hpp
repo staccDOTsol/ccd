@@ -1,9 +1,9 @@
 #pragma once
-#include <steem/protocol/base.hpp>
+#include <CreateCoin/protocol/base.hpp>
 
-#include <steem/chain/evaluator.hpp>
+#include <CreateCoin/chain/evaluator.hpp>
 
-namespace steem { namespace plugins { namespace rc {
+namespace CreateCoin { namespace plugins { namespace rc {
 
 struct delegate_to_pool_operation : base_operation
 {
@@ -31,22 +31,22 @@ typedef fc::static_variant<
          delegate_drc_from_pool_operation
       > rc_plugin_operation;
 
-STEEM_DEFINE_PLUGIN_EVALUATOR( rc_plugin, rc_plugin_operation, delegate_to_pool_operation );
-STEEM_DEFINE_PLUGIN_EVALUATOR( rc_plugin, rc_plugin_operation, delegate_drc_from_pool_operation );
+CreateCoin_DEFINE_PLUGIN_EVALUATOR( rc_plugin, rc_plugin_operation, delegate_to_pool_operation );
+CreateCoin_DEFINE_PLUGIN_EVALUATOR( rc_plugin, rc_plugin_operation, delegate_drc_from_pool_operation );
 
-} } } // steem::plugins::rc
+} } } // CreateCoin::plugins::rc
 
-FC_REFLECT( steem::plugins::rc::delegate_to_pool_operation,
+FC_REFLECT( CreateCoin::plugins::rc::delegate_to_pool_operation,
    (from_account)
    (to_pool)
    (amount)
    )
-FC_REFLECT( steem::plugins::rc::delegate_drc_from_pool_operation,
+FC_REFLECT( CreateCoin::plugins::rc::delegate_drc_from_pool_operation,
    (from_pool)
    (to_account)
    (mana_change)
    (drc_max_mana)
    )
 
-STEEM_DECLARE_OPERATION_TYPE( steem::plugins::rc::rc_plugin_operation )
-FC_REFLECT_TYPENAME( steem::plugins::rc::rc_plugin_operation )
+CreateCoin_DECLARE_OPERATION_TYPE( CreateCoin::plugins::rc::rc_plugin_operation )
+FC_REFLECT_TYPENAME( CreateCoin::plugins::rc::rc_plugin_operation )

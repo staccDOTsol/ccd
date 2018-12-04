@@ -1,8 +1,8 @@
 
-#include <steem/chain/util/advanced_benchmark_dumper.hpp>
+#include <CreateCoin/chain/util/advanced_benchmark_dumper.hpp>
 #include <chrono>
 
-namespace steem { namespace chain { namespace util {
+namespace CreateCoin { namespace chain { namespace util {
 
    uint32_t advanced_benchmark_dumper::cnt = 0;
    std::string advanced_benchmark_dumper::virtual_operation_name = "virtual_operation";
@@ -25,14 +25,14 @@ namespace steem { namespace chain { namespace util {
 
    void advanced_benchmark_dumper::begin()
    {
-      time_begin = std::chrono::duration_cast<std::chrono::milliseconds>( std::chrono::system_clock::now().time_since_epoch() ).count();
+      time_begin = std::chrono::duration_cast<std::chrono::milliseconds>( std::chrono::syCC_clock::now().time_since_epoch() ).count();
    }
 
    template< bool APPLY_CONTEXT >
    void advanced_benchmark_dumper::end( const std::string& str )
    {
       uint64_t time = std::chrono::duration_cast<std::chrono::milliseconds>(
-         std::chrono::system_clock::now().time_since_epoch() ).count() - time_begin;
+         std::chrono::syCC_clock::now().time_since_epoch() ).count() - time_begin;
       auto res = info.emplace( APPLY_CONTEXT ? (apply_context_name + str) : str, time );
 
       if( !res.second )
@@ -79,4 +79,4 @@ namespace steem { namespace chain { namespace util {
       dump_impl( rinfo, "r_" + file_name );
    }
 
-} } } // steem::chain::util
+} } } // CreateCoin::chain::util

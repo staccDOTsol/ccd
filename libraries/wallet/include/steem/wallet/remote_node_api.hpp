@@ -1,7 +1,7 @@
 #pragma once
-#include <steem/plugins/condenser_api/condenser_api.hpp>
+#include <CreateCoin/plugins/condenser_api/condenser_api.hpp>
 
-namespace steem { namespace wallet {
+namespace CreateCoin { namespace wallet {
 
 using std::vector;
 using fc::variant;
@@ -110,7 +110,7 @@ struct remote_node_api
 
 } }
 
-FC_API( steem::wallet::remote_node_api,
+FC_API( CreateCoin::wallet::remote_node_api,
         (get_version)
         (get_trending_tags)
         (get_state)

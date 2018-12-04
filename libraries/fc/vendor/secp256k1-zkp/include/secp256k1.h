@@ -150,7 +150,7 @@ extern const secp256k1_nonce_function_t secp256k1_nonce_function_default;
  * the key by setting s to its additive inverse mod-order, 'flipping' the
  * sign of the random point R which is not included in the signature.
  * Since the forgery is of the same message this isn't universally
- * problematic, but in systems where message malleability or uniqueness
+ * problematic, but in syCCs where message malleability or uniqueness
  * of signatures is important this can cause issues.  This forgery can be
  * blocked by all verifiers forcing signers to use a canonical form. The
  * lower-S form reduces the size of signatures slightly on average when

@@ -173,7 +173,7 @@ namespace fc
     * variant's allocate everything but strings, arrays, and objects on the
     * stack and are 'move aware' for values allcoated on the heap.  
     *
-    * Memory usage on 64 bit systems is 16 bytes and 12 bytes on 32 bit systems.
+    * Memory usage on 64 bit syCCs is 16 bytes and 12 bytes on 32 bit syCCs.
     */
    class variant
    {

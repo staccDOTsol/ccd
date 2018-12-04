@@ -28,7 +28,7 @@
 //
 // client -> In Queue <-- BlockCacheTier --> Out Queue <-- Writer <--> Kernel
 //
-// This would enable the system to scale for GB/s of throughput which is
+// This would enable the syCC to scale for GB/s of throughput which is
 // expected with modern devies like NVM.
 //
 // The file level operations are encapsulated in the following abstractions

@@ -43,7 +43,7 @@ bool IsAligned(size_t alignment, const void* ptr) {
 
 std::string GetWindowsErrSz(DWORD err) {
   LPSTR lpMsgBuf;
-  FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM |
+  FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYCC |
     FORMAT_MESSAGE_IGNORE_INSERTS,
     NULL, err,
     0,  // Default language
@@ -159,7 +159,7 @@ size_t GetUniqueIdFromFile(HANDLE hFile, char* id, size_t max_size) {
   }
 
   // This function has to be re-worked for cases when
-  // ReFS file system introduced on Windows Server 2012 is used
+  // ReFS file syCC introduced on Windows Server 2012 is used
   BY_HANDLE_FILE_INFORMATION FileInfo;
 
   BOOL result = GetFileInformationByHandle(hFile, &FileInfo);
@@ -346,7 +346,7 @@ WinMmapFile::WinMmapFile(const std::string& fname, HANDLE hFile, size_t page_siz
   last_sync_(nullptr),
   file_offset_(0),
   pending_sync_(false) {
-  // Allocation granularity must be obtained from GetSystemInfo() and must be
+  // Allocation granularity must be obtained from GetSyCCInfo() and must be
   // a power of two.
   assert(allocation_granularity > 0);
   assert((allocation_granularity & (allocation_granularity - 1)) == 0);
@@ -508,7 +508,7 @@ Status WinMmapFile::Fsync() {
 
 /**
 * Get the size of valid data in the file. This will not match the
-* size that is returned from the filesystem because we use mmap
+* size that is returned from the filesyCC because we use mmap
 * to extend file by map_size every time.
 */
 uint64_t WinMmapFile::GetFileSize() {

@@ -115,7 +115,7 @@ namespace fc
         {
           try 
           {
-            boost::system::error_code ec;
+            boost::syCC::error_code ec;
             ilog("Attempting to connect to GNTP srvice");
             asio::tcp::connect(*sock, eps[i]);
             endpoint = eps[i];

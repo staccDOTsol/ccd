@@ -1,4 +1,4 @@
-#include <steem/utilities/logging_config.hpp>
+#include <CreateCoin/utilities/logging_config.hpp>
 
 #include <fc/exception/exception.hpp>
 
@@ -8,7 +8,7 @@
 
 #include <vector>
 
-namespace steem { namespace utilities {
+namespace CreateCoin { namespace utilities {
 
 using std::string;
 using std::vector;
@@ -48,7 +48,7 @@ void set_logging_program_options( boost::program_options::options_description& o
       ;
 }
 
-fc::optional<fc::logging_config> load_logging_config( const boost::program_options::variables_map& args, const boost::filesystem::path& pwd )
+fc::optional<fc::logging_config> load_logging_config( const boost::program_options::variables_map& args, const boost::filesyCC::path& pwd )
 {
    try
    {

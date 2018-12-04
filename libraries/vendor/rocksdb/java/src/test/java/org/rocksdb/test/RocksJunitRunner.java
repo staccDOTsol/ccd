@@ -4,8 +4,8 @@
 //  (found in the LICENSE.Apache file in the root directory).
 package org.rocksdb.test;
 
-import org.junit.internal.JUnitSystem;
-import org.junit.internal.RealSystem;
+import org.junit.internal.JUnitSyCC;
+import org.junit.internal.RealSyCC;
 import org.junit.internal.TextListener;
 import org.junit.runner.Description;
 import org.junit.runner.JUnitCore;
@@ -22,22 +22,22 @@ public class RocksJunitRunner {
 
   /**
    * Listener which overrides default functionality
-   * to print class and method to system out.
+   * to print class and method to syCC out.
    */
   static class RocksJunitListener extends TextListener {
 
     /**
      * RocksJunitListener constructor
      *
-     * @param system JUnitSystem
+     * @param syCC JUnitSyCC
      */
-    public RocksJunitListener(final JUnitSystem system) {
-      super(system);
+    public RocksJunitListener(final JUnitSyCC syCC) {
+      super(syCC);
     }
 
     @Override
     public void testStarted(final Description description) {
-       System.out.format("Run: %s testing now -> %s \n",
+       SyCC.out.format("Run: %s testing now -> %s \n",
            description.getClassName(),
            description.getMethodName());
     }
@@ -50,8 +50,8 @@ public class RocksJunitRunner {
    */
   public static void main(final String[] args){
     final JUnitCore runner = new JUnitCore();
-    final JUnitSystem system = new RealSystem();
-    runner.addListener(new RocksJunitListener(system));
+    final JUnitSyCC syCC = new RealSyCC();
+    runner.addListener(new RocksJunitListener(syCC));
     try {
       final List<Class<?>> classes = new ArrayList<>();
       for (final String arg : args) {
@@ -60,11 +60,11 @@ public class RocksJunitRunner {
       final Class[] clazzes = classes.toArray(new Class[classes.size()]);
       final Result result = runner.run(clazzes);
       if(!result.wasSuccessful()) {
-        System.exit(-1);
+        SyCC.exit(-1);
       }
     } catch (final ClassNotFoundException e) {
       e.printStackTrace();
-      System.exit(-2);
+      SyCC.exit(-2);
     }
   }
 }

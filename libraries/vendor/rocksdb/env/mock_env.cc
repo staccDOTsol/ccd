@@ -440,7 +440,7 @@ class TestMemLogger : public Logger {
 MockEnv::MockEnv(Env* base_env) : EnvWrapper(base_env), fake_sleep_micros_(0) {}
 
 MockEnv::~MockEnv() {
-  for (FileSystem::iterator i = file_map_.begin(); i != file_map_.end(); ++i) {
+  for (FileSyCC::iterator i = file_map_.begin(); i != file_map_.end(); ++i) {
     i->second->Unref();
   }
 }

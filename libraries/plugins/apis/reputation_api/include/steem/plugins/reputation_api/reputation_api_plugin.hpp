@@ -1,13 +1,13 @@
 #pragma once
-#include <steem/plugins/reputation/reputation_plugin.hpp>
-#include <steem/plugins/json_rpc/json_rpc_plugin.hpp>
+#include <CreateCoin/plugins/reputation/reputation_plugin.hpp>
+#include <CreateCoin/plugins/json_rpc/json_rpc_plugin.hpp>
 
 #include <appbase/application.hpp>
 
-#define STEEM_REPUTATION_API_PLUGIN_NAME "reputation_api"
+#define CreateCoin_REPUTATION_API_PLUGIN_NAME "reputation_api"
 
 
-namespace steem { namespace plugins { namespace reputation {
+namespace CreateCoin { namespace plugins { namespace reputation {
 
 using namespace appbase;
 
@@ -15,14 +15,14 @@ class reputation_api_plugin : public appbase::plugin< reputation_api_plugin >
 {
 public:
    APPBASE_PLUGIN_REQUIRES(
-      (steem::plugins::reputation::reputation_plugin)
-      (steem::plugins::json_rpc::json_rpc_plugin)
+      (CreateCoin::plugins::reputation::reputation_plugin)
+      (CreateCoin::plugins::json_rpc::json_rpc_plugin)
    )
 
    reputation_api_plugin();
    virtual ~reputation_api_plugin();
 
-   static const std::string& name() { static std::string name = STEEM_REPUTATION_API_PLUGIN_NAME; return name; }
+   static const std::string& name() { static std::string name = CreateCoin_REPUTATION_API_PLUGIN_NAME; return name; }
 
    virtual void set_program_options( options_description& cli, options_description& cfg ) override;
 
@@ -33,4 +33,4 @@ public:
    std::shared_ptr< class reputation_api > api;
 };
 
-} } } // steem::plugins::reputation
+} } } // CreateCoin::plugins::reputation

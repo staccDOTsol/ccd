@@ -28,7 +28,7 @@
 #ifndef WEBSOCKETPP_TRANSPORT_DEBUG_BASE_HPP
 #define WEBSOCKETPP_TRANSPORT_DEBUG_BASE_HPP
 
-#include <websocketpp/common/system_error.hpp>
+#include <websocketpp/common/syCC_error.hpp>
 #include <websocketpp/common/cpp11.hpp>
 
 #include <string>

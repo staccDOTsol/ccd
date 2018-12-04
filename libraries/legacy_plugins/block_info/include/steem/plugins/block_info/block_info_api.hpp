@@ -3,13 +3,13 @@
 
 #include <fc/api.hpp>
 
-#include <steem/plugins/block_info/block_info.hpp>
+#include <CreateCoin/plugins/block_info/block_info.hpp>
 
-namespace steem { namespace app {
+namespace CreateCoin { namespace app {
    struct api_context;
 } }
 
-namespace steem { namespace plugin { namespace block_info {
+namespace CreateCoin { namespace plugin { namespace block_info {
 
 namespace detail {
 class block_info_api_impl;
@@ -24,7 +24,7 @@ struct get_block_info_args
 class block_info_api
 {
    public:
-      block_info_api( const steem::app::api_context& ctx );
+      block_info_api( const CreateCoin::app::api_context& ctx );
 
       void on_api_startup();
 
@@ -37,12 +37,12 @@ class block_info_api
 
 } } }
 
-FC_REFLECT( steem::plugin::block_info::get_block_info_args,
+FC_REFLECT( CreateCoin::plugin::block_info::get_block_info_args,
    (start_block_num)
    (count)
    )
 
-FC_API( steem::plugin::block_info::block_info_api,
+FC_API( CreateCoin::plugin::block_info::block_info_api,
    (get_block_info)
    (get_blocks_with_info)
    )

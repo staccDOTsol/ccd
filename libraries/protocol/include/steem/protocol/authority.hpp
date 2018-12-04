@@ -1,8 +1,8 @@
 #pragma once
-#include <steem/protocol/types.hpp>
+#include <CreateCoin/protocol/types.hpp>
 #include <fc/interprocess/container.hpp>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
    struct authority
    {
@@ -92,16 +92,16 @@ void add_authority_accounts(
  * In addition we require the following:
  *
  * - All letters are lowercase
- * - Length is between (inclusive) STEEM_MIN_ACCOUNT_NAME_LENGTH and STEEM_MAX_ACCOUNT_NAME_LENGTH
+ * - Length is between (inclusive) CreateCoin_MIN_ACCOUNT_NAME_LENGTH and CreateCoin_MAX_ACCOUNT_NAME_LENGTH
  */
 bool is_valid_account_name( const string& name );
 
 bool operator == ( const authority& a, const authority& b );
 
-} } // namespace steem::protocol
+} } // namespace CreateCoin::protocol
 
 
-FC_REFLECT_TYPENAME( steem::protocol::authority::account_authority_map)
-FC_REFLECT_TYPENAME( steem::protocol::authority::key_authority_map)
-FC_REFLECT( steem::protocol::authority, (weight_threshold)(account_auths)(key_auths) )
-FC_REFLECT_ENUM( steem::protocol::authority::classification, (owner)(active)(key)(posting) )
+FC_REFLECT_TYPENAME( CreateCoin::protocol::authority::account_authority_map)
+FC_REFLECT_TYPENAME( CreateCoin::protocol::authority::key_authority_map)
+FC_REFLECT( CreateCoin::protocol::authority, (weight_threshold)(account_auths)(key_auths) )
+FC_REFLECT_ENUM( CreateCoin::protocol::authority::classification, (owner)(active)(key)(posting) )

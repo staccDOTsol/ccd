@@ -1,22 +1,22 @@
 #pragma once
 
-#include <steem/plugins/condenser_api/condenser_api.hpp>
+#include <CreateCoin/plugins/condenser_api/condenser_api.hpp>
 
-#include <steem/wallet/remote_node_api.hpp>
+#include <CreateCoin/wallet/remote_node_api.hpp>
 
-#include <steem/utilities/key_conversion.hpp>
+#include <CreateCoin/utilities/key_conversion.hpp>
 
 #include <fc/macros.hpp>
 #include <fc/real128.hpp>
 #include <fc/crypto/base58.hpp>
 #include <fc/api.hpp>
 
-namespace steem { namespace wallet {
+namespace CreateCoin { namespace wallet {
 
 using namespace std;
 
-using namespace steem::utilities;
-using namespace steem::protocol;
+using namespace CreateCoin::utilities;
+using namespace CreateCoin::protocol;
 
 typedef uint16_t transaction_handle_type;
 
@@ -83,7 +83,7 @@ class wallet_api_impl;
 class wallet_api
 {
    public:
-      wallet_api( const wallet_data& initial_data, const steem::protocol::chain_id_type& _steem_chain_id, fc::api< remote_node_api > rapi );
+      wallet_api( const wallet_data& initial_data, const CreateCoin::protocol::chain_id_type& _CreateCoin_chain_id, fc::api< remote_node_api > rapi );
       virtual ~wallet_api();
 
       bool copy_wallet_file( string destination_filename );
@@ -380,10 +380,10 @@ class wallet_api
        *  that is paid by the creator. The current account creation fee can be found with the
        *  'info' wallet command.
        *
-       *  These accounts are created with combination of STEEM and delegated SP
+       *  These accounts are created with combination of CreateCoin and delegated SP
        *
        *  @param creator The account creating the new account
-       *  @param steem_fee The amount of the fee to be paid with STEEM
+       *  @param CreateCoin_fee The amount of the fee to be paid with CreateCoin
        *  @param delegated_vests The amount of the fee to be paid with delegation
        *  @param new_account_name The name of the new account
        *  @param json_meta JSON Metadata associated with the new account
@@ -391,7 +391,7 @@ class wallet_api
        */
       condenser_api::legacy_signed_transaction create_account_delegated(
          string creator,
-         condenser_api::legacy_asset steem_fee,
+         condenser_api::legacy_asset CreateCoin_fee,
          condenser_api::legacy_asset delegated_vests,
          string new_account_name,
          string json_meta,
@@ -403,10 +403,10 @@ class wallet_api
        * wallet. There is a fee associated with account creation that is paid by the creator.
        * The current account creation fee can be found with the 'info' wallet command.
        *
-       * These accounts are created with combination of STEEM and delegated SP
+       * These accounts are created with combination of CreateCoin and delegated SP
        *
        * @param creator The account creating the new account
-       * @param steem_fee The amount of the fee to be paid with STEEM
+       * @param CreateCoin_fee The amount of the fee to be paid with CreateCoin
        * @param delegated_vests The amount of the fee to be paid with delegation
        * @param newname The name of the new account
        * @param json_meta JSON Metadata associated with the new account
@@ -418,7 +418,7 @@ class wallet_api
        */
       condenser_api::legacy_signed_transaction create_account_with_keys_delegated(
          string creator,
-         condenser_api::legacy_asset steem_fee,
+         condenser_api::legacy_asset CreateCoin_fee,
          condenser_api::legacy_asset delegated_vests,
          string newname,
          string json_meta,
@@ -633,11 +633,11 @@ class wallet_api
          bool broadcast = false);
 
       /**
-       * Transfer funds from one account to another. STEEM and SBD can be transferred.
+       * Transfer funds from one account to another. CreateCoin and SBD can be transferred.
        *
        * @param from The account the funds are coming from
        * @param to The account the funds are going to
-       * @param amount The funds being transferred. i.e. "100.000 STEEM"
+       * @param amount The funds being transferred. i.e. "100.000 CreateCoin"
        * @param memo A memo for the transactionm, encrypted with the to account's public memo key
        * @param broadcast true if you wish to broadcast the transaction
        */
@@ -649,14 +649,14 @@ class wallet_api
          bool broadcast = false);
 
       /**
-       * Transfer funds from one account to another using escrow. STEEM and SBD can be transferred.
+       * Transfer funds from one account to another using escrow. CreateCoin and SBD can be transferred.
        *
        * @param from The account the funds are coming from
        * @param to The account the funds are going to
        * @param agent The account acting as the agent in case of dispute
        * @param escrow_id A unique id for the escrow transfer. (from, escrow_id) must be a unique pair
        * @param sbd_amount The amount of SBD to transfer
-       * @param steem_amount The amount of STEEM to transfer
+       * @param CreateCoin_amount The amount of CreateCoin to transfer
        * @param fee The fee paid to the agent
        * @param ratification_deadline The deadline for 'to' and 'agent' to approve the escrow transfer
        * @param escrow_expiration The expiration of the escrow transfer, after which either party can claim the funds
@@ -669,7 +669,7 @@ class wallet_api
          string agent,
          uint32_t escrow_id,
          condenser_api::legacy_asset sbd_amount,
-         condenser_api::legacy_asset steem_amount,
+         condenser_api::legacy_asset CreateCoin_amount,
          condenser_api::legacy_asset fee,
          time_point_sec ratification_deadline,
          time_point_sec escrow_expiration,
@@ -728,7 +728,7 @@ class wallet_api
        * @param receiver The account that will receive funds being released
        * @param escrow_id A unique id for the escrow transfer
        * @param sbd_amount The amount of SBD that will be released
-       * @param steem_amount The amount of STEEM that will be released
+       * @param CreateCoin_amount The amount of CreateCoin that will be released
        * @param broadcast true if you wish to broadcast the transaction
        */
       condenser_api::legacy_signed_transaction escrow_release(
@@ -739,18 +739,18 @@ class wallet_api
          string receiver,
          uint32_t escrow_id,
          condenser_api::legacy_asset sbd_amount,
-         condenser_api::legacy_asset steem_amount,
+         condenser_api::legacy_asset CreateCoin_amount,
          bool broadcast = false
       );
 
       /**
-       * Transfer STEEM into a vesting fund represented by vesting shares (VESTS). VESTS are required to vesting
+       * Transfer CreateCoin into a vesting fund represented by vesting shares (VESTS). VESTS are required to vesting
        * for a minimum of one coin year and can be withdrawn once a week over a two year withdraw period.
-       * VESTS are protected against dilution up until 90% of STEEM is vesting.
+       * VESTS are protected against dilution up until 90% of CreateCoin is vesting.
        *
-       * @param from The account the STEEM is coming from
+       * @param from The account the CreateCoin is coming from
        * @param to The account getting the VESTS
-       * @param amount The amount of STEEM to vest i.e. "100.00 STEEM"
+       * @param amount The amount of CreateCoin to vest i.e. "100.00 CreateCoin"
        * @param broadcast true if you wish to broadcast the transaction
        */
       condenser_api::legacy_signed_transaction transfer_to_vesting(
@@ -800,7 +800,7 @@ class wallet_api
        *
        * @param from The account the VESTS are withdrawn from
        * @param vesting_shares The amount of VESTS to withdraw over the next two years. Each week (amount/104) shares are
-       *    withdrawn and deposited back as STEEM. i.e. "10.000000 VESTS"
+       *    withdrawn and deposited back as CreateCoin. i.e. "10.000000 VESTS"
        * @param broadcast true if you wish to broadcast the transaction
        */
       condenser_api::legacy_signed_transaction withdraw_vesting(
@@ -813,11 +813,11 @@ class wallet_api
        * based on the specified weights.
        *
        * @param from The account the VESTS are withdrawn from.
-       * @param to   The account receiving either VESTS or STEEM.
+       * @param to   The account receiving either VESTS or CreateCoin.
        * @param percent The percent of the withdraw to go to the 'to' account. This is denoted in hundreths of a percent.
        *    i.e. 100 is 1% and 10000 is 100%. This value must be between 1 and 100000
        * @param auto_vest Set to true if the from account should receive the VESTS as VESTS, or false if it should receive
-       *    them as STEEM.
+       *    them as CreateCoin.
        * @param broadcast true if you wish to broadcast the transaction.
        */
       condenser_api::legacy_signed_transaction set_withdraw_vesting_route(
@@ -828,7 +828,7 @@ class wallet_api
          bool broadcast = false );
 
       /**
-       *  This method will convert SBD to STEEM at the current_median_history price one
+       *  This method will convert SBD to CreateCoin at the current_median_history price one
        *  week from the time it is executed. This method depends upon there being a valid price feed.
        *
        *  @param from The account requesting conversion of its SBD i.e. "1.000 SBD"
@@ -841,8 +841,8 @@ class wallet_api
          bool broadcast = false );
 
       /**
-       * A witness can public a price feed for the STEEM:SBD market. The median price feed is used
-       * to process conversion requests from SBD to STEEM.
+       * A witness can public a price feed for the CreateCoin:SBD market. The median price feed is used
+       * to process conversion requests from SBD to CreateCoin.
        *
        * @param witness The witness publishing the price feed
        * @param exchange_rate The desired exchange rate
@@ -877,14 +877,14 @@ class wallet_api
        * you can fill in.  It's better than nothing.
        *
        * @param operation_type the type of operation to return, must be one of the
-       *                       operations defined in `steem/chain/operations.hpp`
+       *                       operations defined in `CreateCoin/chain/operations.hpp`
        *                       (e.g., "global_parameters_update_operation")
        * @return a default-constructed operation of the given type
        */
       operation get_prototype_operation(string operation_type);
 
       /**
-       * Gets the current order book for STEEM:SBD
+       * Gets the current order book for CreateCoin:SBD
        *
        * @param limit Maximum number of orders to return for bids and asks. Max is 1000.
        */
@@ -896,7 +896,7 @@ class wallet_api
        *
        *  @param owner The name of the account creating the order
        *  @param order_id is a unique identifier assigned by the creator of the order, it can be reused after the order has been filled
-       *  @param amount_to_sell The amount of either SBD or STEEM you wish to sell
+       *  @param amount_to_sell The amount of either SBD or CreateCoin you wish to sell
        *  @param min_to_receive The amount of the other asset you will receive at a minimum
        *  @param fill_or_kill true if you want the order to be killed if it cannot immediately be filled
        *  @param expiration the time the order should expire if it has not been filled
@@ -946,7 +946,7 @@ class wallet_api
          bool broadcast );
 
       /**
-       * Vote on a comment to be paid STEEM
+       * Vote on a comment to be paid CreateCoin
        *
        * @param voter The account voting
        * @param author The author of the comment to be voted on
@@ -1062,7 +1062,7 @@ class wallet_api
 
       condenser_api::legacy_signed_transaction claim_reward_balance(
          string account,
-         condenser_api::legacy_asset reward_steem,
+         condenser_api::legacy_asset reward_CreateCoin,
          condenser_api::legacy_asset reward_sbd,
          condenser_api::legacy_asset reward_vests,
          bool broadcast );
@@ -1075,20 +1075,20 @@ struct plain_keys {
 
 } }
 
-FC_REFLECT( steem::wallet::wallet_data,
+FC_REFLECT( CreateCoin::wallet::wallet_data,
             (cipher_keys)
             (ws_server)
             (ws_user)
             (ws_password)
           )
 
-FC_REFLECT( steem::wallet::brain_key_info, (brain_priv_key)(wif_priv_key) (pub_key))
+FC_REFLECT( CreateCoin::wallet::brain_key_info, (brain_priv_key)(wif_priv_key) (pub_key))
 
-FC_REFLECT( steem::wallet::plain_keys, (checksum)(keys) )
+FC_REFLECT( CreateCoin::wallet::plain_keys, (checksum)(keys) )
 
-FC_REFLECT_ENUM( steem::wallet::authority_type, (owner)(active)(posting) )
+FC_REFLECT_ENUM( CreateCoin::wallet::authority_type, (owner)(active)(posting) )
 
-FC_API( steem::wallet::wallet_api,
+FC_API( CreateCoin::wallet::wallet_api,
         /// wallet api
         (help)(gethelp)
         (about)(is_new)(is_locked)(lock)(unlock)(set_password)
@@ -1171,4 +1171,4 @@ FC_API( steem::wallet::wallet_api,
         (get_transaction)
       )
 
-FC_REFLECT( steem::wallet::memo_data, (from)(to)(nonce)(check)(encrypted) )
+FC_REFLECT( CreateCoin::wallet::memo_data, (from)(to)(nonce)(check)(encrypted) )

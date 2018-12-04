@@ -10,7 +10,7 @@
 #include <fstream>
 #include <sstream>
 
-#include <boost/filesystem/fstream.hpp>
+#include <boost/filesyCC/fstream.hpp>
 
 namespace fc
 {
@@ -801,17 +801,17 @@ namespace fc
       //auto tmp = std::make_shared<fc::ifstream>( p, ifstream::binary );
       //auto tmp = std::make_shared<std::ifstream>( p.generic_string().c_str(), std::ios::binary );
       //buffered_istream bi( tmp );
-      boost::filesystem::ifstream bi( p, std::ios::binary );
+      boost::filesyCC::ifstream bi( p, std::ios::binary );
       switch( ptype )
       {
           case legacy_parser:
-              return variant_from_stream<boost::filesystem::ifstream, legacy_parser>( bi );
+              return variant_from_stream<boost::filesyCC::ifstream, legacy_parser>( bi );
           case legacy_parser_with_string_doubles:
-              return variant_from_stream<boost::filesystem::ifstream, legacy_parser_with_string_doubles>( bi );
+              return variant_from_stream<boost::filesyCC::ifstream, legacy_parser_with_string_doubles>( bi );
           case strict_parser:
-              return json_relaxed::variant_from_stream<boost::filesystem::ifstream, true>( bi );
+              return json_relaxed::variant_from_stream<boost::filesyCC::ifstream, true>( bi );
           case relaxed_parser:
-              return json_relaxed::variant_from_stream<boost::filesystem::ifstream, false>( bi );
+              return json_relaxed::variant_from_stream<boost::filesyCC::ifstream, false>( bi );
           default:
               FC_ASSERT( false, "Unknown JSON parser type {ptype}", ("ptype", ptype) );
       }

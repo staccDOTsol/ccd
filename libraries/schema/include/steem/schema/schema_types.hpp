@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <steem/schema/schema_types/flat_map.hpp>
-#include <steem/schema/schema_types/flat_set.hpp>
-#include <steem/schema/schema_types/static_variant.hpp>
-#include <steem/schema/schema_types/optional.hpp>
-#include <steem/schema/schema_types/pair.hpp>
-#include <steem/schema/schema_types/vector.hpp>
+#include <CreateCoin/schema/schema_types/flat_map.hpp>
+#include <CreateCoin/schema/schema_types/flat_set.hpp>
+#include <CreateCoin/schema/schema_types/static_variant.hpp>
+#include <CreateCoin/schema/schema_types/optional.hpp>
+#include <CreateCoin/schema/schema_types/pair.hpp>
+#include <CreateCoin/schema/schema_types/vector.hpp>

@@ -26,7 +26,7 @@
 
 #define EXEC_FOLLOW_CUSTOM_OP_SCALE                20
 
-namespace steem { namespace plugins { namespace rc {
+namespace CreateCoin { namespace plugins { namespace rc {
 
 struct state_object_size_info
 {
@@ -129,7 +129,7 @@ struct operation_exec_info
    int64_t witness_set_properties_operation_exec_time          =   9500;
    int64_t witness_update_operation_exec_time                  =   9500;
 
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
    int64_t claim_reward_balance2_operation_exec_time           = 0;
    int64_t smt_setup_operation_exec_time                       = 0;
    int64_t smt_cap_reveal_operation_exec_time                  = 0;
@@ -143,7 +143,7 @@ struct operation_exec_info
 
 } } }
 
-FC_REFLECT( steem::plugins::rc::state_object_size_info,
+FC_REFLECT( CreateCoin::plugins::rc::state_object_size_info,
    ( authority_base_size )
    ( authority_account_member_size )
    ( authority_key_member_size )
@@ -170,7 +170,7 @@ FC_REFLECT( steem::plugins::rc::state_object_size_info,
    ( witness_vote_object_base_size )
    )
 
-FC_REFLECT( steem::plugins::rc::operation_exec_info,
+FC_REFLECT( CreateCoin::plugins::rc::operation_exec_info,
    ( account_create_operation_exec_time )
    ( account_create_with_delegation_operation_exec_time )
    ( account_update_operation_exec_time )
@@ -209,7 +209,7 @@ FC_REFLECT( steem::plugins::rc::operation_exec_info,
    ( witness_set_properties_operation_exec_time )
    ( witness_update_operation_exec_time )
 
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
    ( claim_reward_balance2_operation_exec_time )
    ( smt_setup_operation_exec_time )
    ( smt_cap_reveal_operation_exec_time )

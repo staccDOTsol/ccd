@@ -1,26 +1,26 @@
 #pragma once
 
-#include <steem/protocol/authority.hpp>
-#include <steem/protocol/steem_operations.hpp>
-#include <steem/protocol/misc_utilities.hpp>
+#include <CreateCoin/protocol/authority.hpp>
+#include <CreateCoin/protocol/CreateCoin_operations.hpp>
+#include <CreateCoin/protocol/misc_utilities.hpp>
 
-#include <steem/chain/steem_object_types.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
 
 #include <boost/multi_index/composite_key.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
-   using steem::protocol::asset;
-   using steem::protocol::price;
-   using steem::protocol::asset_symbol_type;
+   using CreateCoin::protocol::asset;
+   using CreateCoin::protocol::price;
+   using CreateCoin::protocol::asset_symbol_type;
    using chainbase::t_deque;
 
    typedef protocol::fixed_string< 16 > reward_fund_name_type;
 
    /**
-    *  This object is used to track pending requests to convert sbd to steem
+    *  This object is used to track pending requests to convert sbd to CreateCoin
     */
    class convert_request_object : public object< convert_request_object_type, convert_request_object >
    {
@@ -62,7 +62,7 @@ namespace steem { namespace chain {
          time_point_sec    ratification_deadline;
          time_point_sec    escrow_expiration;
          asset             sbd_balance;
-         asset             steem_balance;
+         asset             CreateCoin_balance;
          asset             pending_fee;
          bool              to_approved = false;
          bool              agent_approved = false;
@@ -102,7 +102,7 @@ namespace steem { namespace chain {
     *  When a user is a taker, their volume decreases
     *
     *  Every 1000 blocks, the account that has the highest volume_weight() is paid the maximum of
-    *  1000 STEEM or 1000 * virtual_supply / (100*blocks_per_year) aka 10 * virtual_supply / blocks_per_year
+    *  1000 CreateCoin or 1000 * virtual_supply / (100*blocks_per_year) aka 10 * virtual_supply / blocks_per_year
     *
     *  After being paid volume gets reset to 0
     */
@@ -120,7 +120,7 @@ namespace steem { namespace chain {
          id_type           id;
 
          account_id_type   owner;
-         int64_t           steem_volume = 0;
+         int64_t           CreateCoin_volume = 0;
          int64_t           sbd_volume = 0;
          uint128_t         weight = 0;
 
@@ -129,12 +129,12 @@ namespace steem { namespace chain {
          /// this is the sort index
          uint128_t volume_weight()const
          {
-            return steem_volume * sbd_volume * is_positive();
+            return CreateCoin_volume * sbd_volume * is_positive();
          }
 
          uint128_t min_volume_weight()const
          {
-            return std::min(steem_volume,sbd_volume) * is_positive();
+            return std::min(CreateCoin_volume,sbd_volume) * is_positive();
          }
 
          void update_weight( bool hf9 )
@@ -144,7 +144,7 @@ namespace steem { namespace chain {
 
          inline int is_positive()const
          {
-            return ( steem_volume > 0 && sbd_volume > 0 ) ? 1 : 0;
+            return ( CreateCoin_volume > 0 && sbd_volume > 0 ) ? 1 : 0;
          }
    };
 
@@ -267,7 +267,7 @@ namespace steem { namespace chain {
 
          reward_fund_id_type     id;
          reward_fund_name_type   name;
-         asset                   reward_balance = asset( 0, STEEM_SYMBOL );
+         asset                   reward_balance = asset( 0, CreateCoin_SYMBOL );
          fc::uint128_t           recent_claims = 0;
          time_point_sec          last_update;
          uint128_t               content_constant = 0;
@@ -458,47 +458,47 @@ namespace steem { namespace chain {
       allocator< reward_fund_object >
    > reward_fund_index;
 
-} } // steem::chain
+} } // CreateCoin::chain
 
-#include <steem/chain/comment_object.hpp>
-#include <steem/chain/account_object.hpp>
+#include <CreateCoin/chain/comment_object.hpp>
+#include <CreateCoin/chain/account_object.hpp>
 
-FC_REFLECT( steem::chain::limit_order_object,
+FC_REFLECT( CreateCoin::chain::limit_order_object,
              (id)(created)(expiration)(seller)(orderid)(for_sale)(sell_price) )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::limit_order_object, steem::chain::limit_order_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::limit_order_object, CreateCoin::chain::limit_order_index )
 
-FC_REFLECT( steem::chain::feed_history_object,
+FC_REFLECT( CreateCoin::chain::feed_history_object,
              (id)(current_median_history)(price_history) )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::feed_history_object, steem::chain::feed_history_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::feed_history_object, CreateCoin::chain::feed_history_index )
 
-FC_REFLECT( steem::chain::convert_request_object,
+FC_REFLECT( CreateCoin::chain::convert_request_object,
              (id)(owner)(requestid)(amount)(conversion_date) )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::convert_request_object, steem::chain::convert_request_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::convert_request_object, CreateCoin::chain::convert_request_index )
 
-FC_REFLECT( steem::chain::liquidity_reward_balance_object,
-             (id)(owner)(steem_volume)(sbd_volume)(weight)(last_update) )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::liquidity_reward_balance_object, steem::chain::liquidity_reward_balance_index )
+FC_REFLECT( CreateCoin::chain::liquidity_reward_balance_object,
+             (id)(owner)(CreateCoin_volume)(sbd_volume)(weight)(last_update) )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::liquidity_reward_balance_object, CreateCoin::chain::liquidity_reward_balance_index )
 
-FC_REFLECT( steem::chain::withdraw_vesting_route_object,
+FC_REFLECT( CreateCoin::chain::withdraw_vesting_route_object,
              (id)(from_account)(to_account)(percent)(auto_vest) )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::withdraw_vesting_route_object, steem::chain::withdraw_vesting_route_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::withdraw_vesting_route_object, CreateCoin::chain::withdraw_vesting_route_index )
 
-FC_REFLECT( steem::chain::savings_withdraw_object,
+FC_REFLECT( CreateCoin::chain::savings_withdraw_object,
              (id)(from)(to)(memo)(request_id)(amount)(complete) )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::savings_withdraw_object, steem::chain::savings_withdraw_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::savings_withdraw_object, CreateCoin::chain::savings_withdraw_index )
 
-FC_REFLECT( steem::chain::escrow_object,
+FC_REFLECT( CreateCoin::chain::escrow_object,
              (id)(escrow_id)(from)(to)(agent)
              (ratification_deadline)(escrow_expiration)
-             (sbd_balance)(steem_balance)(pending_fee)
+             (sbd_balance)(CreateCoin_balance)(pending_fee)
              (to_approved)(agent_approved)(disputed) )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::escrow_object, steem::chain::escrow_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::escrow_object, CreateCoin::chain::escrow_index )
 
-FC_REFLECT( steem::chain::decline_voting_rights_request_object,
+FC_REFLECT( CreateCoin::chain::decline_voting_rights_request_object,
              (id)(account)(effective_date) )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::decline_voting_rights_request_object, steem::chain::decline_voting_rights_request_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::decline_voting_rights_request_object, CreateCoin::chain::decline_voting_rights_request_index )
 
-FC_REFLECT( steem::chain::reward_fund_object,
+FC_REFLECT( CreateCoin::chain::reward_fund_object,
             (id)
             (name)
             (reward_balance)
@@ -510,4 +510,4 @@ FC_REFLECT( steem::chain::reward_fund_object,
             (author_reward_curve)
             (curation_reward_curve)
          )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::reward_fund_object, steem::chain::reward_fund_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::reward_fund_object, CreateCoin::chain::reward_fund_index )

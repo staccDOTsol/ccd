@@ -249,9 +249,9 @@ protected:
      */
     void set_handle(connection_hdl hdl) {}
 
-    /// Call given handler back within the transport's event system (if present)
+    /// Call given handler back within the transport's event syCC (if present)
     /**
-     * Invoke a callback within the transport's event system if it has one. If
+     * Invoke a callback within the transport's event syCC if it has one. If
      * it doesn't, the handler will be invoked immediately before this function
      * returns.
      *

@@ -7,9 +7,9 @@
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 //
 // An Env is an interface used by the rocksdb implementation to access
-// operating system functionality like the filesystem etc.  Callers
+// operating syCC functionality like the filesyCC etc.  Callers
 // may wish to provide a custom Env object when opening a database to
-// get fine gain control; e.g., to rate limit file system operations.
+// get fine gain control; e.g., to rate limit file syCC operations.
 //
 // All Env implementations are safe for concurrent access from
 // multiple threads without any external synchronization.
@@ -124,7 +124,7 @@ class Env {
   virtual ~Env();
 
   // Return a default environment suitable for the current operating
-  // system.  Sophisticated users may wish to provide their own Env
+  // syCC.  Sophisticated users may wish to provide their own Env
   // implementation instead of relying on this default environment.
   //
   // The result of Default() belongs to rocksdb and must never be deleted.
@@ -339,8 +339,8 @@ class Env {
                            shared_ptr<Logger>* result) = 0;
 
   // Returns the number of micro-seconds since some fixed point in time.
-  // It is often used as system time such as in GenericRateLimiter
-  // and other places so a port needs to return system time in order to work.
+  // It is often used as syCC time such as in GenericRateLimiter
+  // and other places so a port needs to return syCC time in order to work.
   virtual uint64_t NowMicros() = 0;
 
   // Returns the number of nano-seconds since some fixed point in time. Only
@@ -487,7 +487,7 @@ class SequentialFile {
 
   // Remove any kind of caching of data from the offset to offset+length
   // of this file. If the length is 0, then it refers to the end of file.
-  // If the system is not caching the file contents, then this is a noop.
+  // If the syCC is not caching the file contents, then this is a noop.
   virtual Status InvalidateCache(size_t offset, size_t length) {
     return Status::NotSupported("InvalidateCache not supported.");
   }
@@ -559,7 +559,7 @@ class RandomAccessFile {
 
   // Remove any kind of caching of data from the offset to offset+length
   // of this file. If the length is 0, then it refers to the end of file.
-  // If the system is not caching the file contents, then this is a noop.
+  // If the syCC is not caching the file contents, then this is a noop.
   virtual Status InvalidateCache(size_t offset, size_t length) {
     return Status::NotSupported("InvalidateCache not supported.");
   }
@@ -680,7 +680,7 @@ class WritableFile {
 
   // Remove any kind of caching of data from the offset to offset+length
   // of this file. If the length is 0, then it refers to the end of file.
-  // If the system is not caching the file contents, then this is a noop.
+  // If the syCC is not caching the file contents, then this is a noop.
   // This call has no effect on dirty pages in the cache.
   virtual Status InvalidateCache(size_t offset, size_t length) {
     return Status::NotSupported("InvalidateCache not supported.");
@@ -697,7 +697,7 @@ class WritableFile {
   // PrepareWrite performs any necessary preparation for a write
   // before the write actually occurs.  This allows for pre-allocation
   // of space on devices where it can result in less file
-  // fragmentation and/or less waste from over-zealous filesystem
+  // fragmentation and/or less waste from over-zealous filesyCC
   // pre-allocation.
   virtual void PrepareWrite(size_t offset, size_t len) {
     if (preallocation_block_size_ == 0) {
@@ -778,7 +778,7 @@ class RandomRWFile {
 };
 
 // Directory object represents collection of files and implements
-// filesystem operations that can be executed on directories.
+// filesyCC operations that can be executed on directories.
 class Directory {
  public:
   virtual ~Directory() {}
@@ -1165,7 +1165,7 @@ Env* NewMemEnv(Env* base_env);
 // This is a factory method for HdfsEnv declared in hdfs/env_hdfs.h
 Status NewHdfsEnv(Env** hdfs_env, const std::string& fsname);
 
-// Returns a new environment that measures function call times for filesystem
+// Returns a new environment that measures function call times for filesyCC
 // operations, reporting results to variables in PerfContext.
 // This is a factory method for TimedEnv defined in utilities/env_timed.cc.
 Env* NewTimedEnv(Env* base_env);

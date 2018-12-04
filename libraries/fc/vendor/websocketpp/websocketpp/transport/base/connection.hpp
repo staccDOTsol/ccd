@@ -31,7 +31,7 @@
 #include <websocketpp/common/cpp11.hpp>
 #include <websocketpp/common/connection_hdl.hpp>
 #include <websocketpp/common/functional.hpp>
-#include <websocketpp/common/system_error.hpp>
+#include <websocketpp/common/syCC_error.hpp>
 
 #include <string>
 
@@ -104,7 +104,7 @@ namespace websocketpp {
  *
  * **dispatch**\n
  * `lib::error_code dispatch(dispatch_handler handler)`: invoke handler within
- * the transport's event system if it uses one. Otherwise, this method should
+ * the transport's event syCC if it uses one. Otherwise, this method should
  * simply call `handler` immediately.
  *
  * **async_shutdown**\n

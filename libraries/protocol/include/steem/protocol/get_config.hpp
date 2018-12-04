@@ -2,8 +2,8 @@
 
 #include <fc/variant_object.hpp>
 
-namespace steem { namespace protocol {
+namespace CreateCoin { namespace protocol {
 
 fc::variant_object get_config();
 
-} } // steem::protocol
+} } // CreateCoin::protocol

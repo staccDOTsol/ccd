@@ -35,11 +35,11 @@
  * as the argument type.
  */
 
-#define STEEM_JSON_RPC_PLUGIN_NAME "json_rpc"
+#define CreateCoin_JSON_RPC_PLUGIN_NAME "json_rpc"
 
 #define JSON_RPC_REGISTER_API( API_NAME )                                                       \
 {                                                                                               \
-   steem::plugins::json_rpc::detail::register_api_method_visitor vtor( API_NAME );              \
+   CreateCoin::plugins::json_rpc::detail::register_api_method_visitor vtor( API_NAME );              \
    for_each_api( vtor );                                                                        \
 }
 
@@ -53,7 +53,7 @@
 #define JSON_RPC_PARSE_PARAMS_ERROR (-32002)
 #define JSON_RPC_ERROR_DURING_CALL  (-32003)
 
-namespace steem { namespace plugins { namespace json_rpc {
+namespace CreateCoin { namespace plugins { namespace json_rpc {
 
 using namespace appbase;
 
@@ -94,7 +94,7 @@ class json_rpc_plugin : public appbase::plugin< json_rpc_plugin >
       APPBASE_PLUGIN_REQUIRES();
       virtual void set_program_options( options_description&, options_description& ) override;
 
-      static const std::string& name() { static std::string name = STEEM_JSON_RPC_PLUGIN_NAME; return name; }
+      static const std::string& name() { static std::string name = CreateCoin_JSON_RPC_PLUGIN_NAME; return name; }
 
       virtual void plugin_initialize( const variables_map& options ) override;
       virtual void plugin_startup() override;
@@ -114,7 +114,7 @@ namespace detail {
       public:
          register_api_method_visitor( const std::string& api_name )
             : _api_name( api_name ),
-              _json_rpc_plugin( appbase::app().get_plugin< steem::plugins::json_rpc::json_rpc_plugin >() )
+              _json_rpc_plugin( appbase::app().get_plugin< CreateCoin::plugins::json_rpc::json_rpc_plugin >() )
          {}
 
          template< typename Plugin, typename Method, typename Args, typename Ret >
@@ -135,11 +135,11 @@ namespace detail {
 
       private:
          std::string _api_name;
-         steem::plugins::json_rpc::json_rpc_plugin& _json_rpc_plugin;
+         CreateCoin::plugins::json_rpc::json_rpc_plugin& _json_rpc_plugin;
    };
 
 }
 
-} } } // steem::plugins::json_rpc
+} } } // CreateCoin::plugins::json_rpc
 
-FC_REFLECT( steem::plugins::json_rpc::api_method_signature, (args)(ret) )
+FC_REFLECT( CreateCoin::plugins::json_rpc::api_method_signature, (args)(ret) )

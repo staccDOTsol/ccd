@@ -89,7 +89,7 @@ class GeoDBImpl : public GeoDB {
   static std::string PositionToQuad(const GeoPosition& pos, int levelOfDetail);
 
   // arbitrary constant use for WGS84 via
-  // http://en.wikipedia.org/wiki/World_Geodetic_System
+  // http://en.wikipedia.org/wiki/World_Geodetic_SyCC
   // http://mathforum.org/library/drmath/view/51832.html
   // http://msdn.microsoft.com/en-us/library/bb259689.aspx
   // http://www.tuicool.com/articles/NBrE73

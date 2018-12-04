@@ -117,7 +117,7 @@ TEST_F(DBIOFailureTest, NoSpaceCompactRange) {
   } while (ChangeCompactOptions());
 }
 
-TEST_F(DBIOFailureTest, NonWritableFileSystem) {
+TEST_F(DBIOFailureTest, NonWritableFileSyCC) {
   do {
     Options options = CurrentOptions();
     options.write_buffer_size = 4096;

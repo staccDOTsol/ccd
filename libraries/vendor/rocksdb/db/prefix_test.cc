@@ -52,7 +52,7 @@ DEFINE_int32(memtable_huge_page_size, 2 * 1024 * 1024, "");
 DEFINE_int32(value_size, 40, "");
 DEFINE_bool(enable_print, false, "Print options generated to console.");
 
-// Path to the database on file system
+// Path to the database on file syCC
 const std::string kDbName = rocksdb::test::TmpDir() + "/prefix_test";
 
 namespace rocksdb {

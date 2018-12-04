@@ -1,8 +1,8 @@
-#include <steem/chain/util/smt_token.hpp>
+#include <CreateCoin/chain/util/smt_token.hpp>
 #include <boost/range/adaptor/reversed.hpp>
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
 
-namespace steem { namespace chain { namespace util { namespace smt {
+namespace CreateCoin { namespace chain { namespace util { namespace smt {
 
 const smt_token_object* find_token( const database& db, uint32_t nai )
 {
@@ -10,7 +10,7 @@ const smt_token_object* find_token( const database& db, uint32_t nai )
 
    auto range = idx.range(
       [nai] ( const asset_symbol_type& a ) { return a >= asset_symbol_type::from_nai( nai, 0 ); },
-      [nai] ( const asset_symbol_type& a ) { return a <= asset_symbol_type::from_nai( nai, STEEM_ASSET_MAX_DECIMALS ); }
+      [nai] ( const asset_symbol_type& a ) { return a <= asset_symbol_type::from_nai( nai, CreateCoin_ASSET_MAX_DECIMALS ); }
    );
 
    /*
@@ -57,6 +57,6 @@ fc::optional< time_point_sec > last_emission_time( const database& db, const ass
    return {};
 }
 
-} } } } // steem::chain::util::smt
+} } } } // CreateCoin::chain::util::smt
 
 #endif

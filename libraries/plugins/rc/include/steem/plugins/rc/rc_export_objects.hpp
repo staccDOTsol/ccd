@@ -1,24 +1,24 @@
 #pragma once
 
-#include <steem/protocol/types.hpp>
+#include <CreateCoin/protocol/types.hpp>
 
-#include <steem/plugins/block_data_export/exportable_block_data.hpp>
-#include <steem/plugins/rc/resource_count.hpp>
+#include <CreateCoin/plugins/block_data_export/exportable_block_data.hpp>
+#include <CreateCoin/plugins/rc/resource_count.hpp>
 
 #include <fc/int_array.hpp>
 
 #include <vector>
 
-namespace steem { namespace plugins { namespace rc {
+namespace CreateCoin { namespace plugins { namespace rc {
 
-using steem::plugins::block_data_export::exportable_block_data;
-using steem::protocol::account_name_type;
+using CreateCoin::plugins::block_data_export::exportable_block_data;
+using CreateCoin::protocol::account_name_type;
 
 struct rc_transaction_info
 {
    account_name_type         resource_user;
    count_resources_result    usage;
-   fc::int_array< int64_t, STEEM_NUM_RESOURCE_TYPES >
+   fc::int_array< int64_t, CreateCoin_NUM_RESOURCE_TYPES >
                              cost;
 };
 
@@ -47,15 +47,15 @@ struct exp_rc_data
    std::vector< rc_optional_action_info > opt_action_info;
 };
 
-} } } // steem::plugins::rc
+} } } // CreateCoin::plugins::rc
 
-FC_REFLECT( steem::plugins::rc::rc_transaction_info,
+FC_REFLECT( CreateCoin::plugins::rc::rc_transaction_info,
    (resource_user)
    (usage)
    (cost)
 )
 
-FC_REFLECT( steem::plugins::rc::rc_block_info,
+FC_REFLECT( CreateCoin::plugins::rc::rc_block_info,
    (dt)
    (decay)
    (budget)
@@ -64,7 +64,7 @@ FC_REFLECT( steem::plugins::rc::rc_block_info,
    (pool)
 )
 
-FC_REFLECT( steem::plugins::rc::exp_rc_data,
+FC_REFLECT( CreateCoin::plugins::rc::exp_rc_data,
    (block_info)
    (tx_info)
    (opt_action_info)

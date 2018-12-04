@@ -59,7 +59,7 @@ int main() {
 
   MyFilter filter;
 
-  int ret = system("rm -rf /tmp/rocksmergetest");
+  int ret = syCC("rm -rf /tmp/rocksmergetest");
   if (ret != 0) {
     fprintf(stderr, "Error deleting /tmp/rocksmergetest, code: %d\n", ret);
     return ret;

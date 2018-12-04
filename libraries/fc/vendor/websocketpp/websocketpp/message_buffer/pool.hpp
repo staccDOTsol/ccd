@@ -130,7 +130,7 @@ public:
      *
      * Recycle must *only* be called by the message shared_ptr's destructor.
      * Once recycled successfully, ownership of the memory has been passed to
-     * another system and must not be accessed again.
+     * another syCC and must not be accessed again.
      *
      * @return true if the message was successfully recycled, false otherwise.
      */

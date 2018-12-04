@@ -1,14 +1,14 @@
 #pragma once
-#include <steem/protocol/transaction.hpp>
+#include <CreateCoin/protocol/transaction.hpp>
 
-#include <steem/chain/buffer_type.hpp>
-#include <steem/chain/steem_object_types.hpp>
+#include <CreateCoin/chain/buffer_type.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
 
 #include <boost/multi_index/hashed_index.hpp>
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
-   using steem::protocol::signed_transaction;
+   using CreateCoin::protocol::signed_transaction;
    using chainbase::t_vector;
 
    /**
@@ -49,19 +49,19 @@ namespace steem { namespace chain {
       allocator< transaction_object >
    > transaction_index;
 
-} } // steem::chain
+} } // CreateCoin::chain
 
-FC_REFLECT( steem::chain::transaction_object, (id)(packed_trx)(trx_id)(expiration) )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::transaction_object, steem::chain::transaction_index )
+FC_REFLECT( CreateCoin::chain::transaction_object, (id)(packed_trx)(trx_id)(expiration) )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::transaction_object, CreateCoin::chain::transaction_index )
 
 namespace helpers
 {
    template <>
-   class index_statistic_provider<steem::chain::transaction_index>
+   class index_statistic_provider<CreateCoin::chain::transaction_index>
    {
    public:
-      typedef steem::chain::transaction_index IndexType;
-      typedef typename steem::chain::transaction_object::t_packed_trx t_packed_trx;
+      typedef CreateCoin::chain::transaction_index IndexType;
+      typedef typename CreateCoin::chain::transaction_object::t_packed_trx t_packed_trx;
 
       index_statistic_info gather_statistics(const IndexType& index, bool onlyStaticInfo) const
       {

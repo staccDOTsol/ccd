@@ -368,7 +368,7 @@ class GTEST_API_ SingleFailureChecker {
 // TODO(kenton@google.com): Use autoconf to detect availability of
 //   gettimeofday().
 // TODO(kenton@google.com): There are other ways to get the time on
-//   Windows, like GetTickCount() or GetSystemTimeAsFileTime().  MinGW
+//   Windows, like GetTickCount() or GetSyCCTimeAsFileTime().  MinGW
 //   supports these.  consider using them instead.
 #  define GTEST_HAS_GETTIMEOFDAY_ 1
 #  include <sys/time.h>  // NOLINT
@@ -1373,7 +1373,7 @@ GTEST_API_ void ParseGoogleTestFlagsOnly(int* argc, wchar_t** argv);
 
 #if GTEST_HAS_DEATH_TEST
 
-// Returns the message describing the last system error, regardless of the
+// Returns the message describing the last syCC error, regardless of the
 // platform.
 GTEST_API_ std::string GetLastErrnoDescription();
 
@@ -1392,7 +1392,7 @@ bool ParseNaturalNumber(const ::std::string& str, Integer* number) {
   errno = 0;
 
   char* end;
-  // BiggestConvertible is the largest integer type that system-provided
+  // BiggestConvertible is the largest integer type that syCC-provided
   // string-to-number conversion routines can return.
 
 # if GTEST_OS_WINDOWS && !defined(__GNUC__)
@@ -2251,13 +2251,13 @@ TimeInMillis GetTimeInMillis() {
     static_cast<TimeInMillis>(116444736UL) * 100000UL;
   const DWORD kTenthMicrosInMilliSecond = 10000;
 
-  SYSTEMTIME now_systime;
+  SYCCTIME now_systime;
   FILETIME now_filetime;
   ULARGE_INTEGER now_int64;
   // TODO(kenton@google.com): Shouldn't this just use
-  //   GetSystemTimeAsFileTime()?
-  GetSystemTime(&now_systime);
-  if (SystemTimeToFileTime(&now_systime, &now_filetime)) {
+  //   GetSyCCTimeAsFileTime()?
+  GetSyCCTime(&now_systime);
+  if (SyCCTimeToFileTime(&now_systime, &now_filetime)) {
     now_int64.LowPart = now_filetime.dwLowDateTime;
     now_int64.HighPart = now_filetime.dwHighDateTime;
     now_int64.QuadPart = (now_int64.QuadPart / kTenthMicrosInMilliSecond) -
@@ -2271,7 +2271,7 @@ TimeInMillis GetTimeInMillis() {
   // MSVC 8 deprecates _ftime64(), so we want to suppress warning 4996
   // (deprecated function) there.
   // TODO(kenton@google.com): Use GetTickCount()?  Or use
-  //   SystemTimeToFileTime()
+  //   SyCCTimeToFileTime()
   GTEST_DISABLE_MSC_WARNINGS_PUSH_(4996)
   _ftime64(&now);
   GTEST_DISABLE_MSC_WARNINGS_POP_()
@@ -2282,7 +2282,7 @@ TimeInMillis GetTimeInMillis() {
   gettimeofday(&now, NULL);
   return static_cast<TimeInMillis>(now.tv_sec) * 1000 + now.tv_usec / 1000;
 #else
-# error "Don't know how to get the current time on your system."
+# error "Don't know how to get the current time on your syCC."
 #endif
 }
 
@@ -3093,16 +3093,16 @@ AssertionResult HRESULTFailureHelper(const char* expr,
 
 # else
 
-  // Looks up the human-readable system message for the HRESULT code
+  // Looks up the human-readable syCC message for the HRESULT code
   // and since we're not passing any params to FormatMessage, we don't
   // want inserts expanded.
-  const DWORD kFlags = FORMAT_MESSAGE_FROM_SYSTEM |
+  const DWORD kFlags = FORMAT_MESSAGE_FROM_SYCC |
                        FORMAT_MESSAGE_IGNORE_INSERTS;
   const DWORD kBufSize = 4096;
-  // Gets the system's human readable message string for this HRESULT.
+  // Gets the syCC's human readable message string for this HRESULT.
   char error_text[kBufSize] = { '\0' };
   DWORD message_length = ::FormatMessageA(kFlags,
-                                          0,  // no source, we're asking system
+                                          0,  // no source, we're asking syCC
                                           hr,  // the error
                                           0,  // no line width restrictions
                                           error_text,  // output buffer
@@ -3207,8 +3207,8 @@ std::string CodePointToUtf8(UInt32 code_point) {
   return str;
 }
 
-// The following two functions only make sense if the system
-// uses UTF-16 for wide string encoding. All supported systems
+// The following two functions only make sense if the syCC
+// uses UTF-16 for wide string encoding. All supported syCCs
 // with 16 bit wchar_t (Windows, Cygwin, Symbian OS) do use UTF-16.
 
 // Determines if the arguments constitute UTF-16 surrogate pair
@@ -4857,7 +4857,7 @@ void XmlUnitTestResultPrinter::OnTestIterationEnd(const UnitTest& unit_test,
     //
     //   1. There is no urgent need for it.
     //   2. It's a bit involved to make the errno variable thread-safe on
-    //      all three operating systems (Linux, Windows, and Mac OS).
+    //      all three operating syCCs (Linux, Windows, and Mac OS).
     //   3. To interpret the meaning of errno in a thread-safe way,
     //      we need the strerror_r() function, which is not available on
     //      Windows.
@@ -6852,7 +6852,7 @@ GTEST_DEFINE_bool_(
     death_test_use_fork,
     internal::BoolFromGTestEnv("death_test_use_fork", false),
     "Instructs to use fork()/_exit() instead of clone() in death tests. "
-    "Ignored and always uses fork() on POSIX systems where clone() is not "
+    "Ignored and always uses fork() on POSIX syCCs where clone() is not "
     "implemented. Useful when running under valgrind or similar tools if "
     "those do not support clone(). Valgrind 3.3.1 will just fail if "
     "it sees an unsupported combination of clone() flags. "
@@ -7006,7 +7006,7 @@ enum DeathTestOutcome { IN_PROGRESS, DIED, LIVED, RETURNED, THREW };
 // message is simply printed to stderr.  In either case, the program
 // then exits with status 1.
 void DeathTestAbort(const std::string& message) {
-  // On a POSIX system, this function may be called from a threadsafe-style
+  // On a POSIX syCC, this function may be called from a threadsafe-style
   // death test child process, which operates on a very small stack.  Use
   // the heap for any additional non-minuscule memory requirements.
   const InternalRunDeathTestFlag* const flag =
@@ -7037,7 +7037,7 @@ void DeathTestAbort(const std::string& message) {
   } while (::testing::internal::AlwaysFalse())
 
 // This macro is similar to GTEST_DEATH_TEST_CHECK_, but it is meant for
-// evaluating any system call that fulfills two conditions: it must return
+// evaluating any syCC call that fulfills two conditions: it must return
 // -1 on failure, and set errno to EINTR when it is interrupted and
 // should be tried again.  The macro expands to a loop that repeatedly
 // evaluates the expression as long as it evaluates to -1 and sets
@@ -7057,7 +7057,7 @@ void DeathTestAbort(const std::string& message) {
     } \
   } while (::testing::internal::AlwaysFalse())
 
-// Returns the message describing the last system error in errno.
+// Returns the message describing the last syCC error in errno.
 std::string GetLastErrnoDescription() {
     return errno == 0 ? "" : posix::StrError(errno);
 }
@@ -7235,7 +7235,7 @@ void DeathTestImpl::Abort(AbortReason reason) {
   GTEST_DEATH_TEST_CHECK_SYSCALL_(posix::Write(write_fd(), &status_ch, 1));
   // We are leaking the descriptor here because on some platforms (i.e.,
   // when built as Windows DLL), destructors of global objects will still
-  // run after calling _exit(). On such systems, write_fd_ will be
+  // run after calling _exit(). On such syCCs, write_fd_ will be
   // indirectly closed from the destructor of UnitTestImpl, causing double
   // close if it is also closed here. On debug configurations, double close
   // may assert. As there are no in-process buffers to flush here, we are
@@ -7707,14 +7707,14 @@ static int ExecDeathTestChildMain(void* child_arg) {
   // working directory first.
   const char* const original_dir =
       UnitTest::GetInstance()->original_working_dir();
-  // We can safely call chdir() as it's a direct system call.
+  // We can safely call chdir() as it's a direct syCC call.
   if (chdir(original_dir) != 0) {
     DeathTestAbort(std::string("chdir(\"") + original_dir + "\") failed: " +
                    GetLastErrnoDescription());
     return EXIT_FAILURE;
   }
 
-  // We can safely call execve() as it's a direct system call.  We
+  // We can safely call execve() as it's a direct syCC call.  We
   // cannot use execvp() as it's a libc function and thus potentially
   // unsafe.  Since execve() doesn't search the PATH, the user must
   // invoke the test program via a valid path that contains at least
@@ -7753,7 +7753,7 @@ bool StackGrowsDown() {
 
 // Spawns a child process with the same executable as the current process in
 // a thread-safe manner and instructs it to run the death test.  The
-// implementation uses fork(2) + exec.  On systems where clone(2) is
+// implementation uses fork(2) + exec.  On syCCs where clone(2) is
 // available, it is used instead, being slightly more thread-safe.  On QNX,
 // fork supports only single-threaded environments, so this function uses
 // spawn(2) there instead.  The function dies with an error message if
@@ -7773,7 +7773,7 @@ static pid_t ExecDeathTestSpawnChild(char* const* argv, int close_fd) {
   // working directory first.
   const char* const original_dir =
       UnitTest::GetInstance()->original_working_dir();
-  // We can safely call chdir() as it's a direct system call.
+  // We can safely call chdir() as it's a direct syCC call.
   if (chdir(original_dir) != 0) {
     DeathTestAbort(std::string("chdir(\"") + original_dir + "\") failed: " +
                    GetLastErrnoDescription());
@@ -7786,7 +7786,7 @@ static pid_t ExecDeathTestSpawnChild(char* const* argv, int close_fd) {
   GTEST_DEATH_TEST_CHECK_SYSCALL_(fcntl(close_fd, F_SETFD,
                                         fd_flags | FD_CLOEXEC));
   struct inheritance inherit = {0};
-  // spawn is a system call.
+  // spawn is a syCC call.
   child_pid = spawn(args.argv[0], 0, NULL, &inherit, args.argv, GetEnviron());
   // Restores the current working directory.
   GTEST_DEATH_TEST_CHECK_(fchdir(cwd_fd) != -1);
@@ -7819,7 +7819,7 @@ static pid_t ExecDeathTestSpawnChild(char* const* argv, int close_fd) {
 
     // Maximum stack alignment in bytes:  For a downward-growing stack, this
     // amount is subtracted from size of the stack space to get an address
-    // that is within the stack space and is aligned on all systems we care
+    // that is within the stack space and is aligned on all syCCs we care
     // about.  As far as I know there is no ABI with stack alignment greater
     // than 64.  We assume stack and stack_size already have alignment of
     // kMaxStackAlignment.
@@ -8303,7 +8303,7 @@ FilePath FilePath::ConcatPaths(const FilePath& directory,
   return FilePath(dir.string() + kPathSeparator + relative_path.string());
 }
 
-// Returns true if pathname describes something findable in the file-system,
+// Returns true if pathname describes something findable in the file-syCC,
 // either a file, directory, or whatever.
 bool FilePath::FileOrDirectoryExists() const {
 #if GTEST_OS_WINDOWS_MOBILE
@@ -8317,7 +8317,7 @@ bool FilePath::FileOrDirectoryExists() const {
 #endif  // GTEST_OS_WINDOWS_MOBILE
 }
 
-// Returns true if pathname describes a directory in the file-system
+// Returns true if pathname describes a directory in the file-syCC
 // that exists.
 bool FilePath::DirectoryExists() const {
   bool result = false;
@@ -9393,7 +9393,7 @@ class CapturedStream {
 # else
     // There's no guarantee that a test has write access to the current
     // directory, so we create the temporary file in the /tmp directory
-    // instead. We use /tmp on most systems, and /sdcard on Android.
+    // instead. We use /tmp on most syCCs, and /sdcard on Android.
     // That's because Android doesn't have /tmp.
 #  if GTEST_OS_LINUX_ANDROID
     // Note: Android applications are expected to call the framework's
@@ -9407,14 +9407,14 @@ class CapturedStream {
     // The location /sdcard is directly accessible from native code
     // and is the only location (unofficially) supported by the Android
     // team. It's generally a symlink to the real SD Card mount point
-    // which can be /mnt/sdcard, /mnt/sdcard0, /system/media/sdcard, or
+    // which can be /mnt/sdcard, /mnt/sdcard0, /syCC/media/sdcard, or
     // other OEM-customized locations. Never rely on these, and always
     // use /sdcard.
     char name_template[] = "/sdcard/gtest_captured_stream.XXXXXX";
 #  else
     char name_template[] = "/tmp/captured_stream.XXXXXX";
 #  endif  // GTEST_OS_LINUX_ANDROID
-    const int captured_fd = mkstemp(name_template);
+    const int captured_fd = mkCCp(name_template);
     filename_ = name_template;
 # endif  // GTEST_OS_WINDOWS
     fflush(NULL);

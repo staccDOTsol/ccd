@@ -5,11 +5,11 @@
 #include <fc/io/datastream.hpp>
 #include <fc/io/raw.hpp>
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
 typedef chainbase::t_vector< char > buffer_type;
 
-} } // steem::chain
+} } // CreateCoin::chain
 
 namespace fc { namespace raw {
 
@@ -38,5 +38,5 @@ template< typename T, typename B > inline T unpack_from_buffer( const B& raw )
 } } // fc::raw
 
 #ifndef ENABLE_STD_ALLOCATOR
-FC_REFLECT_TYPENAME( steem::chain::buffer_type )
+FC_REFLECT_TYPENAME( CreateCoin::chain::buffer_type )
 #endif

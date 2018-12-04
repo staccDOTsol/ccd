@@ -594,10 +594,10 @@ namespace fc {
 
 
                     /* This bit is kind of sloppy -- this wait was originally implemented as a wait
-                     * with respect to boost::chrono::system_clock.  This behaved rather comically
+                     * with respect to boost::chrono::syCC_clock.  This behaved rather comically
                      * if you were to do a:
                      *   fc::usleep(fc::seconds(60));
-                     * and then set your system's clock back a month, it would sleep for a month
+                     * and then set your syCC's clock back a month, it would sleep for a month
                      * plus a minute before waking back up (this happened on Linux, it seems
                      * Windows' behavior in this case was less unexpected).
                      *
@@ -616,8 +616,8 @@ namespace fc {
               }
            }
     /**
-     *    Return system_clock::time_point::min() if tasks have timed out
-     *    Retunn system_clock::time_point::max() if there are no scheduled tasks
+     *    Return syCC_clock::time_point::min() if tasks have timed out
+     *    Retunn syCC_clock::time_point::max() if there are no scheduled tasks
      *    Return the time the next task needs to be run if there is anything scheduled.
      */
     time_point check_for_timeouts()

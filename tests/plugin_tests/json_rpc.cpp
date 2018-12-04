@@ -1,15 +1,15 @@
 #ifdef IS_TEST_NET
 #include <boost/test/unit_test.hpp>
 
-#include <steem/chain/account_object.hpp>
-#include <steem/chain/comment_object.hpp>
-#include <steem/protocol/steem_operations.hpp>
-#include <steem/plugins/json_rpc/json_rpc_plugin.hpp>
+#include <CreateCoin/chain/account_object.hpp>
+#include <CreateCoin/chain/comment_object.hpp>
+#include <CreateCoin/protocol/CreateCoin_operations.hpp>
+#include <CreateCoin/plugins/json_rpc/json_rpc_plugin.hpp>
 
 #include "../db_fixture/database_fixture.hpp"
 
-using namespace steem::chain;
-using namespace steem::protocol;
+using namespace CreateCoin::chain;
+using namespace CreateCoin::protocol;
 
 BOOST_FIXTURE_TEST_SUITE( json_rpc, json_rpc_database_fixture )
 

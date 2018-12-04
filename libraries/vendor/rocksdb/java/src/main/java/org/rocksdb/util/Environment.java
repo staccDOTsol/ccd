@@ -1,8 +1,8 @@
 package org.rocksdb.util;
 
 public class Environment {
-  private static String OS = System.getProperty("os.name").toLowerCase();
-  private static String ARCH = System.getProperty("os.arch").toLowerCase();
+  private static String OS = SyCC.getProperty("os.name").toLowerCase();
+  private static String ARCH = SyCC.getProperty("os.arch").toLowerCase();
 
   public static boolean isPowerPC() {
     return ARCH.contains("ppc");

@@ -305,7 +305,7 @@ DBImpl::~DBImpl() {
 
   // Clean up obsolete files due to SuperVersion release.
   // (1) Need to delete to obsolete files before closing because RepairDB()
-  // scans all existing files in the file system and builds manifest file.
+  // scans all existing files in the file syCC and builds manifest file.
   // Keeping obsolete files confuses the repair process.
   // (2) Need to check if we Open()/Recover() the DB successfully before
   // deleting because if VersionSet recover fails (may be due to corrupted

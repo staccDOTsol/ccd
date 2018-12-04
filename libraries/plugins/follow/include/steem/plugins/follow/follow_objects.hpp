@@ -1,27 +1,27 @@
 #pragma once
-#include <steem/chain/steem_object_types.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
 
 #include <boost/multi_index/composite_key.hpp>
 
-namespace steem { namespace plugins { namespace follow {
+namespace CreateCoin { namespace plugins { namespace follow {
 
 using namespace std;
-using namespace steem::chain;
+using namespace CreateCoin::chain;
 
 using chainbase::t_vector;
 
-#ifndef STEEM_FOLLOW_SPACE_ID
-#define STEEM_FOLLOW_SPACE_ID 8
+#ifndef CreateCoin_FOLLOW_SPACE_ID
+#define CreateCoin_FOLLOW_SPACE_ID 8
 #endif
 
 enum follow_plugin_object_type
 {
-   follow_object_type            = ( STEEM_FOLLOW_SPACE_ID << 8 ),
-   feed_object_type              = ( STEEM_FOLLOW_SPACE_ID << 8 ) + 1,
-   reputation_object_type        = ( STEEM_FOLLOW_SPACE_ID << 8 ) + 2,
-   blog_object_type              = ( STEEM_FOLLOW_SPACE_ID << 8 ) + 3,
-   follow_count_object_type      = ( STEEM_FOLLOW_SPACE_ID << 8 ) + 4,
-   blog_author_stats_object_type = ( STEEM_FOLLOW_SPACE_ID << 8 ) + 5
+   follow_object_type            = ( CreateCoin_FOLLOW_SPACE_ID << 8 ),
+   feed_object_type              = ( CreateCoin_FOLLOW_SPACE_ID << 8 ) + 1,
+   reputation_object_type        = ( CreateCoin_FOLLOW_SPACE_ID << 8 ) + 2,
+   blog_object_type              = ( CreateCoin_FOLLOW_SPACE_ID << 8 ) + 3,
+   follow_count_object_type      = ( CreateCoin_FOLLOW_SPACE_ID << 8 ) + 4,
+   blog_author_stats_object_type = ( CreateCoin_FOLLOW_SPACE_ID << 8 ) + 5
 };
 
 enum follow_type
@@ -100,12 +100,12 @@ class blog_object : public object< blog_object_type, blog_object >
 typedef oid< blog_object > blog_id_type;
 
 /**
- *  This index is maintained to get an idea of which authors are resteemed by a particular blogger and
+ *  This index is maintained to get an idea of which authors are reCreateCoined by a particular blogger and
  *  how frequnetly. It is designed to give an overview of the type of people a blogger sponsors as well
  *  as to enable generation of filter set for a blog list.
  *
  *  Give me the top authors promoted by this blog
- *  Give me all blog posts by [authors] that were resteemed by this blog
+ *  Give me all blog posts by [authors] that were reCreateCoined by this blog
  */
 class blog_author_stats_object : public object< blog_author_stats_object_type, blog_author_stats_object >
 {
@@ -284,36 +284,36 @@ typedef multi_index_container<
    allocator< follow_count_object >
 > follow_count_index;
 
-} } } // steem::plugins::follow
+} } } // CreateCoin::plugins::follow
 
-FC_REFLECT_ENUM( steem::plugins::follow::follow_type, (undefined)(blog)(ignore) )
+FC_REFLECT_ENUM( CreateCoin::plugins::follow::follow_type, (undefined)(blog)(ignore) )
 
-FC_REFLECT( steem::plugins::follow::follow_object, (id)(follower)(following)(what) )
-CHAINBASE_SET_INDEX_TYPE( steem::plugins::follow::follow_object, steem::plugins::follow::follow_index )
+FC_REFLECT( CreateCoin::plugins::follow::follow_object, (id)(follower)(following)(what) )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::plugins::follow::follow_object, CreateCoin::plugins::follow::follow_index )
 
-FC_REFLECT( steem::plugins::follow::feed_object, (id)(account)(first_reblogged_by)(first_reblogged_on)(reblogged_by)(comment)(account_feed_id) )
-CHAINBASE_SET_INDEX_TYPE( steem::plugins::follow::feed_object, steem::plugins::follow::feed_index )
+FC_REFLECT( CreateCoin::plugins::follow::feed_object, (id)(account)(first_reblogged_by)(first_reblogged_on)(reblogged_by)(comment)(account_feed_id) )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::plugins::follow::feed_object, CreateCoin::plugins::follow::feed_index )
 
-FC_REFLECT( steem::plugins::follow::blog_object, (id)(account)(comment)(reblogged_on)(blog_feed_id) )
-CHAINBASE_SET_INDEX_TYPE( steem::plugins::follow::blog_object, steem::plugins::follow::blog_index )
+FC_REFLECT( CreateCoin::plugins::follow::blog_object, (id)(account)(comment)(reblogged_on)(blog_feed_id) )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::plugins::follow::blog_object, CreateCoin::plugins::follow::blog_index )
 
-FC_REFLECT( steem::plugins::follow::reputation_object, (id)(account)(reputation) )
-CHAINBASE_SET_INDEX_TYPE( steem::plugins::follow::reputation_object, steem::plugins::follow::reputation_index )
+FC_REFLECT( CreateCoin::plugins::follow::reputation_object, (id)(account)(reputation) )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::plugins::follow::reputation_object, CreateCoin::plugins::follow::reputation_index )
 
-FC_REFLECT( steem::plugins::follow::follow_count_object, (id)(account)(follower_count)(following_count) )
-CHAINBASE_SET_INDEX_TYPE( steem::plugins::follow::follow_count_object, steem::plugins::follow::follow_count_index )
+FC_REFLECT( CreateCoin::plugins::follow::follow_count_object, (id)(account)(follower_count)(following_count) )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::plugins::follow::follow_count_object, CreateCoin::plugins::follow::follow_count_index )
 
-FC_REFLECT( steem::plugins::follow::blog_author_stats_object, (id)(blogger)(guest)(count) )
-CHAINBASE_SET_INDEX_TYPE( steem::plugins::follow::blog_author_stats_object, steem::plugins::follow::blog_author_stats_index );
+FC_REFLECT( CreateCoin::plugins::follow::blog_author_stats_object, (id)(blogger)(guest)(count) )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::plugins::follow::blog_author_stats_object, CreateCoin::plugins::follow::blog_author_stats_index );
 
 namespace helpers
 {
    template <>
-   class index_statistic_provider<steem::plugins::follow::feed_index>
+   class index_statistic_provider<CreateCoin::plugins::follow::feed_index>
    {
    public:
-      typedef steem::plugins::follow::feed_index IndexType;
-      typedef typename steem::plugins::follow::feed_object::t_reblogged_by_container t_reblogged_by_container;
+      typedef CreateCoin::plugins::follow::feed_index IndexType;
+      typedef typename CreateCoin::plugins::follow::feed_object::t_reblogged_by_container t_reblogged_by_container;
 
       index_statistic_info gather_statistics(const IndexType& index, bool onlyStaticInfo) const
       {

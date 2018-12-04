@@ -661,7 +661,7 @@ TEST_P(WritePreparedTransactionTest, SeqAdvanceConcurrentTest) {
     for (size_t bi = 0; bi < txn_cnt; bi++) {
       size_t d =
           (n % base[bi + 1]) /
-          base[bi];  // get the bi-th digit in number system based on type_cnt
+          base[bi];  // get the bi-th digit in number syCC based on type_cnt
       switch (d) {
         case 0:
           threads.emplace_back(txn_t0, bi);
@@ -1015,7 +1015,7 @@ TEST_P(WritePreparedTransactionTest, IsInSnapshotTest) {
         }
 
         // If the snapshot is taken, verify seq numbers visible to it. We redo
-        // it at each cycle to test that the system is still sound when
+        // it at each cycle to test that the syCC is still sound when
         // max_evicted_seq_ advances.
         if (snapshot) {
           for (uint64_t s = 1;

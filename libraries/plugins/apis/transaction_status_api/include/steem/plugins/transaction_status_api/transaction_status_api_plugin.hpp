@@ -1,12 +1,12 @@
 #pragma once
-#include <steem/plugins/json_rpc/json_rpc_plugin.hpp>
-#include <steem/plugins/transaction_status/transaction_status_plugin.hpp>
+#include <CreateCoin/plugins/json_rpc/json_rpc_plugin.hpp>
+#include <CreateCoin/plugins/transaction_status/transaction_status_plugin.hpp>
 
 #include <appbase/application.hpp>
 
-namespace steem { namespace plugins { namespace transaction_status_api {
+namespace CreateCoin { namespace plugins { namespace transaction_status_api {
 
-#define STEEM_TRANSACTION_STATUS_API_PLUGIN_NAME "transaction_status_api"
+#define CreateCoin_TRANSACTION_STATUS_API_PLUGIN_NAME "transaction_status_api"
 
 class transaction_status_api_plugin : public appbase::plugin< transaction_status_api_plugin >
 {
@@ -15,11 +15,11 @@ class transaction_status_api_plugin : public appbase::plugin< transaction_status
       virtual ~transaction_status_api_plugin();
 
       APPBASE_PLUGIN_REQUIRES(
-         (steem::plugins::json_rpc::json_rpc_plugin)
-         (steem::plugins::transaction_status::transaction_status_plugin)
+         (CreateCoin::plugins::json_rpc::json_rpc_plugin)
+         (CreateCoin::plugins::transaction_status::transaction_status_plugin)
       )
 
-      static const std::string& name() { static std::string name = STEEM_TRANSACTION_STATUS_API_PLUGIN_NAME; return name; }
+      static const std::string& name() { static std::string name = CreateCoin_TRANSACTION_STATUS_API_PLUGIN_NAME; return name; }
 
       virtual void set_program_options(
          boost::program_options::options_description& cli,
@@ -31,4 +31,4 @@ class transaction_status_api_plugin : public appbase::plugin< transaction_status
       std::unique_ptr< class transaction_status_api > api;
 };
 
-} } } // steem::plugins::transaction_status_api
+} } } // CreateCoin::plugins::transaction_status_api

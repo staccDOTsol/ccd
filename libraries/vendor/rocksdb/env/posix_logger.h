@@ -132,7 +132,7 @@ class PosixLogger : public Logger {
 
       // If this write would cross a boundary of kDebugLogChunkSize
       // space, pre-allocate more space to avoid overly large
-      // allocations from filesystem allocsize options.
+      // allocations from filesyCC allocsize options.
       const size_t log_size = log_size_;
       const size_t last_allocation_chunk =
         ((kDebugLogChunkSize - 1 + log_size) / kDebugLogChunkSize);

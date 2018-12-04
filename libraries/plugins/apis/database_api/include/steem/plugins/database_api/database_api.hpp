@@ -1,13 +1,13 @@
 #pragma once
 
-#include <steem/plugins/json_rpc/utility.hpp>
+#include <CreateCoin/plugins/json_rpc/utility.hpp>
 
-#include <steem/plugins/database_api/database_api_args.hpp>
-#include <steem/plugins/database_api/database_api_objects.hpp>
+#include <CreateCoin/plugins/database_api/database_api_args.hpp>
+#include <CreateCoin/plugins/database_api/database_api_objects.hpp>
 
 #define DATABASE_API_SINGLE_QUERY_LIMIT 1000
 
-namespace steem { namespace plugins { namespace database_api {
+namespace CreateCoin { namespace plugins { namespace database_api {
 
 class database_api_impl;
 
@@ -133,11 +133,11 @@ class database_api
 
          /*
           * This is a general purpose API that checks signatures against accounts for an arbitrary sha256 hash
-          * using the existing authority structures in Steem
+          * using the existing authority structures in CreateCoin
           */
          (verify_signatures)
 
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
          /**
          * @return array of Numeric Asset Identifier (NAI) available to be used for new SMT to be created.
          */
@@ -155,5 +155,5 @@ class database_api
       std::unique_ptr< database_api_impl > my;
 };
 
-} } } //steem::plugins::database_api
+} } } //CreateCoin::plugins::database_api
 

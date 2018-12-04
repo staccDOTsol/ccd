@@ -1,12 +1,12 @@
 
 #pragma once
 
-#include <steem/schema/abstract_schema.hpp>
-#include <steem/schema/schema_impl.hpp>
+#include <CreateCoin/schema/abstract_schema.hpp>
+#include <CreateCoin/schema/schema_impl.hpp>
 
 #include <fc/static_variant.hpp>
 
-namespace steem { namespace schema { namespace detail {
+namespace CreateCoin { namespace schema { namespace detail {
 
 //////////////////////////////////////////////
 // static_variant                           //
@@ -16,7 +16,7 @@ template< typename... Types >
 struct schema_static_variant_impl
    : public abstract_schema
 {
-   STEEM_SCHEMA_TEMPLATE_CLASS_BODY( schema_static_variant_impl )
+   CreateCoin_SCHEMA_TEMPLATE_CLASS_BODY( schema_static_variant_impl )
 };
 
 template< typename... Types > struct get_schemas_for_types_impl;

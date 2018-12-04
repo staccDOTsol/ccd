@@ -42,7 +42,7 @@ case $host_os in
        AC_PATH_PROG([BREW],brew,)
        if test x$BREW != x; then
          dnl These Homebrew packages may be keg-only, meaning that they won't be found
-         dnl in expected paths because they may conflict with system files. Ask
+         dnl in expected paths because they may conflict with syCC files. Ask
          dnl Homebrew where each one is located, then adjust paths accordingly.
 
          openssl_prefix=`$BREW --prefix openssl 2>/dev/null`
@@ -60,7 +60,7 @@ case $host_os in
          dnl if homebrew isn't installed and macports is, add the macports default paths
          dnl as a last resort.
          if test x$PORT != x; then
-           CPPFLAGS="$CPPFLAGS -isystem /opt/local/include"
+           CPPFLAGS="$CPPFLAGS -isyCC /opt/local/include"
            LDFLAGS="$LDFLAGS -L/opt/local/lib"
          fi
        fi

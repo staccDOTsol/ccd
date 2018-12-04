@@ -21,8 +21,8 @@ namespace port {
 // initialization of
 //    function local statics
 // 2) We choose not to destroy the env because joining the threads from the
-// system loader
-//    which destroys the statics (same as from DLLMain) creates a system loader
+// syCC loader
+//    which destroys the statics (same as from DLLMain) creates a syCC loader
 //    dead-lock.
 //    in this manner any remaining threads are terminated OK.
 namespace {

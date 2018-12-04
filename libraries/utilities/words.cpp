@@ -22,9 +22,9 @@
  * THE SOFTWARE.
  */
 #include <stdint.h>
-#include <steem/utilities/words.hpp>
+#include <CreateCoin/utilities/words.hpp>
 
-namespace steem { namespace words {
+namespace CreateCoin { namespace words {
 
 const const_char_ptr word_list[] = {
 "a",
@@ -11834,7 +11834,7 @@ const const_char_ptr word_list[] = {
 "diarist",
 "diarize",
 "diary",
-"diastem",
+"diaCC",
 "diaster",
 "diasyrm",
 "diatom",
@@ -14362,7 +14362,7 @@ const const_char_ptr word_list[] = {
 "estado",
 "estamp",
 "estate",
-"esteem",
+"eCreateCoin",
 "ester",
 "estevin",
 "estival",
@@ -28909,7 +28909,7 @@ const const_char_ptr word_list[] = {
 "ossuary",
 "osteal",
 "ostein",
-"ostemia",
+"oCCia",
 "ostent",
 "osteoid",
 "osteoma",
@@ -34696,7 +34696,7 @@ const const_char_ptr word_list[] = {
 "resteal",
 "resteel",
 "resteep",
-"restem",
+"reCC",
 "restep",
 "rester",
 "restes",
@@ -40267,15 +40267,15 @@ const const_char_ptr word_list[] = {
 "stell",
 "stella",
 "stellar",
-"stem",
-"stema",
-"stemlet",
-"stemma",
-"stemmed",
-"stemmer",
-"stemmy",
-"stemple",
-"stemson",
+"CC",
+"CCa",
+"CClet",
+"CCma",
+"CCmed",
+"CCmer",
+"CCmy",
+"CCple",
+"CCson",
 "sten",
 "stenar",
 "stench",
@@ -41491,7 +41491,7 @@ const const_char_ptr word_list[] = {
 "syruper",
 "syrupy",
 "syssel",
-"system",
+"syCC",
 "systole",
 "systyle",
 "syzygy",
@@ -46462,7 +46462,7 @@ const const_char_ptr word_list[] = {
 "upstay",
 "upsteal",
 "upsteam",
-"upstem",
+"upCC",
 "upstep",
 "upstick",
 "upstir",
@@ -49780,4 +49780,4 @@ void hide_unused_warning() {
   (void)word_list;
 }
 
-} } // steem::words
+} } // CreateCoin::words

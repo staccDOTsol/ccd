@@ -73,7 +73,7 @@ if test -z $PIC_BUILD; then
 fi
 
 # location of TBB
-TBB_INCLUDE=" -isystem $TBB_BASE/include/"
+TBB_INCLUDE=" -isyCC $TBB_BASE/include/"
 if test -z $PIC_BUILD; then
   TBB_LIBS="$TBB_BASE/lib/libtbb.a"
 else
@@ -104,8 +104,8 @@ if [ -z "$USE_CLANG" ]; then
   CXX="$GCC_BASE/bin/g++"
 
   CFLAGS+=" -B$BINUTILS/gold"
-  CFLAGS+=" -isystem $GLIBC_INCLUDE"
-  CFLAGS+=" -isystem $LIBGCC_INCLUDE"
+  CFLAGS+=" -isyCC $GLIBC_INCLUDE"
+  CFLAGS+=" -isyCC $LIBGCC_INCLUDE"
   JEMALLOC=1
 else
   # clang
@@ -116,13 +116,13 @@ else
   KERNEL_HEADERS_INCLUDE="$KERNEL_HEADERS_BASE/include"
 
   CFLAGS+=" -B$BINUTILS/gold -nostdinc -nostdlib"
-  CFLAGS+=" -isystem $LIBGCC_BASE/include/c++/5.x "
-  CFLAGS+=" -isystem $LIBGCC_BASE/include/c++/5.x/x86_64-facebook-linux "
-  CFLAGS+=" -isystem $GLIBC_INCLUDE"
-  CFLAGS+=" -isystem $LIBGCC_INCLUDE"
-  CFLAGS+=" -isystem $CLANG_INCLUDE"
-  CFLAGS+=" -isystem $KERNEL_HEADERS_INCLUDE/linux "
-  CFLAGS+=" -isystem $KERNEL_HEADERS_INCLUDE "
+  CFLAGS+=" -isyCC $LIBGCC_BASE/include/c++/5.x "
+  CFLAGS+=" -isyCC $LIBGCC_BASE/include/c++/5.x/x86_64-facebook-linux "
+  CFLAGS+=" -isyCC $GLIBC_INCLUDE"
+  CFLAGS+=" -isyCC $LIBGCC_INCLUDE"
+  CFLAGS+=" -isyCC $CLANG_INCLUDE"
+  CFLAGS+=" -isyCC $KERNEL_HEADERS_INCLUDE/linux "
+  CFLAGS+=" -isyCC $KERNEL_HEADERS_INCLUDE "
   CFLAGS+=" -Wno-expansion-to-defined "
   CXXFLAGS="-nostdinc++"
 fi

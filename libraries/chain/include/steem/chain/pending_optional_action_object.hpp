@@ -1,13 +1,13 @@
 #pragma once
-#include <steem/protocol/required_automated_actions.hpp>
+#include <CreateCoin/protocol/required_automated_actions.hpp>
 
-#include <steem/chain/steem_object_types.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
 
 #include <boost/multi_index/composite_key.hpp>
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
-using steem::protocol::optional_automated_action;
+using CreateCoin::protocol::optional_automated_action;
 
 class pending_optional_action_object : public object< pending_optional_action_object_type, pending_optional_action_object >
 {
@@ -40,8 +40,8 @@ typedef multi_index_container<
    allocator< pending_optional_action_object >
 > pending_optional_action_index;
 
-} } //steem::chain
+} } //CreateCoin::chain
 
-FC_REFLECT( steem::chain::pending_optional_action_object,
+FC_REFLECT( CreateCoin::chain::pending_optional_action_object,
             (id)(execution_time)(action) )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::pending_optional_action_object, steem::chain::pending_optional_action_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::pending_optional_action_object, CreateCoin::chain::pending_optional_action_index )

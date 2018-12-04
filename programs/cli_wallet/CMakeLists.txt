@@ -9,14 +9,14 @@ if( GPERFTOOLS_FOUND )
     list( APPEND PLATFORM_SPECIFIC_LIBS tcmalloc )
 endif()
 
-if( STEEM_STATIC_BUILD )
+if( CreateCoin_STATIC_BUILD )
    target_link_libraries( cli_wallet PRIVATE
                           "-static-libstdc++ -static-libgcc -lreadline"
-                          graphene_net steem_chain steem_protocol steem_utilities steem_wallet condenser_api_plugin fc ${CMAKE_DL_LIBS} ${PLATFORM_SPECIFIC_LIBS} )
-else( STEEM_STATIC_BUILD )
+                          graphene_net CreateCoin_chain CreateCoin_protocol CreateCoin_utilities CreateCoin_wallet condenser_api_plugin fc ${CMAKE_DL_LIBS} ${PLATFORM_SPECIFIC_LIBS} )
+else( CreateCoin_STATIC_BUILD )
    target_link_libraries( cli_wallet PRIVATE
-                          graphene_net steem_chain steem_protocol steem_utilities steem_wallet condenser_api_plugin fc ${CMAKE_DL_LIBS} ${PLATFORM_SPECIFIC_LIBS} )
-endif( STEEM_STATIC_BUILD )
+                          graphene_net CreateCoin_chain CreateCoin_protocol CreateCoin_utilities CreateCoin_wallet condenser_api_plugin fc ${CMAKE_DL_LIBS} ${PLATFORM_SPECIFIC_LIBS} )
+endif( CreateCoin_STATIC_BUILD )
 
 if( CLANG_TIDY_EXE )
    set_target_properties(

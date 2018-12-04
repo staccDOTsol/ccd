@@ -1,13 +1,13 @@
 #pragma once
-#include <steem/protocol/authority.hpp>
+#include <CreateCoin/protocol/authority.hpp>
 #include <chainbase/chainbase.hpp>
 #include <boost/interprocess/managed_mapped_file.hpp>
 
-namespace steem { namespace chain {
-   using steem::protocol::authority;
-   using steem::protocol::public_key_type;
-   using steem::protocol::account_name_type;
-   using steem::protocol::weight_type;
+namespace CreateCoin { namespace chain {
+   using CreateCoin::protocol::authority;
+   using CreateCoin::protocol::public_key_type;
+   using CreateCoin::protocol::account_name_type;
+   using CreateCoin::protocol::weight_type;
 
    using chainbase::t_flat_map;
    using chainbase::t_allocator_pair;
@@ -98,7 +98,7 @@ namespace steem { namespace chain {
    bool operator == ( const authority& a, const shared_authority& b );
    bool operator == ( const shared_authority& a, const authority& b );
 
-} } //steem::chain
+} } //CreateCoin::chain
 
-FC_REFLECT_TYPENAME( steem::chain::shared_authority::account_authority_map)
-FC_REFLECT( steem::chain::shared_authority, (weight_threshold)(account_auths)(key_auths) )
+FC_REFLECT_TYPENAME( CreateCoin::chain::shared_authority::account_authority_map)
+FC_REFLECT( CreateCoin::chain::shared_authority, (weight_threshold)(account_auths)(key_auths) )

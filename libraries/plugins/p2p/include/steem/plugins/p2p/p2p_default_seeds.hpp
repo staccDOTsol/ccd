@@ -2,44 +2,44 @@
 
 #include <vector>
 
-namespace steem{ namespace plugins { namespace p2p {
+namespace CreateCoin{ namespace plugins { namespace p2p {
 
 #ifdef IS_TEST_NET
 const std::vector< std::string > default_seeds;
 #else
 const std::vector< std::string > default_seeds = {
-   "seed-east.steemit.com:2001",          // steemit
-   "seed-central.steemit.com:2001",       // steemit
-   "seed-west.steemit.com:2001",          // steemit
-   "steem-seed1.abit-more.com:2001",      // abit
+   "seed-east.CreateCoinit.com:2001",          // CreateCoinit
+   "seed-central.CreateCoinit.com:2001",       // CreateCoinit
+   "seed-west.CreateCoinit.com:2001",          // CreateCoinit
+   "CreateCoin-seed1.abit-more.com:2001",      // abit
    "52.74.152.79:2001",                   // smooth.witness
-   "seed.steemd.com:34191",               // roadscape
+   "seed.CreateCoind.com:34191",               // roadscape
    "anyx.co:2001",                        // anyx
    "seed.xeldal.com:12150",               // xeldal
-   "seed.steemnodes.com:2001",            // wackou
+   "seed.CreateCoinnodes.com:2001",            // wackou
    "seed.liondani.com:2016",              // liondani
-   "gtg.steem.house:2001",                // gtg
+   "gtg.CreateCoin.house:2001",                // gtg
    "seed.jesta.us:2001",                  // jesta
-   "steemd.pharesim.me:2001",             // pharesim
+   "CreateCoind.pharesim.me:2001",             // pharesim
    "5.9.18.213:2001",                     // pfunk
-   "lafonasteem.com:2001",                // lafona
+   "lafonaCreateCoin.com:2001",                // lafona
    "seed.rossco99.com:2001",              // rossco99
-   "steem-seed.altcap.io:40696",          // ihashfury
+   "CreateCoin-seed.altcap.io:40696",          // ihashfury
    "seed.roelandp.nl:2001",               // roelandp
-   "steem.global:2001",                   // klye
-   "seed.esteem.ws:2001",                 // good-karma
+   "CreateCoin.global:2001",                   // klye
+   "seed.eCreateCoin.ws:2001",                 // good-karma
    "seed.timcliff.com:2001",              // timcliff
    "104.199.118.92:2001",                 // clayop
-   "seed.steemviz.com:2001",              // ausbitbank
-   "steem-seed.lukestokes.info:2001",     // lukestokes
-   "seed.steemian.info:2001",             // drakos
+   "seed.CreateCoinviz.com:2001",              // ausbitbank
+   "CreateCoin-seed.lukestokes.info:2001",     // lukestokes
+   "seed.CreateCoinian.info:2001",             // drakos
    "seed.followbtcnews.com:2001",         // followbtcnews
    "node.mahdiyari.info:2001",            // mahdiyari
-   "seed.curiesteem.com:2001",            // curie
-   "seed.riversteem.com:2001",            // riverhead
-   "148.251.237.104:2001",                // steem-bounty
+   "seed.curieCreateCoin.com:2001",            // curie
+   "seed.riverCreateCoin.com:2001",            // riverhead
+   "148.251.237.104:2001",                // CreateCoin-bounty
    "seed1.blockbrothers.io:2001",         // blockbrothers
-   "steemseed-fin.privex.io:2001",        // privex
+   "CreateCoinseed-fin.privex.io:2001",        // privex
    "seed.jamzed.pl:2001",                 // jamzed
    "seed1.cryptobot.news:2001",           // libertyranger
    "seed.thecryptodrive.com:2001",        // thecryptodrive
@@ -48,4 +48,4 @@ const std::vector< std::string > default_seeds = {
 };
 #endif
 
-} } } // steem::plugins::p2p
+} } } // CreateCoin::plugins::p2p

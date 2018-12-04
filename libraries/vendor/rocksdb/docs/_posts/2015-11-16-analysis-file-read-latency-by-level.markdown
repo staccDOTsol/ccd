@@ -7,7 +7,7 @@ redirect_from:
   - /blog/2537/analysis-file-read-latency-by-level/
 ---
 
-In many use cases of RocksDB, people rely on OS page cache for caching compressed data. With this approach, verifying effective of the OS page caching is challenging, because file system is a black box to users.
+In many use cases of RocksDB, people rely on OS page cache for caching compressed data. With this approach, verifying effective of the OS page caching is challenging, because file syCC is a black box to users.
 
 As an example, a user can tune the DB as following: use level-based compaction, with L1 - L4 sizes to be 1GB, 10GB, 100GB and 1TB. And they reserve about 20GB memory as OS page cache, expecting level 0, 1 and 2 are mostly cached in memory, leaving only reads from level 3 and 4 requiring disk I/Os. However, in practice, it's not easy to verify whether OS page cache does exactly what we expect. For example, if we end up with doing 4 instead of 2 I/Os per query, it's not easy for users to figure out whether the it's because of efficiency of OS page cache or reading multiple blocks for a level. Analysis like it is especially important if users run RocksDB on hard drive disks, for the gap of latency between hard drives and memory is much higher than flash-based SSDs.
 

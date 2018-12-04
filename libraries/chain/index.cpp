@@ -1,18 +1,18 @@
 
-#include <steem/chain/steem_fwd.hpp>
+#include <CreateCoin/chain/CreateCoin_fwd.hpp>
 
-#include <steem/chain/index.hpp>
+#include <CreateCoin/chain/index.hpp>
 
-#include <steem/chain/block_summary_object.hpp>
-#include <steem/chain/history_object.hpp>
-#include <steem/chain/pending_required_action_object.hpp>
-#include <steem/chain/pending_optional_action_object.hpp>
-#include <steem/chain/smt_objects.hpp>
-#include <steem/chain/steem_objects.hpp>
-#include <steem/chain/transaction_object.hpp>
-#include <steem/chain/witness_schedule.hpp>
+#include <CreateCoin/chain/block_summary_object.hpp>
+#include <CreateCoin/chain/history_object.hpp>
+#include <CreateCoin/chain/pending_required_action_object.hpp>
+#include <CreateCoin/chain/pending_optional_action_object.hpp>
+#include <CreateCoin/chain/smt_objects.hpp>
+#include <CreateCoin/chain/CreateCoin_objects.hpp>
+#include <CreateCoin/chain/transaction_object.hpp>
+#include <CreateCoin/chain/witness_schedule.hpp>
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
 void initialize_core_indexes( database& db )
 {
@@ -46,7 +46,7 @@ void initialize_core_indexes( database& db )
    add_core_index< vesting_delegation_expiration_index     >( db );
    add_core_index< pending_required_action_index           >( db );
    add_core_index< pending_optional_action_index           >( db );
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
    add_core_index< smt_token_index                         >( db );
    add_core_index< smt_event_token_index                   >( db );
    add_core_index< account_regular_balance_index           >( db );

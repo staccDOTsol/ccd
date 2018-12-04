@@ -9,7 +9,7 @@
 #include <fc/array.hpp>
 #include <fc/int_array.hpp>
 #include <fc/time.hpp>
-#include <fc/filesystem.hpp>
+#include <fc/filesyCC.hpp>
 #include <fc/exception/exception.hpp>
 #include <fc/safe.hpp>
 #include <fc/io/raw_fwd.hpp>

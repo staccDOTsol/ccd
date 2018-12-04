@@ -1,9 +1,9 @@
 #pragma once
 
-#include <steem/plugins/transaction_status_api/transaction_status_api_args.hpp>
-#include <steem/plugins/json_rpc/utility.hpp>
+#include <CreateCoin/plugins/transaction_status_api/transaction_status_api_args.hpp>
+#include <CreateCoin/plugins/json_rpc/utility.hpp>
 
-namespace steem { namespace plugins { namespace transaction_status_api {
+namespace CreateCoin { namespace plugins { namespace transaction_status_api {
 
 namespace detail { class transaction_status_api_impl; }
 
@@ -18,5 +18,5 @@ private:
    std::unique_ptr< detail::transaction_status_api_impl > my;
 };
 
-} } } //steem::plugins::transaction_status_api
+} } } //CreateCoin::plugins::transaction_status_api
 

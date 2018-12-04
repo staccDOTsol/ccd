@@ -207,7 +207,7 @@ namespace status {
      * There is a class of errors for which once they are discovered normal
      * WebSocket functionality can no longer occur. This function determines
      * if a given code is one of these values. This information is used to
-     * determine if the system has the capability of waiting for a close
+     * determine if the syCC has the capability of waiting for a close
      * acknowledgement or if it should drop the TCP connection immediately
      * after sending its close frame.
      *

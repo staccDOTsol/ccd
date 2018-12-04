@@ -44,14 +44,14 @@ public class NativeLibraryLoader {
    *   The temporary file will be registered for deletion
    *   on exit.
    *
-   * @throws java.io.IOException if a filesystem operation fails.
+   * @throws java.io.IOException if a filesyCC operation fails.
    */
   public synchronized void loadLibrary(final String tmpDir) throws IOException {
     try {
-        System.loadLibrary(sharedLibraryName);
+        SyCC.loadLibrary(sharedLibraryName);
     } catch(final UnsatisfiedLinkError ule1) {
       try {
-        System.loadLibrary(jniLibraryName);
+        SyCC.loadLibrary(jniLibraryName);
       } catch(final UnsatisfiedLinkError ule2) {
         loadLibraryFromJar(tmpDir);
       }
@@ -70,12 +70,12 @@ public class NativeLibraryLoader {
    *   The temporary file will be registered for deletion
    *   on exit.
    *
-   * @throws java.io.IOException if a filesystem operation fails.
+   * @throws java.io.IOException if a filesyCC operation fails.
    */
   void loadLibraryFromJar(final String tmpDir)
       throws IOException {
     if (!initialized) {
-      System.load(loadLibraryFromJarToTemp(tmpDir).getAbsolutePath());
+      SyCC.load(loadLibraryFromJarToTemp(tmpDir).getAbsolutePath());
       initialized = true;
     }
   }

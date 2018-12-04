@@ -62,10 +62,10 @@ Status MockTableFactory::NewTableReader(
     bool prefetch_index_and_filter_in_cache) const {
   uint32_t id = GetIDFromFile(file.get());
 
-  MutexLock lock_guard(&file_system_.mutex);
+  MutexLock lock_guard(&file_syCC_.mutex);
 
-  auto it = file_system_.files.find(id);
-  if (it == file_system_.files.end()) {
+  auto it = file_syCC_.files.find(id);
+  if (it == file_syCC_.files.end()) {
     return Status::IOError("Mock file not found");
   }
 
@@ -79,7 +79,7 @@ TableBuilder* MockTableFactory::NewTableBuilder(
     WritableFileWriter* file) const {
   uint32_t id = GetAndWriteNextID(file);
 
-  return new MockTableBuilder(id, &file_system_);
+  return new MockTableBuilder(id, &file_syCC_);
 }
 
 Status MockTableFactory::CreateMockTable(Env* env, const std::string& fname,
@@ -93,7 +93,7 @@ Status MockTableFactory::CreateMockTable(Env* env, const std::string& fname,
   WritableFileWriter file_writer(std::move(file), EnvOptions());
 
   uint32_t id = GetAndWriteNextID(&file_writer);
-  file_system_.files.insert({id, std::move(file_contents)});
+  file_syCC_.files.insert({id, std::move(file_contents)});
   return Status::OK();
 }
 
@@ -115,14 +115,14 @@ uint32_t MockTableFactory::GetIDFromFile(RandomAccessFileReader* file) const {
 
 void MockTableFactory::AssertSingleFile(
     const stl_wrappers::KVMap& file_contents) {
-  ASSERT_EQ(file_system_.files.size(), 1U);
-  ASSERT_EQ(file_contents, file_system_.files.begin()->second);
+  ASSERT_EQ(file_syCC_.files.size(), 1U);
+  ASSERT_EQ(file_contents, file_syCC_.files.begin()->second);
 }
 
 void MockTableFactory::AssertLatestFile(
     const stl_wrappers::KVMap& file_contents) {
-  ASSERT_GE(file_system_.files.size(), 1U);
-  auto latest = file_system_.files.end();
+  ASSERT_GE(file_syCC_.files.size(), 1U);
+  auto latest = file_syCC_.files.end();
   --latest;
 
   if (file_contents != latest->second) {

@@ -1,12 +1,12 @@
 #pragma once
 
-#include <steem/chain/steem_object_types.hpp>
-#include <steem/protocol/smt_operations.hpp>
+#include <CreateCoin/chain/CreateCoin_object_types.hpp>
+#include <CreateCoin/protocol/smt_operations.hpp>
 #include <boost/multi_index/composite_key.hpp>
 
-#ifdef STEEM_ENABLE_SMT
+#ifdef CreateCoin_ENABLE_SMT
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
 using protocol::curve_id;
 
@@ -32,7 +32,7 @@ public:
 
    struct smt_market_maker_state
    {
-      asset    steem_balance;
+      asset    CreateCoin_balance;
       asset    token_balance;
       uint32_t reserve_ratio = 0;
    };
@@ -94,13 +94,13 @@ public:
    bool                 allow_voting = true;
 
    /// set_runtime_parameters
-   uint32_t             cashout_window_seconds = STEEM_CASHOUT_WINDOW_SECONDS;
-   uint32_t             reverse_auction_window_seconds = STEEM_REVERSE_AUCTION_WINDOW_SECONDS_HF20;
+   uint32_t             cashout_window_seconds = CreateCoin_CASHOUT_WINDOW_SECONDS;
+   uint32_t             reverse_auction_window_seconds = CreateCoin_REVERSE_AUCTION_WINDOW_SECONDS_HF20;
 
-   uint32_t             vote_regeneration_period_seconds = STEEM_VOTING_MANA_REGENERATION_SECONDS;
+   uint32_t             vote_regeneration_period_seconds = CreateCoin_VOTING_MANA_REGENERATION_SECONDS;
    uint32_t             votes_per_regeneration_period = SMT_DEFAULT_VOTES_PER_REGEN_PERIOD;
 
-   uint128_t            content_constant = STEEM_CONTENT_CONSTANT_HF0;
+   uint128_t            content_constant = CreateCoin_CONTENT_CONSTANT_HF0;
    uint16_t             percent_curation_rewards = SMT_DEFAULT_PERCENT_CURATION_REWARDS;
    protocol::curve_id   author_reward_curve = curve_id::linear;
    protocol::curve_id   curation_reward_curve = curve_id::square_root;
@@ -109,7 +109,7 @@ public:
 
    ///parameters for 'smt_setup_operation'
    int64_t                       max_supply = 0;
-   steem::protocol::
+   CreateCoin::protocol::
    smt_capped_generation_policy  capped_generation_policy;
    time_point_sec                generation_begin_time;
    time_point_sec                generation_end_time;
@@ -117,8 +117,8 @@ public:
    time_point_sec                launch_expiration_time;
 
    // smt_cap_reveal
-   share_type  steem_units_min_cap = -1;
-   share_type  steem_units_hard_cap = -1;
+   share_type  CreateCoin_units_min_cap = -1;
+   share_type  CreateCoin_units_hard_cap = -1;
 };
 
 class smt_token_emissions_object : public object< smt_token_emissions_object_type, smt_token_emissions_object >
@@ -134,12 +134,12 @@ public:
 
    id_type                               id;
    asset_symbol_type                     symbol;
-   time_point_sec                        schedule_time = STEEM_GENESIS_TIME;
-   steem::protocol::smt_emissions_unit   emissions_unit;
+   time_point_sec                        schedule_time = CreateCoin_GENESIS_TIME;
+   CreateCoin::protocol::smt_emissions_unit   emissions_unit;
    uint32_t                              interval_seconds = 0;
    uint32_t                              interval_count = 0;
-   time_point_sec                        lep_time = STEEM_GENESIS_TIME;
-   time_point_sec                        rep_time = STEEM_GENESIS_TIME;
+   time_point_sec                        lep_time = CreateCoin_GENESIS_TIME;
+   time_point_sec                        rep_time = CreateCoin_GENESIS_TIME;
    asset                                 lep_abs_amount = asset();
    asset                                 rep_abs_amount = asset();
    uint32_t                              lep_rel_amount_numerator = 0;
@@ -246,9 +246,9 @@ typedef multi_index_container <
    allocator< smt_event_token_object >
 > smt_event_token_index;
 
-} } // namespace steem::chain
+} } // namespace CreateCoin::chain
 
-FC_REFLECT_ENUM( steem::chain::smt_phase,
+FC_REFLECT_ENUM( CreateCoin::chain::smt_phase,
                   (account_elevated)
                   (setup_completed)
                   (contribution_begin_time_completed)
@@ -258,13 +258,13 @@ FC_REFLECT_ENUM( steem::chain::smt_phase,
                   (launch_success)
 )
 
-FC_REFLECT( steem::chain::smt_token_object::smt_market_maker_state,
-   (steem_balance)
+FC_REFLECT( CreateCoin::chain::smt_token_object::smt_market_maker_state,
+   (CreateCoin_balance)
    (token_balance)
    (reserve_ratio)
 )
 
-FC_REFLECT( steem::chain::smt_token_object,
+FC_REFLECT( CreateCoin::chain::smt_token_object,
    (id)
    (liquid_symbol)
    (control_account)
@@ -291,11 +291,11 @@ FC_REFLECT( steem::chain::smt_token_object,
    (generation_end_time)
    (announced_launch_time)
    (launch_expiration_time)
-   (steem_units_min_cap)
-   (steem_units_hard_cap)
+   (CreateCoin_units_min_cap)
+   (CreateCoin_units_hard_cap)
 )
 
-FC_REFLECT( steem::chain::smt_token_emissions_object,
+FC_REFLECT( CreateCoin::chain::smt_token_emissions_object,
    (id)
    (symbol)
    (schedule_time)
@@ -311,7 +311,7 @@ FC_REFLECT( steem::chain::smt_token_emissions_object,
    (rel_amount_denom_bits)
 )
 
-FC_REFLECT( steem::chain::smt_event_token_object,
+FC_REFLECT( CreateCoin::chain::smt_event_token_object,
    (id)
    (parent)
    (phase)
@@ -321,8 +321,8 @@ FC_REFLECT( steem::chain::smt_event_token_object,
    (launch_expiration_time)
 )
 
-CHAINBASE_SET_INDEX_TYPE( steem::chain::smt_token_object, steem::chain::smt_token_index )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::smt_token_emissions_object, steem::chain::smt_token_emissions_index )
-CHAINBASE_SET_INDEX_TYPE( steem::chain::smt_event_token_object, steem::chain::smt_event_token_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::smt_token_object, CreateCoin::chain::smt_token_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::smt_token_emissions_object, CreateCoin::chain::smt_token_emissions_index )
+CHAINBASE_SET_INDEX_TYPE( CreateCoin::chain::smt_event_token_object, CreateCoin::chain::smt_event_token_index )
 
 #endif

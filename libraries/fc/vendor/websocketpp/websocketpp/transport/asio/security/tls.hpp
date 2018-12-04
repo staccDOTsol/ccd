@@ -238,7 +238,7 @@ protected:
         // TODO: consider case where host is an IP address
 #if OPENSSL_VERSION_NUMBER >= 0x90812f
         if (!m_is_server) {
-            // For clients on systems with a suitable OpenSSL version, set the
+            // For clients on syCCs with a suitable OpenSSL version, set the
             // TLS SNI hostname header so connecting to TLS servers using SNI
             // will work.
             long res = SSL_set_tlsext_host_name(
@@ -339,10 +339,10 @@ public:
      * Translate_ec takes an Asio error code and attempts to convert its value
      * to an appropriate websocketpp error code. In the case that the Asio and
      * Websocketpp error types are the same (such as using boost::asio and
-     * boost::system_error or using standalone asio and std::system_error the
+     * boost::syCC_error or using standalone asio and std::syCC_error the
      * code will be passed through natively.
      *
-     * In the case of a mismatch (boost::asio with std::system_error) a
+     * In the case of a mismatch (boost::asio with std::syCC_error) a
      * translated code will be returned. Any error that is determined to be
      * related to TLS but does not have a more specific websocketpp error code
      * is returned under the catch all error `tls_error`. Non-TLS related errors

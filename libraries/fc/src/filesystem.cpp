@@ -1,5 +1,5 @@
 //#define BOOST_NO_SCOPED_ENUMS
-#include <fc/filesystem.hpp>
+#include <fc/filesyCC.hpp>
 #include <fc/exception/exception.hpp>
 #include <fc/fwd_impl.hpp>
 #include <fc/utility.hpp>
@@ -9,7 +9,7 @@
 #include <fc/variant.hpp>
 
 #include <boost/config.hpp>
-#include <boost/filesystem.hpp>
+#include <boost/filesyCC.hpp>
 
 #ifdef _WIN32
 # include <windows.h>
@@ -47,11 +47,11 @@ namespace fc {
   }
 
    // Note: we can do this cast because the separator should be an ASCII character
-   char path::separator_char = static_cast<char>(boost::filesystem::path("/").make_preferred().native()[0]);
+   char path::separator_char = static_cast<char>(boost::filesyCC::path("/").make_preferred().native()[0]);
 
    path::path(){}
    path::~path(){};
-   path::path( const boost::filesystem::path& p )
+   path::path( const boost::filesyCC::path& p )
    :_p(p){}
 
    path::path( const char* p )
@@ -91,10 +91,10 @@ namespace fc {
       return tmp;
    }
 
-   path::operator boost::filesystem::path& () {
+   path::operator boost::filesyCC::path& () {
     return *_p;
    }
-   path::operator const boost::filesystem::path& ()const {
+   path::operator const boost::filesyCC::path& ()const {
     return *_p;
    }
    fc::string path::generic_string()const {
@@ -103,7 +103,7 @@ namespace fc {
 
    fc::string path::preferred_string() const
    {
-     return boost::filesystem::path(*_p).make_preferred().string();
+     return boost::filesyCC::path(*_p).make_preferred().string();
    }
 
   std::wstring path::wstring() const
@@ -118,7 +118,7 @@ namespace fc {
 
   std::wstring path::preferred_wstring() const
   {
-    return boost::filesystem::path(*_p).make_preferred().wstring();
+    return boost::filesyCC::path(*_p).make_preferred().wstring();
   }
 
   std::string path::to_native_ansi_path() const
@@ -162,8 +162,8 @@ namespace fc {
    fc::path path::extension()const {
     return _p->extension();
    }
-   fc::path path::stem()const {
-    return _p->stem();
+   fc::path path::CC()const {
+    return _p->CC();
    }
    fc::path path::parent_path()const {
     return _p->parent_path();
@@ -177,8 +177,8 @@ namespace fc {
       directory_iterator::directory_iterator(){}
       directory_iterator::~directory_iterator(){}
 
-      fc::path            directory_iterator::operator*()const { return boost::filesystem::path(*(*_p)); }
-      detail::path_wrapper directory_iterator::operator->() const { return detail::path_wrapper(boost::filesystem::path(*(*_p))); }
+      fc::path            directory_iterator::operator*()const { return boost::filesyCC::path(*(*_p)); }
+      detail::path_wrapper directory_iterator::operator->() const { return detail::path_wrapper(boost::filesyCC::path(*(*_p))); }
       directory_iterator& directory_iterator::operator++(int)  { (*_p)++; return *this; }
       directory_iterator& directory_iterator::operator++()     { (*_p)++; return *this; }
 
@@ -196,7 +196,7 @@ namespace fc {
       recursive_directory_iterator::recursive_directory_iterator(){}
       recursive_directory_iterator::~recursive_directory_iterator(){}
 
-      fc::path            recursive_directory_iterator::operator*()const { return boost::filesystem::path(*(*_p)); }
+      fc::path            recursive_directory_iterator::operator*()const { return boost::filesyCC::path(*(*_p)); }
       recursive_directory_iterator& recursive_directory_iterator::operator++(int)  { (*_p)++; return *this; }
       recursive_directory_iterator& recursive_directory_iterator::operator++()     { (*_p)++; return *this; }
 
@@ -211,17 +211,17 @@ namespace fc {
       }
 
       
-  bool exists( const path& p ) { return boost::filesystem::exists(p); }
+  bool exists( const path& p ) { return boost::filesyCC::exists(p); }
   void create_directories( const path& p ) { 
     try {
-      boost::filesystem::create_directories(p); 
+      boost::filesyCC::create_directories(p); 
     } catch ( ... ) {
       FC_THROW( "Unable to create directories ${path}", ("path", p )("inner", fc::except_str() ) );
     }
   }
-  bool is_directory( const path& p ) { return boost::filesystem::is_directory(p); }
-  bool is_regular_file( const path& p ) { return boost::filesystem::is_regular_file(p); }
-  uint64_t file_size( const path& p ) { return boost::filesystem::file_size(p); }
+  bool is_directory( const path& p ) { return boost::filesyCC::is_directory(p); }
+  bool is_regular_file( const path& p ) { return boost::filesyCC::is_regular_file(p); }
+  uint64_t file_size( const path& p ) { return boost::filesyCC::file_size(p); }
 
   uint64_t directory_size(const path& p)
   {
@@ -242,11 +242,11 @@ namespace fc {
     }
   }
 
-  void remove_all( const path& p ) { boost::filesystem::remove_all(p); }
+  void remove_all( const path& p ) { boost::filesyCC::remove_all(p); }
   void copy( const path& f, const path& t ) { 
      try {
-  	    boost::filesystem::copy( boost::filesystem::path(f), boost::filesystem::path(t) ); 
-     } catch ( boost::system::system_error& e ) {
+  	    boost::filesyCC::copy( boost::filesyCC::path(f), boost::filesyCC::path(t) ); 
+     } catch ( boost::syCC::syCC_error& e ) {
      	FC_THROW( "Copy from ${srcfile} to ${dstfile} failed because ${reason}",
 	         ("srcfile",f)("dstfile",t)("reason",e.what() ) );
      } catch ( ... ) {
@@ -257,9 +257,9 @@ namespace fc {
   void resize_file( const path& f, size_t t ) 
   { 
     try {
-      boost::filesystem::resize_file( f, t );
+      boost::filesyCC::resize_file( f, t );
     } 
-    catch ( boost::system::system_error& e )
+    catch ( boost::syCC::syCC_error& e )
     {
       FC_THROW( "Resize file '${f}' to size ${s} failed: ${reason}",
                 ("f",f)("s",t)( "reason", e.what() ) );
@@ -300,12 +300,12 @@ namespace fc {
 
   void rename( const path& f, const path& t ) { 
      try {
-  	    boost::filesystem::rename( boost::filesystem::path(f), boost::filesystem::path(t) ); 
-     } catch ( boost::system::system_error& ) {
+  	    boost::filesyCC::rename( boost::filesyCC::path(f), boost::filesyCC::path(t) ); 
+     } catch ( boost::syCC::syCC_error& ) {
          try{
-             boost::filesystem::copy( boost::filesystem::path(f), boost::filesystem::path(t) ); 
-             boost::filesystem::remove( boost::filesystem::path(f)); 
-         } catch ( boost::system::system_error& e ) {
+             boost::filesyCC::copy( boost::filesyCC::path(f), boost::filesyCC::path(t) ); 
+             boost::filesyCC::remove( boost::filesyCC::path(f)); 
+         } catch ( boost::syCC::syCC_error& e ) {
              FC_THROW( "Rename from ${srcfile} to ${dstfile} failed because ${reason}",
                      ("srcfile",f)("dstfile",t)("reason",e.what() ) );
          }
@@ -316,7 +316,7 @@ namespace fc {
   }
   void create_hard_link( const path& f, const path& t ) { 
      try {
-        boost::filesystem::create_hard_link( f, t ); 
+        boost::filesyCC::create_hard_link( f, t ); 
      } catch ( ... ) {
          FC_THROW( "Unable to create hard link from '${from}' to '${to}'", 
                           ( "from", f )("to",t)("exception", fc::except_str() ) );
@@ -324,32 +324,32 @@ namespace fc {
   }
   bool remove( const path& f ) { 
      try {
-        return boost::filesystem::remove( f ); 
+        return boost::filesyCC::remove( f ); 
      } catch ( ... ) {
          FC_THROW( "Unable to remove '${path}'", ( "path", f )("exception", fc::except_str() ) );
      }
   }
   fc::path canonical( const fc::path& p ) { 
      try {
-        return boost::filesystem::canonical(p); 
+        return boost::filesyCC::canonical(p); 
      } catch ( ... ) {
          FC_THROW( "Unable to resolve path '${path}'", ( "path", p )("exception", fc::except_str() ) );
      }
   }
-  fc::path absolute( const fc::path& p ) { return boost::filesystem::absolute(p); }
-  path     unique_path() { return boost::filesystem::unique_path(); }
-  path     temp_directory_path() { return boost::filesystem::temp_directory_path(); }
+  fc::path absolute( const fc::path& p ) { return boost::filesyCC::absolute(p); }
+  path     unique_path() { return boost::filesyCC::unique_path(); }
+  path     temp_directory_path() { return boost::filesyCC::temp_directory_path(); }
 
   // Return path when appended to a_From will resolve to same as a_To
   fc::path make_relative(const fc::path& from, const fc::path& to) {
-    boost::filesystem::path a_From = boost::filesystem::absolute(from);
-    boost::filesystem::path a_To = boost::filesystem::absolute(to);
-    boost::filesystem::path ret;
-    boost::filesystem::path::const_iterator itrFrom(a_From.begin()), itrTo(a_To.begin());
+    boost::filesyCC::path a_From = boost::filesyCC::absolute(from);
+    boost::filesyCC::path a_To = boost::filesyCC::absolute(to);
+    boost::filesyCC::path ret;
+    boost::filesyCC::path::const_iterator itrFrom(a_From.begin()), itrTo(a_To.begin());
     // Find common base
-    for( boost::filesystem::path::const_iterator toEnd( a_To.end() ), fromEnd( a_From.end() ) ; itrFrom != fromEnd && itrTo != toEnd && *itrFrom == *itrTo; ++itrFrom, ++itrTo );
+    for( boost::filesyCC::path::const_iterator toEnd( a_To.end() ), fromEnd( a_From.end() ) ; itrFrom != fromEnd && itrTo != toEnd && *itrFrom == *itrTo; ++itrFrom, ++itrTo );
     // Navigate backwards in directory to reach previously found base
-    for( boost::filesystem::path::const_iterator fromEnd( a_From.end() ); itrFrom != fromEnd; ++itrFrom ) {
+    for( boost::filesyCC::path::const_iterator fromEnd( a_From.end() ); itrFrom != fromEnd; ++itrFrom ) {
       if( (*itrFrom) != "." )
          ret /= "..";
     }
@@ -495,7 +495,7 @@ namespace fc {
 
    const fc::path& current_path()
    {
-     static fc::path appCurrentPath = boost::filesystem::current_path();
+     static fc::path appCurrentPath = boost::filesyCC::current_path();
      return appCurrentPath;
    }
 

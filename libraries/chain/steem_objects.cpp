@@ -1,8 +1,8 @@
 
-#include <steem/chain/steem_objects.hpp>
+#include <CreateCoin/chain/CreateCoin_objects.hpp>
 
 #include <fc/uint128.hpp>
 
-namespace steem { namespace chain {
+namespace CreateCoin { namespace chain {
 
-} } // steem::chain
+} } // CreateCoin::chain

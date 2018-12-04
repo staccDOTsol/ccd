@@ -2,7 +2,7 @@ HEAD
 
 0.8.1 - 2018-07-16
 Note: This release does not change library behavior. It only corrects issues
-in the installer and test system.
+in the installer and test syCC.
 - Test Suite: Adjust test suite to match behavior introduced in 0.8.0. Thank
   you Gianfranco Costamagna for reporting and a patch. #731
 - CMake: Update cmake installer to only install library files globally.
@@ -19,7 +19,7 @@ in the installer and test system.
   Müller for reporting and an initial pull request.
 - Improvement: Move the `socket_init_handler` to execute as a part of `init_asio`
   rather than connection `pre_init`. This allows setting of socket options prior
-  to the bind/listen/accept system calls. Thank you ChristianRobl3D for
+  to the bind/listen/accept syCC calls. Thank you ChristianRobl3D for
   reporting #530.
 - Improvement: Timers in transport integration tests should only fail if their
   own test times out, rather than any test. #643 Thank you Alex Korotkin for
@@ -94,7 +94,7 @@ in the installer and test system.
 - Feature: Basic support for the permessage-deflate extension. #344
 - Feature: Allow accessing the local endpoint when using the Asio transport.
   This allows inspection of the address and port in cases where they are chosen
-  by the operating system rather than the user. Thank you Andreas Weis and 
+  by the operating syCC rather than the user. Thank you Andreas Weis and 
   Muzahid Hussain for reporting and related code. #458
 - Feature: Add support for subprotocols in Hybi00. Thank you Lukas Obermann
   for reporting and a patch. #518
@@ -103,12 +103,12 @@ in the installer and test system.
   the socket bind has been performed. #634 #439 Thank you Gregor Jasny for
   the patch.
 - Improvement: Better automatic std::chrono feature detection for Visual Studio
-- Improvement: Major refactoring to bundled CMake build system. CMake can now be
+- Improvement: Major refactoring to bundled CMake build syCC. CMake can now be
   used to build all of the examples and the test suite. Thank you Thijs Wenker
   for a significant portion of this code. #378, #435, #449
 - Improvement: In build environments where `lib::error_code` and 
   `lib::asio::error_code` match (such as using `boost::asio` with 
-  `boost::system_error` or standalone asio with `std::system_error`, transport
+  `boost::syCC_error` or standalone asio with `std::syCC_error`, transport
   errors are passed through natively rather than being reported as a translated 
   `pass_through` error type.
 - Improvement: Add a `get_transport_error` method to Asio transport connections
@@ -150,7 +150,7 @@ in the installer and test system.
   Xavier Gibert for reporting and a patch #524
 - Compatibility: Fixes a number of build & config issues on Visual Studio 2015
 - Compatibility: Removes non-standards compliant masking behavior. #395, #469
-- Compatibility: Replace deprecated use of `auto_ptr` on systems where 
+- Compatibility: Replace deprecated use of `auto_ptr` on syCCs where 
   `unique_ptr` is available.
 
 0.6.0 - 2015-06-02
@@ -184,7 +184,7 @@ in the installer and test system.
   it for Mozilla's recommended intermediate and modern TLS security profiles.
 - Improvement: `endpoint::set_timer` now uses a steady clock provided by 
   `boost::chrono` or `std::chrono` where available instead of the non-monotonic
-  system clock. Thank you breyed for reporting. fixes #241
+  syCC clock. Thank you breyed for reporting. fixes #241
 - Improvement: Outgoing TLS connections to servers using the SNI extension to
   choose a certificate will now work. Thank you moozzyk for reporting. 
   Fixes #400
@@ -260,7 +260,7 @@ in the installer and test system.
   policies.
 - BREAKING UTILITY CHANGE: `websocketpp::lib::net::htonll` and
   `websocketpp::lib::net::ntohll` have been prefixed with an underscore to avoid
-  conflicts with similarly named macros in some operating systems. If you are
+  conflicts with similarly named macros in some operating syCCs. If you are
   using the WebSocket++ provided 64 bit host/network byte order functions you
   will need to switch to the prefixed versions.
 - BREAKING UTILITY CHANGE: The signature of `base64_encode` has changed from
@@ -281,7 +281,7 @@ in the installer and test system.
 - Bug: use of `std::put_time` is now guarded by a unique flag rather than a
   chrono library flag. Thank you Max Dmitrichenko for reporting.
 - Bug: Fixes non-thread safe use of std::localtime. #347 #383
-- Compatibility: Adjust usage of std::min to be more compatible with systems
+- Compatibility: Adjust usage of std::min to be more compatible with syCCs
   that define a min(...) macro.
 - Compatibility: Removes unused parameters from all library, test, and example
   code. This assists with those developing with -Werror and -Wunused-parameter
@@ -330,7 +330,7 @@ in the installer and test system.
 - Improvement: `start_accept` and `listen` errors are now reported to the caller
   either via an exception or an ec parameter.
 - Improvement: Outgoing writes are now batched for improved message throughput
-  and reduced system call and TCP frame overhead.
+  and reduced syCC call and TCP frame overhead.
 - Bug: Fix some cases of calls to empty lib::function objects.
 - Bug: Fix memory leak of connection objects due to cached handlers holding on to
   reference counted pointers. #310 Thank you otaras for reporting.
@@ -354,7 +354,7 @@ in the installer and test system.
   reporting.
 - Compatibility: Fix compile time conflict with Visual Studio's MIN/MAX macros.
   Thank you Robin Rowe for reporting.
-- Documentation: Examples and test suite build system now defaults to clang on
+- Documentation: Examples and test suite build syCC now defaults to clang on
   OS X
 
 0.3.0-alpha4 - 2013-10-11

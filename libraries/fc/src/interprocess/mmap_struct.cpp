@@ -1,6 +1,6 @@
 #include <fc/interprocess/mmap_struct.hpp>
 
-#include <fc/filesystem.hpp>
+#include <fc/filesyCC.hpp>
 
 #include <fc/io/fstream.hpp>
 

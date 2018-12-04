@@ -33,7 +33,7 @@
 #include <utility>
 
 #include <websocketpp/common/cpp11.hpp>
-#include <websocketpp/common/system_error.hpp>
+#include <websocketpp/common/syCC_error.hpp>
 
 namespace websocketpp {
 

@@ -1,16 +1,16 @@
 #pragma once
 #include <appbase/application.hpp>
 
-#include <steem/plugins/chain/chain_plugin.hpp>
-#include <steem/plugins/block_data_export/block_data_export_plugin.hpp>
+#include <CreateCoin/plugins/chain/chain_plugin.hpp>
+#include <CreateCoin/plugins/block_data_export/block_data_export_plugin.hpp>
 
-namespace steem { namespace plugins { namespace stats_export {
+namespace CreateCoin { namespace plugins { namespace stats_export {
 
 namespace detail { class stats_export_plugin_impl; }
 
 using namespace appbase;
 
-#define STEEM_STATS_EXPORT_PLUGIN_NAME "stats_export"
+#define CreateCoin_STATS_EXPORT_PLUGIN_NAME "stats_export"
 
 class stats_export_plugin : public appbase::plugin< stats_export_plugin >
 {
@@ -19,11 +19,11 @@ class stats_export_plugin : public appbase::plugin< stats_export_plugin >
       virtual ~stats_export_plugin();
 
       APPBASE_PLUGIN_REQUIRES(
-         (steem::plugins::block_data_export::block_data_export_plugin)
-         (steem::plugins::chain::chain_plugin)
+         (CreateCoin::plugins::block_data_export::block_data_export_plugin)
+         (CreateCoin::plugins::chain::chain_plugin)
       )
 
-      static const std::string& name() { static std::string name = STEEM_STATS_EXPORT_PLUGIN_NAME; return name; }
+      static const std::string& name() { static std::string name = CreateCoin_STATS_EXPORT_PLUGIN_NAME; return name; }
 
       virtual void set_program_options( options_description& cli, options_description& cfg ) override;
       virtual void plugin_initialize( const variables_map& options ) override;
@@ -34,4 +34,4 @@ class stats_export_plugin : public appbase::plugin< stats_export_plugin >
       std::unique_ptr< detail::stats_export_plugin_impl > my;
 };
 
-} } } // steem::plugins::stats_export
+} } } // CreateCoin::plugins::stats_export

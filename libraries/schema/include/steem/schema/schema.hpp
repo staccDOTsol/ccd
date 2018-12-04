@@ -1,5 +1,5 @@
 #pragma once
 
-#include <steem/schema/abstract_schema.hpp>
-#include <steem/schema/schema_impl.hpp>
-#include <steem/schema/schema_types.hpp>
+#include <CreateCoin/schema/abstract_schema.hpp>
+#include <CreateCoin/schema/schema_impl.hpp>
+#include <CreateCoin/schema/schema_types.hpp>

@@ -21,7 +21,7 @@ public class WriteOptions extends RocksObject {
   }
 
   /**
-   * If true, the write will be flushed from the operating system
+   * If true, the write will be flushed from the operating syCC
    * buffer cache (by calling WritableFile::Sync()) before the write
    * is considered complete.  If this flag is true, writes will be
    * slower.
@@ -32,9 +32,9 @@ public class WriteOptions extends RocksObject {
    * lost even if sync==false.
    *
    * In other words, a DB write with sync==false has similar
-   * crash semantics as the "write()" system call.  A DB write
+   * crash semantics as the "write()" syCC call.  A DB write
    * with sync==true has similar crash semantics to a "write()"
-   * system call followed by "fdatasync()".
+   * syCC call followed by "fdatasync()".
    *
    * Default: false
    *
@@ -48,7 +48,7 @@ public class WriteOptions extends RocksObject {
   }
 
   /**
-   * If true, the write will be flushed from the operating system
+   * If true, the write will be flushed from the operating syCC
    * buffer cache (by calling WritableFile::Sync()) before the write
    * is considered complete.  If this flag is true, writes will be
    * slower.
@@ -59,9 +59,9 @@ public class WriteOptions extends RocksObject {
    * lost even if sync==false.
    *
    * In other words, a DB write with sync==false has similar
-   * crash semantics as the "write()" system call.  A DB write
+   * crash semantics as the "write()" syCC call.  A DB write
    * with sync==true has similar crash semantics to a "write()"
-   * system call followed by "fdatasync()".
+   * syCC call followed by "fdatasync()".
    *
    * @return boolean value indicating if sync is active.
    */

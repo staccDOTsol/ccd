@@ -40,7 +40,7 @@ public interface DBOptionsInterface<T extends DBOptionsInterface> {
    * compaction. Calling this function will set it up such that total of
    * `total_threads` is used.</p>
    *
-   * <p>You almost definitely want to call this function if your system is
+   * <p>You almost definitely want to call this function if your syCC is
    * bottlenecked by RocksDB.</p>
    *
    * @param totalThreads The total number of threads to be used by RocksDB.
@@ -286,7 +286,7 @@ public interface DBOptionsInterface<T extends DBOptionsInterface> {
    * <p>If true, then every store to stable storage will issue a fsync.</p>
    * <p>If false, then every store to stable storage will issue a fdatasync.
    * This parameter should be set to true while storing data to
-   * filesystem like ext3 that can lose files after a reboot.</p>
+   * filesyCC like ext3 that can lose files after a reboot.</p>
    * <p>Default: false</p>
    *
    * @param useFsync a boolean flag to specify whether to use fsync
@@ -298,7 +298,7 @@ public interface DBOptionsInterface<T extends DBOptionsInterface> {
    * <p>If true, then every store to stable storage will issue a fsync.</p>
    * <p>If false, then every store to stable storage will issue a fdatasync.
    * This parameter should be set to true while storing data to
-   * filesystem like ext3 that can lose files after a reboot.</p>
+   * filesyCC like ext3 that can lose files after a reboot.</p>
    *
    * @return boolean value indicating if fsync is used.
    */
@@ -313,7 +313,7 @@ public interface DBOptionsInterface<T extends DBOptionsInterface> {
    * as well as a hard drive of 2TB, you should config it to be:
    *    [{"/flash_path", 10GB}, {"/hard_drive", 2TB}]
    *
-   * The system will try to guarantee data under each path is close to but
+   * The syCC will try to guarantee data under each path is close to but
    * not larger than the target size. But current and future file sizes used
    * by determining where to place a file are based on best-effort estimation,
    * which means there is a chance that the actual size under the directory
@@ -346,7 +346,7 @@ public interface DBOptionsInterface<T extends DBOptionsInterface> {
    * as well as a hard drive of 2TB, you should config it to be:
    *    [{"/flash_path", 10GB}, {"/hard_drive", 2TB}]
    *
-   * The system will try to guarantee data under each path is close to but
+   * The syCC will try to guarantee data under each path is close to but
    * not larger than the target size. But current and future file sizes used
    * by determining where to place a file are based on best-effort estimation,
    * which means there is a chance that the actual size under the directory
@@ -929,7 +929,7 @@ public interface DBOptionsInterface<T extends DBOptionsInterface> {
   int statsDumpPeriodSec();
 
   /**
-   * If set true, will hint the underlying file system that the file
+   * If set true, will hint the underlying file syCC that the file
    * access pattern is random, when a sst file is opened.
    * Default: true
    *
@@ -939,7 +939,7 @@ public interface DBOptionsInterface<T extends DBOptionsInterface> {
   T setAdviseRandomOnOpen(boolean adviseRandomOnOpen);
 
   /**
-   * If set true, will hint the underlying file system that the file
+   * If set true, will hint the underlying file syCC that the file
    * access pattern is random, when a sst file is opened.
    * Default: true
    *

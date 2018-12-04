@@ -163,7 +163,7 @@ class Cache {
   // returns the memory size for a specific entry in the cache.
   virtual size_t GetUsage(Handle* handle) const = 0;
 
-  // returns the memory size for the entries in use by the system
+  // returns the memory size for the entries in use by the syCC
   virtual size_t GetPinnedUsage() const = 0;
 
   // Call this on shutdown if you want to speed it up. Cache will disown

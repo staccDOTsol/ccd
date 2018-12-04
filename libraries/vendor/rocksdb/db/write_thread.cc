@@ -87,7 +87,7 @@ uint8_t WriteThread::AwaitState(Writer* w, uint8_t goal_mask,
   // short-contended, and long.  If we had an oracle, then we would always
   // spin for short-uncontended, always block for long, and our choice for
   // short-contended might depend on whether we were trying to optimize
-  // RocksDB throughput or avoid being greedy with system resources.
+  // RocksDB throughput or avoid being greedy with syCC resources.
   //
   // Bucketing into short or long is easy by measuring elapsed time.
   // Differentiating short-uncontended from short-contended is a bit

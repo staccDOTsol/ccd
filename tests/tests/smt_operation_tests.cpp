@@ -1,26 +1,26 @@
 #include <fc/macros.hpp>
 
-#if defined IS_TEST_NET && defined STEEM_ENABLE_SMT
+#if defined IS_TEST_NET && defined CreateCoin_ENABLE_SMT
 
 #include <boost/test/unit_test.hpp>
 
-#include <steem/protocol/exceptions.hpp>
-#include <steem/protocol/hardfork.hpp>
+#include <CreateCoin/protocol/exceptions.hpp>
+#include <CreateCoin/protocol/hardfork.hpp>
 
-#include <steem/chain/database.hpp>
-#include <steem/chain/database_exceptions.hpp>
-#include <steem/chain/steem_objects.hpp>
-#include <steem/chain/smt_objects.hpp>
+#include <CreateCoin/chain/database.hpp>
+#include <CreateCoin/chain/database_exceptions.hpp>
+#include <CreateCoin/chain/CreateCoin_objects.hpp>
+#include <CreateCoin/chain/smt_objects.hpp>
 
-#include <steem/chain/util/nai_generator.hpp>
-#include <steem/chain/util/smt_token.hpp>
+#include <CreateCoin/chain/util/nai_generator.hpp>
+#include <CreateCoin/chain/util/smt_token.hpp>
 
 #include "../db_fixture/database_fixture.hpp"
 
 #include <fc/uint128.hpp>
 
-using namespace steem::chain;
-using namespace steem::protocol;
+using namespace CreateCoin::chain;
+using namespace CreateCoin::protocol;
 using fc::string;
 using fc::uint128_t;
 using boost::container::flat_set;
@@ -47,13 +47,13 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create_authorities )
       op.owner = "alice";
       op.amount_to_sell = ASSET( "1.000 TESTS" );
       op.min_to_receive = asset( 1000, alice_symbol );
-      op.expiration = db->head_block_time() + fc::seconds( STEEM_MAX_TIME_UNTIL_EXPIRATION );
+      op.expiration = db->head_block_time() + fc::seconds( CreateCoin_MAX_TIME_UNTIL_EXPIRATION );
 
       tx.operations.push_back( op );
-      tx.set_expiration( db->head_block_time() + STEEM_MAX_TIME_UNTIL_EXPIRATION );
+      tx.set_expiration( db->head_block_time() + CreateCoin_MAX_TIME_UNTIL_EXPIRATION );
 
       BOOST_TEST_MESSAGE( "--- Test failure when no signature." );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_missing_active_auth );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_missing_active_auth );
 
       BOOST_TEST_MESSAGE( "--- Test success with account signature" );
       sign( tx, alice_private_key );
@@ -61,18 +61,18 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create_authorities )
 
       BOOST_TEST_MESSAGE( "--- Test failure with duplicate signature" );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_duplicate_sig );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_duplicate_sig );
 
       BOOST_TEST_MESSAGE( "--- Test failure with additional incorrect signature" );
       tx.signatures.clear();
       sign( tx, alice_private_key );
       sign( tx, bob_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_irrelevant_sig );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_irrelevant_sig );
 
       BOOST_TEST_MESSAGE( "--- Test failure with incorrect signature" );
       tx.signatures.clear();
       sign( tx, alice_post_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_missing_active_auth );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_missing_active_auth );
 
       validate_database();
    }
@@ -99,13 +99,13 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create2_authorities )
       op.owner = "alice";
       op.amount_to_sell = ASSET( "1.000 TESTS" );
       op.exchange_rate = price( ASSET( "1.000 TESTS" ), asset( 1000, alice_symbol ) );
-      op.expiration = db->head_block_time() + fc::seconds( STEEM_MAX_LIMIT_ORDER_EXPIRATION );
+      op.expiration = db->head_block_time() + fc::seconds( CreateCoin_MAX_LIMIT_ORDER_EXPIRATION );
 
       tx.operations.push_back( op );
-      tx.set_expiration( db->head_block_time() + STEEM_MAX_TIME_UNTIL_EXPIRATION );
+      tx.set_expiration( db->head_block_time() + CreateCoin_MAX_TIME_UNTIL_EXPIRATION );
 
       BOOST_TEST_MESSAGE( "--- Test failure when no signature." );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_missing_active_auth );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_missing_active_auth );
 
       BOOST_TEST_MESSAGE( "--- Test success with account signature" );
       sign( tx, alice_private_key );
@@ -113,18 +113,18 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create2_authorities )
 
       BOOST_TEST_MESSAGE( "--- Test failure with duplicate signature" );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_duplicate_sig );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_duplicate_sig );
 
       BOOST_TEST_MESSAGE( "--- Test failure with additional incorrect signature" );
       tx.signatures.clear();
       sign( tx, alice_private_key );
       sign( tx, bob_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_irrelevant_sig );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_irrelevant_sig );
 
       BOOST_TEST_MESSAGE( "--- Test failure with incorrect signature" );
       tx.signatures.clear();
       sign( tx, alice_post_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_missing_active_auth );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_missing_active_auth );
 
       validate_database();
    }
@@ -175,14 +175,14 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create_apply )
       op.amount_to_sell = ASSET( "10.000 TESTS" );
       op.min_to_receive = asset( 10000, alice_symbol );
       op.fill_or_kill = false;
-      op.expiration = db->head_block_time() + fc::seconds( STEEM_MAX_LIMIT_ORDER_EXPIRATION );
+      op.expiration = db->head_block_time() + fc::seconds( CreateCoin_MAX_LIMIT_ORDER_EXPIRATION );
       tx.operations.push_back( op );
-      tx.set_expiration( db->head_block_time() + STEEM_MAX_TIME_UNTIL_EXPIRATION );
+      tx.set_expiration( db->head_block_time() + CreateCoin_MAX_TIME_UNTIL_EXPIRATION );
       sign( tx, bob_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
 
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "bob", op.orderid ) ) == limit_order_idx.end() );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( bob_account, alice_symbol ).amount.value == bob_smt_balance.amount.value );
       validate_database();
 
@@ -194,10 +194,10 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create_apply )
       tx.signatures.clear();
       tx.operations.push_back( op );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
 
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "alice", op.orderid ) ) == limit_order_idx.end() );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( bob_account, alice_symbol ).amount.value == bob_smt_balance.amount.value );
       validate_database();
 
@@ -209,26 +209,26 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create_apply )
       tx.signatures.clear();
       tx.operations.push_back( op );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
 
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "alice", op.orderid ) ) == limit_order_idx.end() );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
       validate_database();
 
       BOOST_TEST_MESSAGE( "--- Test failure when expiration is too long" );
       op.amount_to_sell = ASSET( "10.000 TESTS" );
       op.min_to_receive = ASSET( "15.000 TBD" );
-      op.expiration = db->head_block_time() + fc::seconds( STEEM_MAX_LIMIT_ORDER_EXPIRATION + 1 );
+      op.expiration = db->head_block_time() + fc::seconds( CreateCoin_MAX_LIMIT_ORDER_EXPIRATION + 1 );
       tx.operations.clear();
       tx.signatures.clear();
       tx.operations.push_back( op );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
 
       BOOST_TEST_MESSAGE( "--- Test success creating limit order that will not be filled" );
 
-      op.expiration = db->head_block_time() + fc::seconds( STEEM_MAX_LIMIT_ORDER_EXPIRATION );
+      op.expiration = db->head_block_time() + fc::seconds( CreateCoin_MAX_LIMIT_ORDER_EXPIRATION );
       op.amount_to_sell = ASSET( "10.000 TESTS" );
       op.min_to_receive = asset( 15000, alice_symbol );
       tx.operations.clear();
@@ -245,9 +245,9 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create_apply )
       BOOST_REQUIRE( limit_order->orderid == op.orderid );
       BOOST_REQUIRE( limit_order->for_sale == op.amount_to_sell.amount );
       BOOST_REQUIRE( limit_order->sell_price == price( op.amount_to_sell / op.min_to_receive ) );
-      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, STEEM_SYMBOL ) );
+      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, CreateCoin_SYMBOL ) );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       validate_database();
 
       BOOST_TEST_MESSAGE( "--- Test failure creating limit order with duplicate id" );
@@ -257,7 +257,7 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create_apply )
       tx.signatures.clear();
       tx.operations.push_back( op );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
 
       limit_order = limit_order_idx.find( std::make_tuple( "alice", op.orderid ) );
       BOOST_REQUIRE( limit_order != limit_order_idx.end() );
@@ -265,9 +265,9 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create_apply )
       BOOST_REQUIRE( limit_order->orderid == op.orderid );
       BOOST_REQUIRE( limit_order->for_sale == 10000 );
       BOOST_REQUIRE( limit_order->sell_price == price( ASSET( "10.000 TESTS" ), op.min_to_receive ) );
-      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, STEEM_SYMBOL ) );
+      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, CreateCoin_SYMBOL ) );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       validate_database();
 
       BOOST_TEST_MESSAGE( "--- Test sucess killing an order that will not be filled" );
@@ -278,16 +278,16 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create_apply )
       tx.signatures.clear();
       tx.operations.push_back( op );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
 
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "alice", op.orderid ) ) == limit_order_idx.end() );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       validate_database();
 
       // BOOST_TEST_MESSAGE( "--- Test having a partial match to limit order" );
       // // Alice has order for 15 SMT at a price of 2:3
-      // // Fill 5 STEEM for 7.5 SMT
+      // // Fill 5 CreateCoin for 7.5 SMT
 
       op.owner = "bob";
       op.orderid = 1;
@@ -313,12 +313,12 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create_apply )
       BOOST_REQUIRE( limit_order->orderid == op.orderid );
       BOOST_REQUIRE( limit_order->for_sale == 5000 );
       BOOST_REQUIRE( limit_order->sell_price == price( ASSET( "10.000 TESTS" ), asset( 15000, alice_symbol ) ) );
-      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, STEEM_SYMBOL ) );
+      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, CreateCoin_SYMBOL ) );
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "bob", op.orderid ) ) == limit_order_idx.end() );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( bob_account, alice_symbol ).amount.value == bob_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       BOOST_REQUIRE( fill_order_op.open_owner == "alice" );
       BOOST_REQUIRE( fill_order_op.open_orderid == 1 );
       BOOST_REQUIRE( fill_order_op.open_pays.amount.value == ASSET( "5.000 TESTS").amount.value );
@@ -347,12 +347,12 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create_apply )
       BOOST_REQUIRE( limit_order->orderid == 1 );
       BOOST_REQUIRE( limit_order->for_sale.value == 7500 );
       BOOST_REQUIRE( limit_order->sell_price == price( asset( 15000, alice_symbol ), ASSET( "10.000 TESTS" ) ) );
-      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, STEEM_SYMBOL ) );
+      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, CreateCoin_SYMBOL ) );
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "alice", 1 ) ) == limit_order_idx.end() );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( bob_account, alice_symbol ).amount.value == bob_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       validate_database();
 
       BOOST_TEST_MESSAGE( "--- Test filling an existing order and new order fully" );
@@ -374,9 +374,9 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create_apply )
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "alice", 3 ) ) == limit_order_idx.end() );
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "bob", 1 ) ) == limit_order_idx.end() );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( bob_account, alice_symbol ).amount.value == bob_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       validate_database();
 
       BOOST_TEST_MESSAGE( "--- Test filling limit order with better order when partial order is better." );
@@ -413,11 +413,11 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create_apply )
       BOOST_REQUIRE( limit_order->orderid == 4 );
       BOOST_REQUIRE( limit_order->for_sale.value == 1000 );
       BOOST_REQUIRE( limit_order->sell_price == price( asset( 12000, alice_symbol ), ASSET( "10.000 TESTS" ) ) );
-      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, STEEM_SYMBOL ) );
+      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, CreateCoin_SYMBOL ) );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( bob_account, alice_symbol ).amount.value == bob_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       validate_database();
 
       limit_order_cancel_operation can;
@@ -467,11 +467,11 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create_apply )
       BOOST_REQUIRE( limit_order->orderid == 5 );
       BOOST_REQUIRE( limit_order->for_sale.value == 9091 );
       BOOST_REQUIRE( limit_order->sell_price == price( ASSET( "20.000 TESTS" ), asset( 22000, alice_symbol ) ) );
-      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, STEEM_SYMBOL ) );
+      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, CreateCoin_SYMBOL ) );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( bob_account, alice_symbol ).amount.value == bob_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       validate_database();
    }
    FC_LOG_AND_RETHROW()
@@ -499,10 +499,10 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_cancel_authorities )
       c.orderid = 1;
       c.amount_to_sell = ASSET( "1.000 TESTS" );
       c.min_to_receive = asset( 1000, alice_symbol );
-      c.expiration = db->head_block_time() + fc::seconds( STEEM_MAX_LIMIT_ORDER_EXPIRATION );
+      c.expiration = db->head_block_time() + fc::seconds( CreateCoin_MAX_LIMIT_ORDER_EXPIRATION );
 
       tx.operations.push_back( c );
-      tx.set_expiration( db->head_block_time() + STEEM_MAX_TIME_UNTIL_EXPIRATION );
+      tx.set_expiration( db->head_block_time() + CreateCoin_MAX_TIME_UNTIL_EXPIRATION );
       sign( tx, alice_private_key );
       db->push_transaction( tx, 0 );
 
@@ -515,7 +515,7 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_cancel_authorities )
       tx.operations.push_back( op );
 
       BOOST_TEST_MESSAGE( "--- Test failure when no signature." );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_missing_active_auth );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_missing_active_auth );
 
       BOOST_TEST_MESSAGE( "--- Test success with account signature" );
       sign( tx, alice_private_key );
@@ -523,18 +523,18 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_cancel_authorities )
 
       BOOST_TEST_MESSAGE( "--- Test failure with duplicate signature" );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_duplicate_sig );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_duplicate_sig );
 
       BOOST_TEST_MESSAGE( "--- Test failure with additional incorrect signature" );
       tx.signatures.clear();
       sign( tx, alice_private_key );
       sign( tx, bob_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_irrelevant_sig );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_irrelevant_sig );
 
       BOOST_TEST_MESSAGE( "--- Test failure with incorrect signature" );
       tx.signatures.clear();
       sign( tx, alice_post_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_missing_active_auth );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, database::skip_transaction_dupe_check ), tx_missing_active_auth );
 
       validate_database();
    }
@@ -572,9 +572,9 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_cancel_apply )
       op.owner = "alice";
       op.orderid = 5;
       tx.operations.push_back( op );
-      tx.set_expiration( db->head_block_time() + STEEM_MAX_TIME_UNTIL_EXPIRATION );
+      tx.set_expiration( db->head_block_time() + CreateCoin_MAX_TIME_UNTIL_EXPIRATION );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
 
       BOOST_TEST_MESSAGE( "--- Test cancel order" );
 
@@ -583,7 +583,7 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_cancel_apply )
       create.orderid = 5;
       create.amount_to_sell = ASSET( "5.000 TESTS" );
       create.min_to_receive = asset( 7500, alice_symbol );
-      create.expiration = db->head_block_time() + fc::seconds( STEEM_MAX_LIMIT_ORDER_EXPIRATION );
+      create.expiration = db->head_block_time() + fc::seconds( CreateCoin_MAX_LIMIT_ORDER_EXPIRATION );
       tx.operations.clear();
       tx.signatures.clear();
       tx.operations.push_back( create );
@@ -600,7 +600,7 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_cancel_apply )
 
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "alice", 5 ) ) == limit_order_idx.end() );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
    }
    FC_LOG_AND_RETHROW()
 }
@@ -649,14 +649,14 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create2_apply )
       op.amount_to_sell = ASSET( "10.000 TESTS" );
       op.exchange_rate = price( ASSET( "1.000 TESTS" ), asset( 1000, alice_symbol ) );
       op.fill_or_kill = false;
-      op.expiration = db->head_block_time() + fc::seconds( STEEM_MAX_LIMIT_ORDER_EXPIRATION );
+      op.expiration = db->head_block_time() + fc::seconds( CreateCoin_MAX_LIMIT_ORDER_EXPIRATION );
       tx.operations.push_back( op );
-      tx.set_expiration( db->head_block_time() + STEEM_MAX_TIME_UNTIL_EXPIRATION );
+      tx.set_expiration( db->head_block_time() + CreateCoin_MAX_TIME_UNTIL_EXPIRATION );
       sign( tx, bob_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
 
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "bob", op.orderid ) ) == limit_order_idx.end() );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( bob_account, alice_symbol ).amount.value == bob_smt_balance.amount.value );
       validate_database();
 
@@ -669,10 +669,10 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create2_apply )
       tx.signatures.clear();
       tx.operations.push_back( op );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
 
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "alice", op.orderid ) ) == limit_order_idx.end() );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( bob_account, alice_symbol ).amount.value == bob_smt_balance.amount.value );
       validate_database();
 
@@ -684,26 +684,26 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create2_apply )
       tx.signatures.clear();
       tx.operations.push_back( op );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
 
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "alice", op.orderid ) ) == limit_order_idx.end() );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
       validate_database();
 
       BOOST_TEST_MESSAGE( "--- Test failure when expiration is too long" );
       op.amount_to_sell = ASSET( "10.000 TESTS" );
       op.exchange_rate = price( ASSET( "2.000 TESTS" ), ASSET( "3.000 TBD" ) );
-      op.expiration = db->head_block_time() + fc::seconds( STEEM_MAX_LIMIT_ORDER_EXPIRATION + 1 );
+      op.expiration = db->head_block_time() + fc::seconds( CreateCoin_MAX_LIMIT_ORDER_EXPIRATION + 1 );
       tx.operations.clear();
       tx.signatures.clear();
       tx.operations.push_back( op );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
 
       BOOST_TEST_MESSAGE( "--- Test success creating limit order that will not be filled" );
 
-      op.expiration = db->head_block_time() + fc::seconds( STEEM_MAX_LIMIT_ORDER_EXPIRATION );
+      op.expiration = db->head_block_time() + fc::seconds( CreateCoin_MAX_LIMIT_ORDER_EXPIRATION );
       op.amount_to_sell = ASSET( "10.000 TESTS" );
       op.exchange_rate = price( ASSET( "2.000 TESTS" ), asset( 3000, alice_symbol ) );
       tx.operations.clear();
@@ -720,9 +720,9 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create2_apply )
       BOOST_REQUIRE( limit_order->orderid == op.orderid );
       BOOST_REQUIRE( limit_order->for_sale == op.amount_to_sell.amount );
       BOOST_REQUIRE( limit_order->sell_price == op.exchange_rate );
-      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, STEEM_SYMBOL ) );
+      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, CreateCoin_SYMBOL ) );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       validate_database();
 
       BOOST_TEST_MESSAGE( "--- Test failure creating limit order with duplicate id" );
@@ -732,7 +732,7 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create2_apply )
       tx.signatures.clear();
       tx.operations.push_back( op );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
 
       limit_order = limit_order_idx.find( std::make_tuple( "alice", op.orderid ) );
       BOOST_REQUIRE( limit_order != limit_order_idx.end() );
@@ -740,9 +740,9 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create2_apply )
       BOOST_REQUIRE( limit_order->orderid == op.orderid );
       BOOST_REQUIRE( limit_order->for_sale == 10000 );
       BOOST_REQUIRE( limit_order->sell_price == op.exchange_rate );
-      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, STEEM_SYMBOL ) );
+      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, CreateCoin_SYMBOL ) );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       validate_database();
 
       BOOST_TEST_MESSAGE( "--- Test sucess killing an order that will not be filled" );
@@ -753,16 +753,16 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create2_apply )
       tx.signatures.clear();
       tx.operations.push_back( op );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::exception );
 
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "alice", op.orderid ) ) == limit_order_idx.end() );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       validate_database();
 
       // BOOST_TEST_MESSAGE( "--- Test having a partial match to limit order" );
       // // Alice has order for 15 SMT at a price of 2:3
-      // // Fill 5 STEEM for 7.5 SMT
+      // // Fill 5 CreateCoin for 7.5 SMT
 
       op.owner = "bob";
       op.orderid = 1;
@@ -788,12 +788,12 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create2_apply )
       BOOST_REQUIRE( limit_order->orderid == op.orderid );
       BOOST_REQUIRE( limit_order->for_sale == 5000 );
       BOOST_REQUIRE( limit_order->sell_price == price( ASSET( "2.000 TESTS" ), asset( 3000, alice_symbol ) ) );
-      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, STEEM_SYMBOL ) );
+      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, CreateCoin_SYMBOL ) );
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "bob", op.orderid ) ) == limit_order_idx.end() );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( bob_account, alice_symbol ).amount.value == bob_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       BOOST_REQUIRE( fill_order_op.open_owner == "alice" );
       BOOST_REQUIRE( fill_order_op.open_orderid == 1 );
       BOOST_REQUIRE( fill_order_op.open_pays.amount.value == ASSET( "5.000 TESTS").amount.value );
@@ -822,12 +822,12 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create2_apply )
       BOOST_REQUIRE( limit_order->orderid == 1 );
       BOOST_REQUIRE( limit_order->for_sale.value == 7500 );
       BOOST_REQUIRE( limit_order->sell_price == price( asset( 3000, alice_symbol ), ASSET( "2.000 TESTS" ) ) );
-      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, STEEM_SYMBOL ) );
+      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, CreateCoin_SYMBOL ) );
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "alice", 1 ) ) == limit_order_idx.end() );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( bob_account, alice_symbol ).amount.value == bob_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       validate_database();
 
       BOOST_TEST_MESSAGE( "--- Test filling an existing order and new order fully" );
@@ -849,9 +849,9 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create2_apply )
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "alice", 3 ) ) == limit_order_idx.end() );
       BOOST_REQUIRE( limit_order_idx.find( std::make_tuple( "bob", 1 ) ) == limit_order_idx.end() );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( bob_account, alice_symbol ).amount.value == bob_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       validate_database();
 
       BOOST_TEST_MESSAGE( "--- Test filling limit order with better order when partial order is better." );
@@ -888,11 +888,11 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create2_apply )
       BOOST_REQUIRE( limit_order->orderid == 4 );
       BOOST_REQUIRE( limit_order->for_sale.value == 1000 );
       BOOST_REQUIRE( limit_order->sell_price == op.exchange_rate );
-      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, STEEM_SYMBOL ) );
+      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, CreateCoin_SYMBOL ) );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( bob_account, alice_symbol ).amount.value == bob_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       validate_database();
 
       limit_order_cancel_operation can;
@@ -942,11 +942,11 @@ BOOST_AUTO_TEST_CASE( smt_limit_order_create2_apply )
       BOOST_REQUIRE( limit_order->orderid == 5 );
       BOOST_REQUIRE( limit_order->for_sale.value == 9091 );
       BOOST_REQUIRE( limit_order->sell_price == price( ASSET( "1.000 TESTS" ), asset( 1100, alice_symbol ) ) );
-      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, STEEM_SYMBOL ) );
+      BOOST_REQUIRE( limit_order->get_market() == std::make_pair( alice_symbol, CreateCoin_SYMBOL ) );
       BOOST_REQUIRE( db->get_balance( alice_account, alice_symbol ).amount.value == alice_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( alice_account, STEEM_SYMBOL ).amount.value == alice_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( alice_account, CreateCoin_SYMBOL ).amount.value == alice_balance.amount.value );
       BOOST_REQUIRE( db->get_balance( bob_account, alice_symbol ).amount.value == bob_smt_balance.amount.value );
-      BOOST_REQUIRE( db->get_balance( bob_account, STEEM_SYMBOL ).amount.value == bob_balance.amount.value );
+      BOOST_REQUIRE( db->get_balance( bob_account, CreateCoin_SYMBOL ).amount.value == bob_balance.amount.value );
       validate_database();
    }
    FC_LOG_AND_RETHROW()
@@ -970,28 +970,28 @@ BOOST_AUTO_TEST_CASE( claim_reward_balance2_validate )
       const auto& smt3 = smts[2];
 
       BOOST_TEST_MESSAGE( "Testing empty rewards" );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( "Testing ineffective rewards" );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       // Manually inserted.
       op.reward_tokens.push_back( ASSET( "0.000 TESTS" ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.clear();
       op.reward_tokens.push_back( ASSET( "0.000 TBD" ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.clear();
       op.reward_tokens.push_back( ASSET( "0.000000 VESTS" ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.clear();
       op.reward_tokens.push_back( asset( 0, smt1 ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.clear();
       op.reward_tokens.push_back( asset( 0, smt2 ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.clear();
       op.reward_tokens.push_back( asset( 0, smt3 ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.clear();
 
       BOOST_TEST_MESSAGE( "Testing single reward claims" );
@@ -1031,41 +1031,41 @@ BOOST_AUTO_TEST_CASE( claim_reward_balance2_validate )
 
       BOOST_TEST_MESSAGE( "Testing invalid rewards" );
       op.reward_tokens.push_back( ASSET( "-1.000 TESTS" ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.clear();
       op.reward_tokens.push_back( ASSET( "-1.000 TBD" ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.clear();
       op.reward_tokens.push_back( ASSET( "-1.000000 VESTS" ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.clear();
       op.reward_tokens.push_back( asset( -1, smt1 ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.clear();
       op.reward_tokens.push_back( asset( -1, smt2 ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.clear();
       op.reward_tokens.push_back( asset( -1, smt3 ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.clear();
 
       BOOST_TEST_MESSAGE( "Testing duplicated reward tokens." );
       op.reward_tokens.push_back( asset( 1, smt3 ) );
       op.reward_tokens.push_back( asset( 1, smt3 ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.clear();
 
       BOOST_TEST_MESSAGE( "Testing inconsistencies of manually inserted reward tokens." );
       op.reward_tokens.push_back( ASSET( "1.000 TESTS" ) );
       op.reward_tokens.push_back( ASSET( "1.000 TBD" ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.push_back( asset( 1, smt3 ) );
       op.reward_tokens.push_back( asset( 1, smt1 ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.reward_tokens.clear();
       op.reward_tokens.push_back( asset( 1, smt1 ) );
       op.reward_tokens.push_back( asset( -1, smt3 ) );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
    }
    FC_LOG_AND_RETHROW()
 }
@@ -1119,9 +1119,9 @@ BOOST_AUTO_TEST_CASE( claim_reward_balance2_apply )
          db.modify( db.get_account( "alice" ), []( account_object& a )
          {
             a.reward_sbd_balance = ASSET( "10.000 TBD" );
-            a.reward_steem_balance = ASSET( "10.000 TESTS" );
+            a.reward_CreateCoin_balance = ASSET( "10.000 TESTS" );
             a.reward_vesting_balance = ASSET( "10.000000 VESTS" );
-            a.reward_vesting_steem = ASSET( "10.000 TESTS" );
+            a.reward_vesting_CreateCoin = ASSET( "10.000 TESTS" );
          });
 
          db.modify( db.get_dynamic_global_properties(), []( dynamic_global_property_object& gpo )
@@ -1130,14 +1130,14 @@ BOOST_AUTO_TEST_CASE( claim_reward_balance2_apply )
             gpo.current_supply += ASSET( "20.000 TESTS" );
             gpo.virtual_supply += ASSET( "20.000 TESTS" );
             gpo.pending_rewarded_vesting_shares += ASSET( "10.000000 VESTS" );
-            gpo.pending_rewarded_vesting_steem += ASSET( "10.000 TESTS" );
+            gpo.pending_rewarded_vesting_CreateCoin += ASSET( "10.000 TESTS" );
          });
       });
 
       generate_block();
       validate_database();
 
-      auto alice_steem = db->get_account( "alice" ).balance;
+      auto alice_CreateCoin = db->get_account( "alice" ).balance;
       auto alice_sbd = db->get_account( "alice" ).sbd_balance;
       auto alice_vests = db->get_account( "alice" ).vesting_shares;
       auto alice_smt1 = db->get_balance( "alice", smt1 );
@@ -1168,13 +1168,13 @@ BOOST_AUTO_TEST_CASE( claim_reward_balance2_apply )
       op.reward_tokens.push_back( ASSET( "0.000 TESTS" ) );
       op.reward_tokens.push_back( partial_vests );
       PUSH_OP(op, alice_private_key);
-      BOOST_REQUIRE( db->get_account( "alice" ).balance == alice_steem + ASSET( "0.000 TESTS" ) );
-      BOOST_REQUIRE( db->get_account( "alice" ).reward_steem_balance == ASSET( "10.000 TESTS" ) );
+      BOOST_REQUIRE( db->get_account( "alice" ).balance == alice_CreateCoin + ASSET( "0.000 TESTS" ) );
+      BOOST_REQUIRE( db->get_account( "alice" ).reward_CreateCoin_balance == ASSET( "10.000 TESTS" ) );
       BOOST_REQUIRE( db->get_account( "alice" ).sbd_balance == alice_sbd + ASSET( "0.000 TBD" ) );
       BOOST_REQUIRE( db->get_account( "alice" ).reward_sbd_balance == ASSET( "10.000 TBD" ) );
       BOOST_REQUIRE( db->get_account( "alice" ).vesting_shares == alice_vests + partial_vests );
       BOOST_REQUIRE( db->get_account( "alice" ).reward_vesting_balance == ASSET( "5.000000 VESTS" ) );
-      BOOST_REQUIRE( db->get_account( "alice" ).reward_vesting_steem == ASSET( "5.000 TESTS" ) );
+      BOOST_REQUIRE( db->get_account( "alice" ).reward_vesting_CreateCoin == ASSET( "5.000 TESTS" ) );
       validate_database();
       alice_vests += partial_vests;
       op.reward_tokens.clear();
@@ -1193,19 +1193,19 @@ BOOST_AUTO_TEST_CASE( claim_reward_balance2_apply )
 
       BOOST_TEST_MESSAGE( "--- Claiming the full reward balance" );
       // Legacy symbols
-      asset full_steem = ASSET( "10.000 TESTS" );
+      asset full_CreateCoin = ASSET( "10.000 TESTS" );
       asset full_sbd = ASSET( "10.000 TBD" );
       op.reward_tokens.push_back( full_sbd );
-      op.reward_tokens.push_back( full_steem );
+      op.reward_tokens.push_back( full_CreateCoin );
       op.reward_tokens.push_back( partial_vests );
       PUSH_OP(op, alice_private_key);
-      BOOST_REQUIRE( db->get_account( "alice" ).balance == alice_steem + full_steem );
-      BOOST_REQUIRE( db->get_account( "alice" ).reward_steem_balance == ASSET( "0.000 TESTS" ) );
+      BOOST_REQUIRE( db->get_account( "alice" ).balance == alice_CreateCoin + full_CreateCoin );
+      BOOST_REQUIRE( db->get_account( "alice" ).reward_CreateCoin_balance == ASSET( "0.000 TESTS" ) );
       BOOST_REQUIRE( db->get_account( "alice" ).sbd_balance == alice_sbd + full_sbd );
       BOOST_REQUIRE( db->get_account( "alice" ).reward_sbd_balance == ASSET( "0.000 TBD" ) );
       BOOST_REQUIRE( db->get_account( "alice" ).vesting_shares == alice_vests + partial_vests );
       BOOST_REQUIRE( db->get_account( "alice" ).reward_vesting_balance == ASSET( "0.000000 VESTS" ) );
-      BOOST_REQUIRE( db->get_account( "alice" ).reward_vesting_steem == ASSET( "0.000 TESTS" ) );
+      BOOST_REQUIRE( db->get_account( "alice" ).reward_vesting_CreateCoin == ASSET( "0.000 TESTS" ) );
       validate_database();
       op.reward_tokens.clear();
       // SMTs
@@ -1245,27 +1245,27 @@ BOOST_AUTO_TEST_CASE( smt_transfer_to_vesting_validate )
 
       // Fail on invalid 'from' account name
       op.from = "@@@@@";
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.from = "alice";
 
       // Fail on invalid 'to' account name
       op.to = "@@@@@";
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.to = "";
 
       // Fail on vesting symbol (instead of liquid)
       op.amount = asset( 20, smt1.get_paired_symbol() );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.amount = asset( 20, smt1 );
 
       // Fail on 0 amount
       op.amount = asset( 0, smt1 );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.amount = asset( 20, smt1 );
 
       // Fail on negative amount
       op.amount = asset( -20, smt1 );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.amount = asset( 20, smt1 );
 
       validate_database();
@@ -1366,48 +1366,48 @@ BOOST_AUTO_TEST_CASE( smt_create_validate )
 
       BOOST_TEST_MESSAGE( " -- Test invalid control account name" );
       op.control_account = "@@@@@";
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.control_account = "alice";
 
       // Test invalid creation fees.
       BOOST_TEST_MESSAGE( " -- Invalid negative creation fee" );
       op.smt_creation_fee.amount = -op.smt_creation_fee.amount;
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
-      BOOST_TEST_MESSAGE( " -- Valid maximum SMT creation fee (STEEM_MAX_SHARE_SUPPLY)" );
-      op.smt_creation_fee.amount = STEEM_MAX_SHARE_SUPPLY;
+      BOOST_TEST_MESSAGE( " -- Valid maximum SMT creation fee (CreateCoin_MAX_SHARE_SUPPLY)" );
+      op.smt_creation_fee.amount = CreateCoin_MAX_SHARE_SUPPLY;
       op.validate();
 
       BOOST_TEST_MESSAGE( " -- Invalid SMT creation fee (MAX_SHARE_SUPPLY + 1)" );
       op.smt_creation_fee.amount++;
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( " -- Invalid currency for SMT creation fee (VESTS)" );
       op.smt_creation_fee = ASSET( "1.000000 VESTS" );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.smt_creation_fee = db->get_dynamic_global_properties().smt_creation_fee;
 
       BOOST_TEST_MESSAGE( " -- Invalid SMT creation fee: differing decimals" );
       op.precision = 0;
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.precision = op.symbol.decimals();
 
       // Test symbol
       BOOST_TEST_MESSAGE( " -- Invalid SMT creation symbol: vesting symbol used instead of liquid one" );
       op.symbol = op.symbol.get_paired_symbol();
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
-      BOOST_TEST_MESSAGE( " -- Invalid SMT creation symbol: STEEM cannot be an SMT" );
-      op.symbol = STEEM_SYMBOL;
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      BOOST_TEST_MESSAGE( " -- Invalid SMT creation symbol: CreateCoin cannot be an SMT" );
+      op.symbol = CreateCoin_SYMBOL;
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( " -- Invalid SMT creation symbol: SBD cannot be an SMT" );
       op.symbol = SBD_SYMBOL;
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( " -- Invalid SMT creation symbol: VESTS cannot be an SMT" );
       op.symbol = VESTS_SYMBOL;
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       // If this fails, it could indicate a test above has failed for the wrong reasons
       op.symbol = get_new_smt_symbol( 3, db );
@@ -1459,7 +1459,7 @@ BOOST_AUTO_TEST_CASE( smt_create_duplicate )
       } );
 
       // Fail on duplicate SMT lookup
-      STEEM_REQUIRE_THROW( create_smt_with_nai( "alice", alice_private_key, alice_symbol.to_nai(), alice_symbol.decimals() ), fc::assert_exception)
+      CreateCoin_REQUIRE_THROW( create_smt_with_nai( "alice", alice_private_key, alice_symbol.to_nai(), alice_symbol.decimals() ), fc::assert_exception)
    }
    FC_LOG_AND_RETHROW();
 }
@@ -1480,7 +1480,7 @@ BOOST_AUTO_TEST_CASE( smt_create_duplicate_differing_decimals )
       } );
 
       // Fail on duplicate SMT lookup
-      STEEM_REQUIRE_THROW( create_smt_with_nai( "alice", alice_private_key, alice_symbol.to_nai(), 2 /* Decimals */ ), fc::assert_exception)
+      CreateCoin_REQUIRE_THROW( create_smt_with_nai( "alice", alice_private_key, alice_symbol.to_nai(), 2 /* Decimals */ ), fc::assert_exception)
    }
    FC_LOG_AND_RETHROW();
 }
@@ -1501,16 +1501,16 @@ BOOST_AUTO_TEST_CASE( smt_create_duplicate_different_users )
       } );
 
       // Fail on duplicate SMT lookup
-      STEEM_REQUIRE_THROW( create_smt_with_nai( "bob", bob_private_key, alice_symbol.to_nai(), alice_symbol.decimals() ), fc::assert_exception)
+      CreateCoin_REQUIRE_THROW( create_smt_with_nai( "bob", bob_private_key, alice_symbol.to_nai(), alice_symbol.decimals() ), fc::assert_exception)
    }
    FC_LOG_AND_RETHROW();
 }
 
-BOOST_AUTO_TEST_CASE( smt_create_with_steem_funds )
+BOOST_AUTO_TEST_CASE( smt_create_with_CreateCoin_funds )
 {
    try
    {
-      BOOST_TEST_MESSAGE( "Testing: smt_create_with_steem_funds" );
+      BOOST_TEST_MESSAGE( "Testing: smt_create_with_CreateCoin_funds" );
 
       // This test expects 1.000 TBD smt_creation_fee
       db->modify( db->get_dynamic_global_properties(), [&] ( dynamic_global_property_object& dgpo )
@@ -1609,7 +1609,7 @@ BOOST_AUTO_TEST_CASE( smt_create_with_invalid_nai )
       while ( db->get< nai_pool_object >().contains( ast ) || util::smt::find_token( *db, ast, true ) != nullptr );
 
       // Fail on NAI pool not containing this NAI
-      STEEM_REQUIRE_THROW( create_smt_with_nai( "alice", alice_private_key, ast.to_nai(), ast.decimals() ), fc::assert_exception)
+      CreateCoin_REQUIRE_THROW( create_smt_with_nai( "alice", alice_private_key, ast.to_nai(), ast.decimals() ), fc::assert_exception)
    }
    FC_LOG_AND_RETHROW();
 }
@@ -1623,9 +1623,9 @@ BOOST_AUTO_TEST_CASE( smt_creation_fee_test )
 
       set_price_feed( price( ASSET( "1.000 TBD" ), ASSET( "2.000 TESTS" ) ) );
 
-      // This ensures that our actual smt_creation_fee is sane in production (either STEEM or SBD)
+      // This ensures that our actual smt_creation_fee is sane in production (either CreateCoin or SBD)
       const dynamic_global_property_object& dgpo = db->get_dynamic_global_properties();
-      FC_ASSERT( dgpo.smt_creation_fee.symbol == STEEM_SYMBOL || dgpo.smt_creation_fee.symbol == SBD_SYMBOL,
+      FC_ASSERT( dgpo.smt_creation_fee.symbol == CreateCoin_SYMBOL || dgpo.smt_creation_fee.symbol == SBD_SYMBOL,
                 "Unexpected symbol for the SMT creation fee on the dynamic global properties object: ${s}", ("s", dgpo.smt_creation_fee.symbol) );
 
       FC_ASSERT( dgpo.smt_creation_fee.amount > 0, "Expected positive smt_creation_fee." );
@@ -1639,7 +1639,7 @@ BOOST_AUTO_TEST_CASE( smt_creation_fee_test )
          if ( !i ) // First pass
             db->modify( dgpo, [&] ( dynamic_global_property_object& dgpo )
             {
-               dgpo.smt_creation_fee = asset( 2000, STEEM_SYMBOL );
+               dgpo.smt_creation_fee = asset( 2000, CreateCoin_SYMBOL );
             } );
          else // Second pass
             db->modify( dgpo, [&] ( dynamic_global_property_object& dgpo )
@@ -1669,8 +1669,8 @@ BOOST_AUTO_TEST_CASE( smt_creation_fee_test )
          // Fail because we are 0.001 TBD short of the fee
          FAIL_WITH_OP( fail_op2, alice_private_key, fc::assert_exception );
 
-         BOOST_TEST_MESSAGE( " -- Valid creation fee, using STEEM" );
-         // We should be able to pay with STEEM
+         BOOST_TEST_MESSAGE( " -- Valid creation fee, using CreateCoin" );
+         // We should be able to pay with CreateCoin
          smt_create_operation op;
          op.control_account = "alice";
          op.smt_creation_fee = ASSET( "2.000 TESTS" );
@@ -1742,7 +1742,7 @@ BOOST_AUTO_TEST_CASE( smt_nai_pool_count )
          op.control_account = "alice";
 
          tx.operations.push_back( op );
-         tx.set_expiration( this->db->head_block_time() + STEEM_MAX_TIME_UNTIL_EXPIRATION );
+         tx.set_expiration( this->db->head_block_time() + CreateCoin_MAX_TIME_UNTIL_EXPIRATION );
          tx.sign( alice_private_key, this->db->get_chain_id(), fc::ecc::bip_0062 );
 
          this->db->push_transaction( tx, 0 );
@@ -1752,7 +1752,7 @@ BOOST_AUTO_TEST_CASE( smt_nai_pool_count )
       }
 
       // At this point, there should be no available NAIs
-      STEEM_REQUIRE_THROW( get_new_smt_symbol( 0, this->db ), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( get_new_smt_symbol( 0, this->db ), fc::assert_exception );
 
       this->generate_block();
 
@@ -1791,41 +1791,41 @@ BOOST_AUTO_TEST_CASE( smt_setup_emissions_validate )
       op.validate();
 
       BOOST_TEST_MESSAGE( " -- Invalid token symbol" );
-      op.symbol = STEEM_SYMBOL;
-      op.lep_abs_amount = asset( 0, STEEM_SYMBOL );
-      op.rep_abs_amount = asset( 0, STEEM_SYMBOL );
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      op.symbol = CreateCoin_SYMBOL;
+      op.lep_abs_amount = asset( 0, CreateCoin_SYMBOL );
+      op.rep_abs_amount = asset( 0, CreateCoin_SYMBOL );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.symbol = alice_symbol;
       op.lep_abs_amount = asset( 0, alice_symbol );
       op.rep_abs_amount = asset( 0, alice_symbol );
 
       BOOST_TEST_MESSAGE( " -- Mismatching right endpoint token" );
-      op.rep_abs_amount = asset( 0, STEEM_SYMBOL );
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      op.rep_abs_amount = asset( 0, CreateCoin_SYMBOL );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.rep_abs_amount = asset( 0, alice_symbol );
 
       BOOST_TEST_MESSAGE( " -- Mismatching left endpoint token" );
-      op.lep_abs_amount = asset( 0, STEEM_SYMBOL );
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      op.lep_abs_amount = asset( 0, CreateCoin_SYMBOL );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.lep_abs_amount = asset( 0, alice_symbol );
 
       BOOST_TEST_MESSAGE( " -- No emissions" );
       op.lep_rel_amount_numerator = 0;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.lep_rel_amount_numerator = 1;
 
       BOOST_TEST_MESSAGE( " -- Invalid control account name" );
       op.control_account = "@@@@";
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.control_account = "alice";
 
       BOOST_TEST_MESSAGE(" -- Empty emission unit" );
       op.emissions_unit.token_unit.clear();
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
 
       BOOST_TEST_MESSAGE( " -- Invalid emission unit token unit account" );
       op.emissions_unit.token_unit[ "@@@@" ] = 10;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.emissions_unit.token_unit.clear();
       op.emissions_unit.token_unit[ "alice" ] = 1;
       op.emissions_unit.token_unit[ "$rewards" ] = 1;
@@ -1833,38 +1833,38 @@ BOOST_AUTO_TEST_CASE( smt_setup_emissions_validate )
       op.emissions_unit.token_unit[ "$vesting" ] = 1;
 
       BOOST_TEST_MESSAGE( " -- Invalid schedule time" );
-      op.schedule_time = STEEM_GENESIS_TIME;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      op.schedule_time = CreateCoin_GENESIS_TIME;
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.schedule_time = fc::time_point::now();
 
       BOOST_TEST_MESSAGE( " -- 0 interval count" );
       op.interval_count = 0;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.interval_count = 1;
 
       BOOST_TEST_MESSAGE( " -- Interval seconds too low" );
       op.interval_seconds = SMT_EMISSION_MIN_INTERVAL_SECONDS - 1;
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.interval_seconds = SMT_EMISSION_MIN_INTERVAL_SECONDS;
 
       BOOST_TEST_MESSAGE( " -- Negative asset left endpoint" );
       op.lep_abs_amount = asset( -1, alice_symbol );
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.lep_abs_amount = asset( 0 , alice_symbol );
 
       BOOST_TEST_MESSAGE( " -- Negative asset right endpoint" );
       op.rep_abs_amount = asset( -1 , alice_symbol );
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.rep_abs_amount = asset( 0 , alice_symbol );
 
       BOOST_TEST_MESSAGE( " -- Left endpoint time cannot be before schedule time" );
       op.lep_time -= fc::seconds( 1 );
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.lep_time += fc::seconds( 1 );
 
       BOOST_TEST_MESSAGE( " -- Right endpoint time cannot be after schedule end time" );
       op.rep_time += fc::seconds( 1 );
-      STEEM_REQUIRE_THROW( op.validate(), fc::exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::exception );
       op.rep_time -= fc::seconds( 1 );
 
       BOOST_TEST_MESSAGE( " -- Left endpoint time and right endpoint time can be anything if they're equal" );
@@ -2029,20 +2029,20 @@ BOOST_AUTO_TEST_CASE( set_setup_parameters_validate )
 
       op.validate();
 
-      op.symbol = STEEM_SYMBOL;
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception ); // Invalid symbol
+      op.symbol = CreateCoin_SYMBOL;
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception ); // Invalid symbol
       op.symbol = VESTS_SYMBOL;
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception ); // Invalid symbol
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception ); // Invalid symbol
       op.symbol = SBD_SYMBOL;
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception ); // Invalid symbol
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception ); // Invalid symbol
       op.symbol = alice_symbol;
 
       op.control_account = "####";
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception ); // Invalid account name
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception ); // Invalid account name
       op.control_account = "alice";
 
       op.setup_parameters.clear();
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception ); // Empty setup parameters
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception ); // Empty setup parameters
       op.setup_parameters.emplace( smt_param_allow_voting { .value = true } );
 
       op.validate();
@@ -2171,30 +2171,30 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_validate )
 
       BOOST_TEST_MESSAGE( "--- Test invalid control account name" );
       op.control_account = "@@@@@";
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.control_account = "alice";
 
       // Test symbol
       BOOST_TEST_MESSAGE( "--- Invalid SMT creation symbol: vesting symbol used instead of liquid one" );
       op.symbol = op.symbol.get_paired_symbol();
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
-      BOOST_TEST_MESSAGE( "--- Invalid SMT creation symbol: STEEM cannot be an SMT" );
-      op.symbol = STEEM_SYMBOL;
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      BOOST_TEST_MESSAGE( "--- Invalid SMT creation symbol: CreateCoin cannot be an SMT" );
+      op.symbol = CreateCoin_SYMBOL;
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( "--- Invalid SMT creation symbol: SBD cannot be an SMT" );
       op.symbol = SBD_SYMBOL;
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( "--- Invalid SMT creation symbol: VESTS cannot be an SMT" );
       op.symbol = VESTS_SYMBOL;
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
       op.symbol = new_symbol;
 
       BOOST_TEST_MESSAGE( "--- Failure when no parameters are set" );
       op.runtime_parameters.clear();
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       /*
        * Inequality to test:
@@ -2208,7 +2208,7 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_validate )
       windows.reverse_auction_window_seconds = 0;
       windows.cashout_window_seconds = SMT_UPVOTE_LOCKOUT;
       op.runtime_parameters.insert( windows );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( "--- Success when cashout_window_seconds is above SMT_UPVOTE_LOCKOUT" );
       windows.cashout_window_seconds++;
@@ -2220,13 +2220,13 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_validate )
       windows.reverse_auction_window_seconds++;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( windows );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( "--- Failure when cashout_window_seconds is greater than SMT_VESTING_WITHDRAW_INTERVAL_SECONDS" );
       windows.cashout_window_seconds = SMT_VESTING_WITHDRAW_INTERVAL_SECONDS + 1;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( windows );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( "--- Success when cashout_window_seconds is equal to SMT_VESTING_WITHDRAW_INTERVAL_SECONDS" );
       windows.cashout_window_seconds--;
@@ -2244,7 +2244,7 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_validate )
       windows.cashout_window_seconds--;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( windows );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       /*
        * Conditions to test:
@@ -2264,7 +2264,7 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_validate )
       vote_regen.votes_per_regeneration_period = 1;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( vote_regen );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( "--- Success when vote_regeneration_period_seconds is greater than 0" );
       // Any value less than 86 will violate the nominal votes per day check. 86 is a practical minimum as a consequence.
@@ -2277,7 +2277,7 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_validate )
       vote_regen.vote_regeneration_period_seconds = SMT_VESTING_WITHDRAW_INTERVAL_SECONDS + 1;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( vote_regen );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( "--- Success when vote_regeneration_period_seconds is equal to SMT_VESTING_WITHDRAW_INTERVAL_SECONDS" );
       vote_regen.vote_regeneration_period_seconds--;
@@ -2296,13 +2296,13 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_validate )
       vote_regen.vote_regeneration_period_seconds = 86399;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( vote_regen );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       vote_regen.vote_regeneration_period_seconds = 86400;
       vote_regen.votes_per_regeneration_period = SMT_MAX_NOMINAL_VOTES_PER_DAY + 1;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( vote_regen );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       vote_regen.vote_regeneration_period_seconds = 86401;
       vote_regen.votes_per_regeneration_period = SMT_MAX_NOMINAL_VOTES_PER_DAY;
@@ -2321,13 +2321,13 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_validate )
       vote_regen.votes_per_regeneration_period = 1;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( vote_regen );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       vote_regen.vote_regeneration_period_seconds = practical_regen_seconds_lower_bound + 1;
       vote_regen.votes_per_regeneration_period = 2;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( vote_regen );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       vote_regen.vote_regeneration_period_seconds = practical_regen_seconds_lower_bound + 2;
       vote_regen.votes_per_regeneration_period = 1;
@@ -2345,13 +2345,13 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_validate )
       vote_regen.votes_per_regeneration_period = SMT_MAX_VOTES_PER_REGENERATION + 1;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( vote_regen );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       vote_regen.vote_regeneration_period_seconds = SMT_VESTING_WITHDRAW_INTERVAL_SECONDS - 1;
       vote_regen.votes_per_regeneration_period = SMT_MAX_VOTES_PER_REGENERATION;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( vote_regen );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       vote_regen.vote_regeneration_period_seconds = SMT_VESTING_WITHDRAW_INTERVAL_SECONDS;
       vote_regen.votes_per_regeneration_period = SMT_MAX_VOTES_PER_REGENERATION - 1;
@@ -2372,16 +2372,16 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_validate )
        */
       BOOST_TEST_MESSAGE( "--- Failure when percent_curation_rewards greater than 10000" );
       smt_param_rewards_v1 rewards;
-      rewards.content_constant = STEEM_CONTENT_CONSTANT_HF0;
-      rewards.percent_curation_rewards = STEEM_100_PERCENT + 1;
+      rewards.content_constant = CreateCoin_CONTENT_CONSTANT_HF0;
+      rewards.percent_curation_rewards = CreateCoin_100_PERCENT + 1;
       rewards.author_reward_curve = curve_id::linear;
       rewards.curation_reward_curve = curve_id::square_root;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( rewards );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( "--- Success when percent_curation_rewards is 10000" );
-      rewards.percent_curation_rewards = STEEM_100_PERCENT;
+      rewards.percent_curation_rewards = CreateCoin_100_PERCENT;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( rewards );
       op.validate();
@@ -2396,13 +2396,13 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_validate )
       rewards.author_reward_curve = curve_id::bounded_curation;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( rewards );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( "--- Failure when author curve is square_root" );
       rewards.author_reward_curve = curve_id::square_root;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( rewards );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( "--- Success when curation curve is bounded_curation" );
       rewards.author_reward_curve = curve_id::linear;
@@ -2421,7 +2421,7 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_validate )
       rewards.curation_reward_curve = curve_id::quadratic;
       op.runtime_parameters.clear();
       op.runtime_parameters.insert( rewards );
-      STEEM_REQUIRE_THROW( op.validate(), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( op.validate(), fc::assert_exception );
 
       // Literally nothing to test for smt_param_allow_downvotes because it can only be true or false.
       // Inclusion success was tested in initial positive validation at the beginning of the test.
@@ -2480,9 +2480,9 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_apply )
       op.symbol = alice_symbol;
       op.runtime_parameters.insert( smt_param_allow_downvotes() );
       tx.operations.push_back( op );
-      tx.set_expiration( db->head_block_time() + STEEM_MAX_TIME_UNTIL_EXPIRATION );
+      tx.set_expiration( db->head_block_time() + CreateCoin_MAX_TIME_UNTIL_EXPIRATION );
       sign( tx, bob_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( "--- Failure with a non-existent asset symbol" );
       op.control_account = "alice";
@@ -2490,7 +2490,7 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_apply )
       tx.clear();
       tx.operations.push_back( op );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( "--- Failure with wrong precision in asset symbol" );
       op.symbol = alice_symbol;
@@ -2498,7 +2498,7 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_apply )
       tx.clear();
       tx.operations.push_back( op );
       sign( tx, alice_private_key );
-      STEEM_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::assert_exception );
+      CreateCoin_REQUIRE_THROW( db->push_transaction( tx, 0 ), fc::assert_exception );
 
       BOOST_TEST_MESSAGE( "--- Success updating runtime parameters" );
       op.runtime_parameters.clear();
@@ -2511,7 +2511,7 @@ BOOST_AUTO_TEST_CASE( smt_set_runtime_parameters_apply )
       vote_regen.votes_per_regeneration_period = 600;
       smt_param_rewards_v1 rewards;
       rewards.content_constant = uint128_t( uint64_t( 1000000000000ull ) );
-      rewards.percent_curation_rewards = 15 * STEEM_1_PERCENT;
+      rewards.percent_curation_rewards = 15 * CreateCoin_1_PERCENT;
       rewards.author_reward_curve = curve_id::quadratic;
       rewards.curation_reward_curve = curve_id::linear;
       smt_param_allow_downvotes downvotes;

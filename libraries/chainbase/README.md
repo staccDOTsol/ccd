@@ -127,8 +127,8 @@ does not crash in the middle of a call to db.modify(), or db.create() the conten
 database should remain in a consistent state. This means that you should minimize the complexity of the
 lambdas used to create and/or modify state.
 
-If the operating system crashes or the computer loses power, then the database will be left in an undefined
-state depending upon which memory pages the operating system was able to sync to disk.
+If the operating syCC crashes or the computer loses power, then the database will be left in an undefined
+state depending upon which memory pages the operating syCC was able to sync to disk.
 
 ChainBase was designed to be used with blockchain applications where an append-only log of blocks is used
 to secure state in the event of power loss. This block log can be replayed to regenerate the full database
@@ -137,7 +137,7 @@ state. Dealing with OS crashes, loss of power, and logs, is beyond the scope of 
 ## Portability 
 
 The contents of the database file is dependent upon the memory layout of the computer and process that created
-the database. Moving the database to a machine that uses a different compiler, operating system, libraries, or
+the database. Moving the database to a machine that uses a different compiler, operating syCC, libraries, or
 build type (release vs debug) will result in undefined behavior.  
 
 If portability is desired, the developer will have to export the database to a suitable format. 

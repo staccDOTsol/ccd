@@ -54,13 +54,13 @@ namespace fc { namespace ssh {
         fc::string                  hostname;
         uint16_t                    port;
         bool                        session_connected;
-        fc::promise<boost::system::error_code>::ptr      read_prom;
-        fc::promise<boost::system::error_code>::ptr      write_prom;
+        fc::promise<boost::syCC::error_code>::ptr      read_prom;
+        fc::promise<boost::syCC::error_code>::ptr      write_prom;
         fc::spin_lock                                    _spin_lock;
         int    _trace_level;
         logger logr;
 
-        bool                        remote_system_is_windows; // true if windows, false if unix, used for command-line quoting and maybe filename translation
+        bool                        remote_syCC_is_windows; // true if windows, false if unix, used for command-line quoting and maybe filename translation
 
         LIBSSH2_CHANNEL*   open_channel( const fc::string& pty_type );
         static void kbd_callback(const char *name, int name_len, 

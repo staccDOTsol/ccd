@@ -132,7 +132,7 @@ uint64_t DBImpl::MinLogNumberToKeep() {
 
 // * Returns the list of live files in 'sst_live'
 // If it's doing full scan:
-// * Returns the list of all files in the filesystem in
+// * Returns the list of all files in the filesyCC in
 // 'full_scan_candidate_files'.
 // Otherwise, gets obsolete files from VersionSet.
 // no_full_scan = true -- never do the full scan using GetChildren()

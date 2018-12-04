@@ -300,7 +300,7 @@ class PosixEnv : public Env {
     if (options.use_mmap_writes) {
       if (!checkedDiskForMmap_) {
         // this will be executed once in the program's lifetime.
-        // do not use mmapWrite on non ext-3/xfs/tmpfs systems.
+        // do not use mmapWrite on non ext-3/xfs/tmpfs syCCs.
         if (!SupportsFastAllocate(fname)) {
           forceMmapOff_ = true;
         }
@@ -319,7 +319,7 @@ class PosixEnv : public Env {
       }
 #elif defined(OS_SOLARIS)
       if (directio(fd, DIRECTIO_ON) == -1) {
-        if (errno != ENOTTY) { // ZFS filesystems don't support DIRECTIO_ON
+        if (errno != ENOTTY) { // ZFS filesyCCs don't support DIRECTIO_ON
           close(fd);
           s = IOError("While calling directio()", fname, errno);
           return s;
@@ -394,7 +394,7 @@ class PosixEnv : public Env {
     if (options.use_mmap_writes) {
       if (!checkedDiskForMmap_) {
         // this will be executed once in the program's lifetime.
-        // do not use mmapWrite on non ext-3/xfs/tmpfs systems.
+        // do not use mmapWrite on non ext-3/xfs/tmpfs syCCs.
         if (!SupportsFastAllocate(fname)) {
           forceMmapOff_ = true;
         }
@@ -413,7 +413,7 @@ class PosixEnv : public Env {
       }
 #elif defined(OS_SOLARIS)
       if (directio(fd, DIRECTIO_ON) == -1) {
-        if (errno != ENOTTY) { // ZFS filesystems don't support DIRECTIO_ON
+        if (errno != ENOTTY) { // ZFS filesyCCs don't support DIRECTIO_ON
           close(fd);
           s = IOError("while calling directio()", fname, errno);
           return s;

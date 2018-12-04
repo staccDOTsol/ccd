@@ -64,10 +64,10 @@ WinEnvIO::WinEnvIO(Env* hosted_env)
       page_size_(4 * 1012),
       allocation_granularity_(page_size_),
       perf_counter_frequency_(0),
-      GetSystemTimePreciseAsFileTime_(NULL) {
+      GetSyCCTimePreciseAsFileTime_(NULL) {
 
-  SYSTEM_INFO sinfo;
-  GetSystemInfo(&sinfo);
+  SYCC_INFO sinfo;
+  GetSyCCInfo(&sinfo);
 
   page_size_ = sinfo.dwPageSize;
   allocation_granularity_ = sinfo.dwAllocationGranularity;
@@ -83,8 +83,8 @@ WinEnvIO::WinEnvIO(Env* hosted_env)
 
   HMODULE module = GetModuleHandle("kernel32.dll");
   if (module != NULL) {
-    GetSystemTimePreciseAsFileTime_ = (FnGetSystemTimePreciseAsFileTime)GetProcAddress(
-      module, "GetSystemTimePreciseAsFileTime");
+    GetSyCCTimePreciseAsFileTime_ = (FnGetSyCCTimePreciseAsFileTime)GetProcAddress(
+      module, "GetSyCCTimePreciseAsFileTime");
   }
 }
 
@@ -155,7 +155,7 @@ Status WinEnvIO::NewRandomAccessFile(const std::string& fname,
   Status s;
 
   // Open the file for read-only random access
-  // Random access is to disable read-ahead as the system reads too much data
+  // Random access is to disable read-ahead as the syCC reads too much data
   DWORD fileFlags = FILE_ATTRIBUTE_READONLY;
 
   if (options.use_direct_reads && !options.use_mmap_reads) {
@@ -330,7 +330,7 @@ Status WinEnvIO::NewRandomRWFile(const std::string & fname,
   Status s;
 
   // Open the file for read-only random access
-  // Random access is to disable read-ahead as the system reads too much data
+  // Random access is to disable read-ahead as the syCC reads too much data
   DWORD desired_access = GENERIC_READ | GENERIC_WRITE;
   DWORD shared_mode = FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE;
   DWORD creation_disposition = OPEN_ALWAYS; // Create if necessary or open existing
@@ -651,12 +651,12 @@ Status WinEnvIO::NewLogger(const std::string& fname,
   } else {
     {
       // With log files we want to set the true creation time as of now
-      // because the system
+      // because the syCC
       // for some reason caches the attributes of the previous file that just
       // been renamed from
       // this name so auto_roll_logger_test fails
       FILETIME ft;
-      GetSystemTimeAsFileTime(&ft);
+      GetSyCCTimeAsFileTime(&ft);
       // Set creation, last access and last write time to the same value
       SetFileTime(hFile, &ft, &ft, &ft);
     }
@@ -667,21 +667,21 @@ Status WinEnvIO::NewLogger(const std::string& fname,
 
 uint64_t WinEnvIO::NowMicros() {
 
-  if (GetSystemTimePreciseAsFileTime_ != NULL) {
+  if (GetSyCCTimePreciseAsFileTime_ != NULL) {
     // all std::chrono clocks on windows proved to return
     // values that may repeat that is not good enough for some uses.
     const int64_t c_UnixEpochStartTicks = 116444736000000000LL;
     const int64_t c_FtToMicroSec = 10;
 
-    // This interface needs to return system time and not
+    // This interface needs to return syCC time and not
     // just any microseconds because it is often used as an argument
     // to TimedWait() on condition variable
-    FILETIME ftSystemTime;
-    GetSystemTimePreciseAsFileTime_(&ftSystemTime);
+    FILETIME ftSyCCTime;
+    GetSyCCTimePreciseAsFileTime_(&ftSyCCTime);
 
     LARGE_INTEGER li;
-    li.LowPart = ftSystemTime.dwLowDateTime;
-    li.HighPart = ftSystemTime.dwHighDateTime;
+    li.LowPart = ftSyCCTime.dwLowDateTime;
+    li.HighPart = ftSyCCTime.dwHighDateTime;
     // Subtract unix epoch start
     li.QuadPart -= c_UnixEpochStartTicks;
     // Convert to microsecs
@@ -689,14 +689,14 @@ uint64_t WinEnvIO::NowMicros() {
     return li.QuadPart;
   }
   using namespace std::chrono;
-  return duration_cast<microseconds>(system_clock::now().time_since_epoch()).count();
+  return duration_cast<microseconds>(syCC_clock::now().time_since_epoch()).count();
 }
 
 uint64_t WinEnvIO::NowNanos() {
   // all std::chrono clocks on windows have the same resolution that is only
   // good enough for microseconds but not nanoseconds
   // On Windows 8 and Windows 2012 Server
-  // GetSystemTimePreciseAsFileTime(&current_time) can be used
+  // GetSyCCTimePreciseAsFileTime(&current_time) can be used
   LARGE_INTEGER li;
   QueryPerformanceCounter(&li);
   // Convert to nanoseconds first to avoid loss of precision
@@ -869,7 +869,7 @@ void WinEnvThreads::StartThread(void(*function)(void* arg), void* arg) {
     std::lock_guard<std::mutex> lg(mu_);
     threads_to_join_.push_back(std::move(th));
 
-  } catch (const std::system_error& ex) {
+  } catch (const std::syCC_error& ex) {
     WinthreadCall("start thread", ex.code());
   }
 }
