@@ -1,3 +1,4 @@
+If you found this repo useful, consider clicking the sponsor button near the top :) Sponsoring via GitHub is as little as $1/month and if you do not use banks or credit cards, there are crypto links included :)<br /><br />
 # CreateCoin - The Blockchain That Will Tokenize The Web
 
 Welcome to the official repository for CreateCoin, the blockchain that will revolutionize the web, and soon the blockchain for Smart Media Tokens!
